@@ -1,0 +1,3 @@
+###Mengirimkan Request (GET)
+# GET untuk mengirimkan data
+POST  http://localhost:3000/api/hallo kawan
