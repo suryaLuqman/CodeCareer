@@ -8,15 +8,27 @@ body {
   background: #499cfa;
   justify-content: center;
 }
-.quiz{
-    
+.text-landing{
+  margin-right: 10rem;
+  margin-left: 10rem;
+  text-align: justify;
+  margin-top: 2rem;
+}
+.text-landing2{
+  margin-right: 10rem;
+  margin-left: 10rem;
+  text-align: justify;
+  margin-top: 1rem;
+}
+.title-landing{
+  margin-top: 6rem;
 }
 .title-quiz{
     margin-top: 2rem;
 }
 .container-box{
     margin-top: 2rem;
-    width: 70rem;
+    width: 100rem;
 }
 .container {
     
@@ -74,4 +86,9 @@ body {
     margin-top: 3rem;
     margin-left: 23rem;
     width: 23%;
+}
+.btn-start{
+  margin-top: 3rem;
+  margin-left: 23rem;
+  width: 23%;
 }
