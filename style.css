@@ -82,10 +82,20 @@ body {
     margin-left: 7rem;
     width: 22%;
 }
+.btn-next{
+  margin-top: 3rem;
+  margin-left: 7rem;
+  width: 22%;
+}
 .btn-retry{
     margin-top: 3rem;
     margin-left: 23rem;
     width: 23%;
+}
+.btn-back{
+  margin-top: 3rem;
+  margin-left: 23rem;
+  width: 23%;
 }
 .btn-start{
   margin-top: 3rem;
