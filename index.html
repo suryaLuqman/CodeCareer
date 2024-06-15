@@ -21,13 +21,23 @@
     <div class="container">
       <h1 class="text-center title-quiz">Quiz App</h1>
       <div id="quiz"></div>
-      <div id="result" class="result"></div>
-      <canvas id="result-chart"></canvas>
+      <div id="result" class="result hide"></div>
+      <canvas id="result-chart" class="hide"></canvas>
+      <div id="result-details" class="hide">
+        <p id="result-description" class="result-description"></p>
+        <div class="social-share-icons">
+          <!-- Ikon media sosial akan diletakkan di sini -->
+        </div>
+        <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda untuk menyimpan hasil">
+        <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
+        <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
+      </div>
       <div class="btn-group">
-        <button id="back" class="btn btn-primary btn-back">Back</button>
-        <button id="next" class="btn btn-primary btn-next">Next</button>
+        <button id="back" class="btn btn-primary btn-back hide">Back</button>
+        <button id="next" class="btn btn-primary btn-next hide">Next</button>
         <button id="submit" class="btn btn-primary btn-submit hide">Submit</button>
         <button id="retry" class="btn btn-primary btn-retry hide">Retry</button>
+        <button id="start-quiz" class="btn btn-primary btn-start-quiz hide">Mulai Quiz</button>
       </div>
     </div>
   </div>
@@ -95,8 +105,10 @@
   
   const quizContainer = document.getElementById("quiz");
   const resultContainer = document.getElementById("result");
+  const resultDetailsContainer = document.getElementById("result-details");
   const nextButton = document.getElementById("next");
   const submitButton = document.getElementById("submit");
+  const startQuizButton = document.getElementById("start-quiz");
   const retryButton = document.getElementById("retry");
   const backButton = document.getElementById("back");
   
@@ -104,7 +116,14 @@
   let currentQuestion = 0;
   let answers = {};
   
-  document.getElementById('start-quiz').addEventListener('click', function() {
+
+  function displayCover() {
+    document.querySelector('.cover-container').style.display = 'flex';
+    document.querySelector('.container-box').style.display = 'none';
+    $('#start-quiz').removeClass('hide');
+  }
+  
+  startQuizButton.addEventListener('click', function() {
     document.querySelector('.cover-container').style.display = 'none';
     document.querySelector('.container-box').style.display = 'flex';
     // Panggil fungsi untuk menampilkan pertanyaan pertama
@@ -112,6 +131,20 @@
   });
 
   function displayQuestion() {
+
+    
+    // Menampilkan quiz
+    $('#next').removeClass('hide');
+    $('#quiz').removeClass('hide');
+
+    // Menyembunyikan result
+    $('#retry').addClass('hide');
+    $('#result').addClass('hide');
+    $('#result-chart').addClass('hide');
+    $('#result-details').addClass('hide');
+    $('#start-quiz').addClass('hide');
+    $('#submit').addClass('hide');
+
     const categoryData = quizData[currentCategory];
     const questionData = categoryData.questions[currentQuestion];
   
@@ -142,14 +175,11 @@
     quizContainer.appendChild(questionElement);
     quizContainer.appendChild(optionsElement);
   
-    // Menyembunyikan tombol submit, menampilkan tombol next
-    submitButton.style.display = "none";
-    nextButton.style.display = "inline-block";
   
     if (currentQuestion > 0 || currentCategory > 0) {
-        backButton.style.display = "inline-block";
+        $('#back').removeClass('hide');
       } else {
-        backButton.style.display = "none";
+        $('#back').addClass('hide');
       }
   
       const previousAnswer = answers[`${currentCategory}-${currentQuestion}`];
@@ -193,11 +223,6 @@
   
   
     function displayResult() {
-      $('#quiz').hide();
-      $('#next').hide();
-      $('#submit').hide();
-      $('#retry').show();
-      $('#back').hide();
 
       const categoryScores = {};
       for (let key in answers) {
@@ -220,6 +245,27 @@
       }
 
       $('#result').html(`<h1 class="text-center">${maxCategory}</h1>`);
+
+
+      // Menampilkan detail hasil
+      $('#result').removeClass('hide');
+      $('#result-chart').removeClass('hide');
+      $('#result-details').removeClass('hide');
+
+      // Menyembunyikan tombol navigasi quiz
+      $('#quiz').addClass('hide');
+      $('#next').addClass('hide');
+      $('#back').addClass('hide');
+      $('#submit').addClass('hide');
+      $('#start-quiz').addClass('hide');
+      $('#retry').removeClass('hide');
+
+      // Menampilkan deskripsi hasil
+      const resultDescription = document.getElementById('result-description');
+      resultDescription.textContent = 'Berdasarkan hasil quiz, kami menyarankan Anda untuk menjelajahi lebih lanjut tentang bidang ini.';
+
+      // Menambahkan ikon media sosial untuk berbagi
+      const iconsContainer = document.querySelector('.social-share-icons');
 
         // Menambahkan container untuk chart
       const chartContainer = document.createElement('div');
@@ -253,17 +299,21 @@
           }
         }
       });
+
+      // Menambahkan logika untuk input email dan tombol kirim
+      // ... Kode untuk input email dan tombol kirim ...
+
+      // Menambahkan tombol panduan pembelajaran
+      const learningPathButton = document.getElementById('learning-path-button');
+      learningPathButton.onclick = function() {
+        window.location.href = 'https://roadmap.sh/path-for-category'; // Ganti dengan URL yang sesuai
+      };
     }
     
   function retryQuiz() {
     currentCategory = 0;
     currentQuestion = 0;
     answers = {};
-    quizContainer.style.display = "block";
-    nextButton.style.display = "inline-block";
-    submitButton.style.display = "none";
-    retryButton.style.display = "none";
-    resultContainer.innerHTML = "";
     displayQuestion();
   }
   
@@ -293,7 +343,7 @@
     submitButton.addEventListener("click", checkAnswer);
     retryButton.addEventListener("click", retryQuiz);
   
-    displayQuestion();
+    displayCover();
   
   </script>
   

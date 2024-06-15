@@ -193,6 +193,40 @@ input[type="radio"] {
   margin-top: 1rem; /* Atur ulang margin atas ini agar lebih dekat dengan elemen sebelumnya */
 }
 
+.result-description {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.social-share-icons {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.email-input {
+  margin: 10px auto;
+  padding: 10px;
+  width: 80%;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.email-input::placeholder {
+  color: #ccc;
+}
+
+.email-input:focus::placeholder {
+  color: transparent;
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: #1373A9;
+}
+
+
 .btn {
   margin: 0 10px;
   padding: 0.5rem 1rem; /* Tambahkan padding untuk memperbesar tombol jika perlu */
