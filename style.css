@@ -1,104 +1,207 @@
+/* CSS */
 * {
-    margin: 0;
-    padding:0;
+  margin: 0;
+  padding: 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif; /* Menggunakan font yang lebih santai dan kasual */
 }
 
 body {
-  margin: none;
-  background: #499cfa;
+  margin: 0;
+  padding: 0;
+  background: #1373A9;
   justify-content: center;
 }
-.text-landing{
+
+/* CSS */
+.cover-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #1373A9;
+}
+
+.cover {
+  text-align: center;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+.cover-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.cover-description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.btn-start-quiz {
+  font-size: 1.5rem;
+  padding: 0.5rem 2rem;
+}
+
+
+.text-landing, .text-landing2 {
   margin-right: 10rem;
   margin-left: 10rem;
   text-align: justify;
+  color: #333; /* Menggunakan warna font yang lebih gelap untuk kontras */
+}
+
+.text-landing {
   margin-top: 2rem;
 }
-.text-landing2{
-  margin-right: 10rem;
-  margin-left: 10rem;
-  text-align: justify;
+
+.text-landing2 {
   margin-top: 1rem;
 }
-.title-landing{
+
+.title-landing {
   margin-top: 6rem;
+  color: #333; /* Menggunakan warna font yang lebih gelap untuk kontras */
 }
-.title-quiz{
-    margin-top: 2rem;
+
+.title-quiz {
+  margin-top: 2rem;
+  color: #333; /* Menggunakan warna font yang lebih gelap untuk kontras */
 }
-.container-box{
-    margin-top: 2rem;
-    width: 100rem;
+
+.container-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
 }
+
 .container {
-    
-    width: 60rem;
-    height: 32rem;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
-    background-color: #fff;
-    border-radius: 20px;
+  width: 60rem;
+  height: auto;
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  background-color: #fff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 4px 4px 0 #00486B;
+  background-image:
+    linear-gradient(
+      90deg,
+      #fff 12px, transparent 12px,
+      #00486B 15px, transparent 15px,
+      #1373A9 20px, transparent 20px,
+      #fff 100%
+    ),
+    radial-gradient(
+      circle closest-side,
+      rgba(255,255,255,0) 88%,
+      #fff 100%
+    ),
+    radial-gradient(
+      circle at 22px 8px,
+      #1373A9 40%,
+      #00486B 40%,
+      #00486B 100%
+    );
+  background-size: 32px 8px, 32px 16px, 32px 16px;
+  background-repeat: space no-repeat;
+  background-position: center top, center 6px, center 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.container::before,
+.container::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  width: 40%;
+  height: 10px;
+  box-shadow: 0 5px 14px rgba(0,0,0,.7);
+  z-index: -1;
+  transition: all .3s ease-in-out;
+}
+
+.container::before {
+  left: 15px;
+  transform: skew(-5deg) rotate(-5deg);
+}
+
+.container::after {
+  right: 15px;
+  transform: skew(5deg) rotate(5deg);
+}
+
+.container:hover::before,
+.container:hover::after {
+  box-shadow: 0 2px 14px rgba(0,0,0,.4);
+}
+
+.container:hover::before {
+  left: 5px;
+}
+
+.container:hover::after {
+  right: 5px;
 }
 
 .question {
-    font-size: 25px;
-    display: grid;
-    justify-content: center;
-    font-weight: bold;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-}
-
-.options {
-  /* margin-bottom: 20px; */
+  font-size: 25px;
+  text-align: center; /* Tengahkan pertanyaan */
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  color: #333; /* Menggunakan warna font yang lebih gelap untuk kontras */
 }
 
 .option {
-    display: inline-flex;
-    font-size: 25px;
-    padding-left: 17rem;
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-    margin-left: -10rem;
-    margin-right: 10rem;
-    justify-content: space-between;
-    justify-items: stretch;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-items: baseline;
+  display: flex;
+  align-items: center; /* Menyelaraskan radio dan teks */
+  justify-content: center; /* Menengahkan opsi */
+  margin: 10px 0; /* Menambahkan jarak vertikal antar opsi */
+  color: #333; /* Menggunakan warna font yang lebih gelap untuk kontras */
+}
+
+input[type="radio"] {
+  margin-right: 10px; /* Menambahkan jarak antara radio dan teks */
 }
 
 .result {
   text-align: center;
   margin-top: 20px;
   font-weight: bold;
+  color: #333; /* Menggunakan warna font yang lebih gelap untuk kontras */
+}
+
+.result-chart-container {
+  width: 100%;
+  max-height: 400px; /* Mengatur tinggi maksimal untuk chart */
+  overflow: hidden; /* Mencegah chart memanjang ke bawah */
+  display: flex;
+  justify-content: center; /* Menengahkan chart */
+}
+
+#result-chart {
+  width: 100%;
+  max-width: 600px; /* Mengatur lebar maksimal untuk chart */
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem; /* Atur ulang margin atas ini agar lebih dekat dengan elemen sebelumnya */
+}
+
+.btn {
+  margin: 0 10px;
+  padding: 0.5rem 1rem; /* Tambahkan padding untuk memperbesar tombol jika perlu */
+  background-color: #f8f8f8; /* Menggunakan warna latar belakang yang lebih cerah untuk tombol */
+  border: none; /* Menghapus border tombol */
+  color: #333; /* Menggunakan warna font yang lebih gelap untuk kontras */
+  cursor: pointer; /* Mengubah kursor menjadi pointer saat mouse berada di atas tombol */
 }
 
 .hide {
   display: none;
-}
-.btn-submit{
-    margin-top: 3rem;
-    margin-left: 7rem;
-    width: 22%;
-}
-.btn-next{
-  margin-top: 3rem;
-  margin-left: 7rem;
-  width: 22%;
-}
-.btn-retry{
-    margin-top: 3rem;
-    margin-left: 23rem;
-    width: 23%;
-}
-.btn-back{
-  margin-top: 3rem;
-  margin-left: 23rem;
-  width: 23%;
-}
-.btn-start{
-  margin-top: 3rem;
-  margin-left: 23rem;
-  width: 23%;
 }
