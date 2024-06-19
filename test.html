@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeCareer - Navigating Your IT Journey</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="cover-container">
+    <div class="cover">
+      <h1 class="cover-title">Selamat Datang di CodeCareer</h1>
+      <p class="cover-description">Temukan peran ideal Anda dalam dunia teknologi informasi dan navigasikan perjalanan karier IT Anda dengan kami.</p>
+      <button id="start-quiz" class="btn btn-primary btn-start-quiz">Mulai Quiz</button>
+    </div>
+  </div>
+  <div class="container-box hide">
+    <div class="container">
+      <h1 class="text-center title-quiz">Quiz App</h1>
+      <div id="quiz"></div>
+      <div id="result" class="result hide"></div>
+      <canvas id="result-chart" class="hide"></canvas>
+      <div id="result-details" class="hide">
+        <p id="result-description" class="result-description"></p>
+        <div class="social-share-icons"></div>
+        <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda untuk menyimpan hasil">
+        <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
+        <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
+      </div>
+      <div class="btn-group">
+        <button id="back" class="btn btn-primary btn-back hide">Back</button>
+        <button id="next" class="btn btn-primary btn-next hide">Next</button>
+        <button id="submit" class="btn btn-primary btn-submit hide">Submit</button>
+        <button id="retry" class="btn btn-primary btn-retry hide">Retry</button>
+        <button id="start-quiz" class="btn btn-primary btn-start-quiz hide">Mulai Quiz</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const quizData = [
+      {
+        category: "Frontend Development",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan membuat tampilan dan desain situs web?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda menikmati bekerja dengan warna, gambar, dan tata letak halaman web?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka memastikan situs web terlihat bagus di semua perangkat (komputer, tablet, ponsel)?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Backend Development",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan cara kerja sebuah situs web di balik layar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka bekerja dengan data dan informasi yang disimpan di server?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda menikmati memecahkan masalah teknis dan memastikan situs web berjalan lancar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "DevOps",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan proses otomatisasi dan penyederhanaan pekerjaan?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka memastikan bahwa pengembangan perangkat lunak berjalan efisien dan lancar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan pengaturan dan pemeliharaan infrastruktur teknologi?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Mobile Development",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan pembuatan aplikasi untuk ponsel?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka mengembangkan fitur-fitur baru untuk aplikasi ponsel?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja aplikasi di berbagai jenis ponsel?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Cybersecurity",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan melindungi informasi dan data dari pencurian?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka mencari dan mengatasi celah keamanan di sistem teknologi?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja antivirus dan keamanan online?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Data Engineering",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan pengelolaan data dalam jumlah besar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka memastikan data tersimpan dengan baik dan mudah diakses?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan pengolahan data untuk menghasilkan informasi berguna?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Machine Learning",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan teknologi yang dapat belajar dan membuat keputusan otomatis?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka bekerja dengan data dan mengembangkan model yang dapat memprediksi hasil?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja asisten virtual dan rekomendasi produk?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Blockchain",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan teknologi yang aman dan tidak dapat diubah?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka dengan ide transaksi yang transparan dan terpercaya?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja mata uang digital seperti Bitcoin?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "UX/UI Design",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan bagaimana cara pengguna berinteraksi dengan teknologi?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka membuat desain yang mudah digunakan dan menarik bagi pengguna?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja aplikasi dan situs web dari sudut pandang pengguna?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+    ];
+
+
+
+    const categoryDescriptions = {
+      "Frontend Development": "Membangun bagian depan dari situs web, termasuk tata letak, desain visual, dan pengalaman pengguna.",
+      "Backend Development": "Bekerja di balik layar situs web, mengelola server, dan memastikan fungsionalitas yang tepat.",
+      "DevOps": "Memastikan efisiensi pengembangan perangkat lunak dengan otomatisasi dan manajemen infrastruktur teknologi.",
+      "Mobile Development": "Membuat aplikasi untuk perangkat seluler seperti ponsel dan tablet dengan fokus pada pengalaman pengguna.",
+      "Cybersecurity": "Melindungi sistem dan data dari ancaman keamanan dengan teknik-teknik seperti enkripsi dan pengelolaan risiko.",
+      "Data Engineering": "Mengelola dan menganalisis data dalam jumlah besar untuk mendukung keputusan bisnis dan pengembangan produk.",
+      "Machine Learning": "Mengembangkan algoritma dan model yang memungkinkan komputer untuk belajar dari data dan membuat keputusan.",
+      "Blockchain": "Menggunakan teknologi buku besar terdistribusi untuk menciptakan transparansi dan keamanan dalam transaksi digital.",
+      "UX/UI Design": "Merancang antarmuka pengguna yang intuitif dan menarik, meningkatkan pengalaman pengguna dalam interaksi dengan teknologi.",
+    };
+
+    const quizContainer = document.getElementById("quiz");
+    const resultContainer = document.getElementById("result");
+    const resultDescription = document.getElementById("result-description");
+    const resultChart = document.getElementById("result-chart");
+    const nextButton = document.getElementById("next");
+    const submitButton = document.getElementById("submit");
+    const startQuizButton = document.getElementById("start-quiz");
+    const retryButton = document.getElementById("retry");
+    const backButton = document.getElementById("back");
+
+    let currentCategory = 0;
+    let currentQuestion = 0;
+    let answers = {};
+
+    function displayCover() {
+      $('.cover-container').removeClass('hide');
+      $('#start-quiz').removeClass('hide');
+      $('.container-box').addClass('hide');
+    }
+
+    startQuizButton.addEventListener('click', function() {
+      displayQuestion();
+    });
+
+    function displayQuestion() {
+      $('.container-box').removeClass('hide');
+      $('#next').removeClass('hide');
+      $('#quiz').removeClass('hide');
+      $('.cover-container').addClass('hide');
+      $('#retry').addClass('hide');
+      $('#result').addClass('hide');
+      $('#result-chart').addClass('hide');
+      $('#result-details').addClass('hide');
+      $('#start-quiz').addClass('hide');
+      $('#submit').addClass('hide');
+
+      const categoryData = quizData[currentCategory];
+      const questionData = categoryData.questions[currentQuestion];
+
+      const questionElement = document.createElement("div");
+      questionElement.className = "question";
+      questionElement.innerHTML = questionData.question;
+
+      const optionsElement = document.createElement("div");
+      optionsElement.className = "row row-cols-2";
+
+      for (let i = 0; i < questionData.options.length; i++) {
+        const option = document.createElement("label");
+        option.className = "option col";
+
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "quiz";
+        radio.value = questionData.options[i];
+
+        const optionText = document.createTextNode(questionData.options[i]);
+
+        option.appendChild(radio);
+        option.appendChild(optionText);
+        optionsElement.appendChild(option);
+      }
+
+      quizContainer.innerHTML = "";
+      quizContainer.appendChild(questionElement);
+      quizContainer.appendChild(optionsElement);
+
+      if (currentQuestion > 0 || currentCategory > 0) {
+        $('#back').removeClass('hide');
+      } else {
+        $('#back').addClass('hide');
+      }
+
+      const previousAnswer = answers[`${currentCategory}-${currentQuestion}`];
+      if (previousAnswer) {
+        const optionElement = document.querySelector(`input[name="quiz"][value="${previousAnswer}"]`);
+        if (optionElement) {
+          optionElement.checked = true;
+        }
+      }
+    }
+
+    function checkAnswer() {
+      const selectedOption = document.querySelector('input[name="quiz"]:checked');
+      if (selectedOption) {
+        const answer = selectedOption.value;
+        answers[`${currentCategory}-${currentQuestion}`] = answer;
+        currentQuestion++;
+        if (currentQuestion < quizData[currentCategory].questions.length) {
+          displayQuestion();
+        } else {
+          currentCategory++;
+          currentQuestion = 0;
+          if (currentCategory < quizData.length) {
+            displayQuestion();
+          } else {
+            displayResult();
+          }
+        }
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+      } else if (currentCategory > 0) {
+        currentCategory--;
+        currentQuestion = quizData[currentCategory].questions.length - 1;
+      }
+      displayQuestion();
+    }
+
+    function displayResult() {
+      const categoryScores = {};
+      for (let key in answers) {
+        const answer = answers[key];
+        const category = quizData[Math.floor(key.split('-')[0])].category;
+        const score = ["Tidak tertarik", "Kurang tertarik", "Tertarik", "Sangat tertarik"].indexOf(answer) + 1;
+        if (!categoryScores[category]) {
+          categoryScores[category] = 0;
+        }
+        categoryScores[category] += score;
+      }
+
+      const sortedCategories = Object.keys(categoryScores).sort((a, b) => categoryScores[b] - categoryScores[a]);
+      const topCategory = sortedCategories[0];
+      const topCategoryScore = categoryScores[topCategory];
+      const topCategoryDescription = categoryDescriptions[topCategory];
+
+      const resultHTML = `<h3>Anda paling cocok untuk ${topCategory}</h3>`;
+      resultContainer.innerHTML = resultHTML;
+
+      resultDescription.innerHTML = topCategoryDescription;
+
+      const data = {
+        labels: Object.keys(categoryScores),
+        datasets: [{
+          data: Object.values(categoryScores),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+        }]
+      };
+
+      const ctx = resultChart.getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: data
+      });
+
+      resultContainer.classList.remove("hide");
+      resultChart.classList.remove("hide");
+      $('#result-details').removeClass('hide');
+      quizContainer.classList.add("hide");
+      $('#back').addClass('hide');
+      $('#next').addClass('hide');
+      $('#submit').removeClass('hide');
+      $('#retry').removeClass('hide');
+    }
+
+    nextButton.addEventListener("click", checkAnswer);
+    backButton.addEventListener("click", previousQuestion);
+    retryButton.addEventListener("click", function() {
+      currentCategory = 0;
+      currentQuestion = 0;
+      answers = {};
+      displayQuestion();
+    });
+  </script>
+</body>
+</html>
