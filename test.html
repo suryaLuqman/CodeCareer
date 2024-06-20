@@ -20,9 +20,15 @@
       <h1 class="text-center title-quiz">Quiz App</h1>
       <div id="quiz"></div>
       <div id="result" class="result hide"></div>
+      <div class="result-container">
       <canvas id="result-chart" class="hide"></canvas>
+      <div class="result-details-container">
       <div id="result-details" class="hide">
         <p id="result-description" class="result-description"></p>
+      </div>
+      </div>
+      </div>
+        <div class="additional-details hide">
         <div class="social-share-icons"></div>
         <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda untuk menyimpan hasil">
         <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
@@ -200,16 +206,17 @@
 
 
     const categoryDescriptions = {
-      "Frontend Development": "Membangun bagian depan dari situs web, termasuk tata letak, desain visual, dan pengalaman pengguna.",
-      "Backend Development": "Bekerja di balik layar situs web, mengelola server, dan memastikan fungsionalitas yang tepat.",
-      "DevOps": "Memastikan efisiensi pengembangan perangkat lunak dengan otomatisasi dan manajemen infrastruktur teknologi.",
-      "Mobile Development": "Membuat aplikasi untuk perangkat seluler seperti ponsel dan tablet dengan fokus pada pengalaman pengguna.",
-      "Cybersecurity": "Melindungi sistem dan data dari ancaman keamanan dengan teknik-teknik seperti enkripsi dan pengelolaan risiko.",
-      "Data Engineering": "Mengelola dan menganalisis data dalam jumlah besar untuk mendukung keputusan bisnis dan pengembangan produk.",
-      "Machine Learning": "Mengembangkan algoritma dan model yang memungkinkan komputer untuk belajar dari data dan membuat keputusan.",
-      "Blockchain": "Menggunakan teknologi buku besar terdistribusi untuk menciptakan transparansi dan keamanan dalam transaksi digital.",
-      "UX/UI Design": "Merancang antarmuka pengguna yang intuitif dan menarik, meningkatkan pengalaman pengguna dalam interaksi dengan teknologi.",
-    };
+  "Frontend Development": "Seorang <b>Frontend Developer</b> bertanggung jawab untuk membangun antarmuka pengguna situs web. Mereka bekerja dengan HTML, CSS, dan JavaScript untuk menciptakan desain visual yang menarik, responsif, dan intuitif. Tugas utama mereka adalah memastikan bahwa pengguna memiliki pengalaman yang optimal saat berinteraksi dengan situs web di berbagai perangkat, termasuk komputer, tablet, dan ponsel. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+  "Backend Development": "Seorang <b>Backend Developer</b> bekerja di balik layar situs web, menangani logika, basis data, dan server yang memastikan semua fungsionalitas berjalan lancar. Mereka menggunakan bahasa pemrograman seperti Python, Java, atau PHP dan sering bekerja dengan basis data SQL dan NoSQL. Tujuannya adalah untuk memastikan integritas dan keamanan data, serta memastikan bahwa situs web dapat menangani permintaan pengguna dengan cepat dan efisien. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol<i> 'Lihat Panduan Pembelajaran'.</i>",
+  "DevOps": "Seorang <b>DevOps Engineer</b> bertugas mengintegrasikan dan mengotomatiskan proses pengembangan perangkat lunak. Mereka bekerja di antara tim pengembangan dan operasi untuk meningkatkan kolaborasi dan produktivitas melalui penggunaan alat otomatisasi, continuous integration, dan continuous delivery (CI/CD). Mereka juga bertanggung jawab untuk memastikan infrastruktur teknologi berjalan dengan efisien dan andal. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+  "Mobile Development": "Seorang <b>Mobile Developer</b> bertanggung jawab untuk membuat aplikasi mobile yang berjalan pada perangkat seperti ponsel dan tablet. Mereka menggunakan bahasa pemrograman seperti Swift untuk iOS atau Kotlin untuk Android. Fokus utama mereka adalah memberikan pengalaman pengguna yang mulus dan menyenangkan, serta memastikan aplikasi berjalan lancar di berbagai perangkat dan versi sistem operasi. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol<i> 'Lihat Panduan Pembelajaran'.</i>",
+  "Cybersecurity": "Seorang <b>Cybersecurity Specialist</b> bertanggung jawab untuk melindungi sistem dan data dari ancaman keamanan. Mereka menggunakan teknik seperti enkripsi, firewall, dan manajemen risiko untuk menjaga kerahasiaan, integritas, dan ketersediaan informasi. Mereka juga melakukan analisis keamanan, mengidentifikasi kelemahan, dan mengimplementasikan strategi untuk mencegah serangan cyber.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+  "Data Engineering": "Seorang <b>Data Engineer</b> bertanggung jawab untuk mengelola, mengolah, dan menganalisis data dalam jumlah besar. Mereka membangun infrastruktur data seperti pipeline ETL (Extract, Transform, Load) untuk memastikan data siap digunakan oleh data scientist dan analis bisnis. Dengan menggunakan alat seperti Hadoop, Spark, dan SQL, mereka membantu organisasi membuat keputusan berbasis data yang lebih baik.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+  "Machine Learning": "Seorang <b>Machine Learning Engineer</b> bertanggung jawab untuk mengembangkan dan mengimplementasikan algoritma serta model machine learning yang memungkinkan komputer untuk belajar dari data dan membuat prediksi atau keputusan. Mereka bekerja dengan berbagai teknik seperti pembelajaran terawasi, tidak terawasi, dan pembelajaran mendalam. Alat yang sering mereka gunakan termasuk TensorFlow dan PyTorch.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+  "Blockchain": "Seorang <b>Blockchain Developer</b> bertugas untuk mengembangkan dan mengelola aplikasi berbasis teknologi blockchain. Mereka menggunakan buku besar terdistribusi untuk menciptakan transparansi, keamanan, dan efisiensi dalam transaksi digital. Mereka bekerja dengan platform seperti Ethereum dan Hyperledger, dan sering menggunakan bahasa pemrograman seperti Solidity untuk pengembangan smart contract.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+  "UX/UI Design": "Seorang <b>UX/UI Designer</b> bertanggung jawab untuk merancang antarmuka pengguna yang intuitif, menarik, dan mudah digunakan. Mereka bekerja erat dengan pengguna dan tim pengembang untuk memahami kebutuhan dan preferensi pengguna. Dengan menggunakan alat seperti Sketch, Figma, dan Adobe XD, mereka membuat desain yang meningkatkan pengalaman pengguna dalam berinteraksi dengan aplikasi dan situs web. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>"
+};
+
 
     const quizContainer = document.getElementById("quiz");
     const resultContainer = document.getElementById("result");
@@ -220,6 +227,7 @@
     const startQuizButton = document.getElementById("start-quiz");
     const retryButton = document.getElementById("retry");
     const backButton = document.getElementById("back");
+    const additionalDetails = document.querySelector('.additional-details');
 
     let currentCategory = 0;
     let currentQuestion = 0;
@@ -339,7 +347,7 @@
       const topCategoryScore = categoryScores[topCategory];
       const topCategoryDescription = categoryDescriptions[topCategory];
 
-      const resultHTML = `<h3>Anda paling cocok untuk ${topCategory}</h3>`;
+      const resultHTML = `<h3>Sesuai dengan jawaban anda, Sepertinya Anda paling cocok untuk mendalami jurusan <b>${topCategory}</b> </h3>`;
       resultContainer.innerHTML = resultHTML;
 
       resultDescription.innerHTML = topCategoryDescription;
@@ -365,8 +373,11 @@
       quizContainer.classList.add("hide");
       $('#back').addClass('hide');
       $('#next').addClass('hide');
-      $('#submit').removeClass('hide');
+      $('#submit').addClass('hide');
       $('#retry').removeClass('hide');
+      // additionalDetails.classList.remove("hide");
+      $('.additional-details').removeClass('hide');
+
     }
 
     nextButton.addEventListener("click", checkAnswer);

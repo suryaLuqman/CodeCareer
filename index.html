@@ -48,7 +48,14 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Bootstrap JS Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+  <!-- EmailJS -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("eyoc7-5bcibV-ZRR3");
+    })();
+  </script>
+  
   <script>
     const quizData = [{
       category: "Programming",
@@ -116,7 +123,6 @@
   let currentQuestion = 0;
   let answers = {};
   
-
   function displayCover() {
     $('.cover-container').removeClass('hide');
     $('#start-quiz').removeClass('hide');
@@ -124,18 +130,13 @@
   }
 
   startQuizButton.addEventListener('click', function() {
-    // Panggil fungsi untuk menampilkan pertanyaan pertama
     displayQuestion();
   });
 
   function displayQuestion() {
-
-    // Menampilkan quiz
     $('.container-box').removeClass('hide');
     $('#next').removeClass('hide');
     $('#quiz').removeClass('hide');
-
-    // Menyembunyikan result
     $('.cover-container').addClass('hide');
     $('#retry').addClass('hide');
     $('#result').addClass('hide');
@@ -174,140 +175,147 @@
     quizContainer.appendChild(questionElement);
     quizContainer.appendChild(optionsElement);
   
-  
     if (currentQuestion > 0 || currentCategory > 0) {
-        $('#back').removeClass('hide');
-      } else {
-        $('#back').addClass('hide');
-      }
+      $('#back').removeClass('hide');
+    } else {
+      $('#back').addClass('hide');
+    }
   
-      const previousAnswer = answers[`${currentCategory}-${currentQuestion}`];
-      if (previousAnswer) {
-        const optionElement = document.querySelector(`input[name="quiz"][value="${previousAnswer}"]`);
-        if (optionElement) {
-          optionElement.checked = true;
-        }
+    const previousAnswer = answers[`${currentCategory}-${currentQuestion}`];
+    if (previousAnswer) {
+      const optionElement = document.querySelector(`input[name="quiz"][value="${previousAnswer}"]`);
+      if (optionElement) {
+        optionElement.checked = true;
       }
+    }
   }
   
   function checkAnswer() {
-      const selectedOption = document.querySelector('input[name="quiz"]:checked');
-      if (selectedOption) {
-        const answer = selectedOption.value;
-        answers[`${currentCategory}-${currentQuestion}`] = answer;
-        currentQuestion++;
-        if (currentQuestion < quizData[currentCategory].questions.length) {
+    const selectedOption = document.querySelector('input[name="quiz"]:checked');
+    if (selectedOption) {
+      const answer = selectedOption.value;
+      answers[`${currentCategory}-${currentQuestion}`] = answer; 
+      currentQuestion++;
+      if (currentQuestion < quizData[currentCategory].questions.length) {
+        displayQuestion();
+      } else {
+        currentCategory++;
+        currentQuestion = 0;
+        if (currentCategory < quizData.length) {
           displayQuestion();
         } else {
-          currentCategory++;
-          currentQuestion = 0;
-          if (currentCategory < quizData.length) {
-            displayQuestion();
-          } else {
-            displayResult();
-          }
+          displayResult();
         }
       }
+    }
   }
   
   function previousQuestion() {
-      if (currentQuestion > 0) {
-        currentQuestion--;
-      } else if (currentCategory > 0) {
-        currentCategory--;
-        currentQuestion = quizData[currentCategory].questions.length - 1;
-      }
-      displayQuestion();
+    if (currentQuestion > 0) {
+      currentQuestion--;
+    } else if (currentCategory > 0) {
+      currentCategory--;
+      currentQuestion = quizData[currentCategory].questions.length - 1;
+    }
+    displayQuestion();
+  }
+  
+  function displayResult() {
+    const categoryScores = {};
+    for (let key in answers) {
+      const answer = answers[key];
+      const category = quizData[Math.floor(key.split('-')[0])].category;
+      const score = answer === "Sangat tertarik" ? 3 :
+                    answer === "Tertarik" ? 2 :
+                    answer === "Kurang tertarik" ? 1 :
+                    0;
+      categoryScores[category] = (categoryScores[category] || 0) + score;
     }
   
+    let maxCategory = null;
+    let maxScore = -Infinity;
+    for (const category in categoryScores) {
+      if (categoryScores[category] > maxScore) {
+        maxScore = categoryScores[category];
+        maxCategory = category;
+      }
+    }
   
-    function displayResult() {
-
-      const categoryScores = {};
-      for (let key in answers) {
-        const answer = answers[key];
-        const category = quizData[Math.floor(key.split('-')[0])].category;
-        const score = answer === "Sangat tertarik" ? 3 :
-                      answer === "Tertarik" ? 2 :
-                      answer === "Kurang tertarik" ? 1 :
-                      0;
-        categoryScores[category] = (categoryScores[category] || 0) + score;
-      }
-
-      let maxCategory = null;
-      let maxScore = -Infinity;
-      for (const category in categoryScores) {
-        if (categoryScores[category] > maxScore) {
-          maxScore = categoryScores[category];
-          maxCategory = category;
-        }
-      }
-
-      $('#result').html(`<h1 class="text-center">${maxCategory}</h1>`);
-
-
-      // Menampilkan detail hasil
-      $('#result').removeClass('hide');
-      $('#result-details').removeClass('hide');
-
-      // Menyembunyikan tombol navigasi quiz
-      $('#quiz').addClass('hide');
-      $('#next').addClass('hide');
-      $('#back').addClass('hide');
-      $('#submit').addClass('hide');
-      $('#start-quiz').addClass('hide');
-      $('#retry').removeClass('hide');
-
-      // Menampilkan deskripsi hasil
-      const resultDescription = document.getElementById('result-description');
-      resultDescription.textContent = 'Berdasarkan hasil quiz, kami menyarankan Anda untuk menjelajahi lebih lanjut tentang bidang ini.';
-
-      // Menambahkan ikon media sosial untuk berbagi
-      const iconsContainer = document.querySelector('.social-share-icons');
-
-        // Menambahkan container untuk chart
-      const chartContainer = document.createElement('div');
-      chartContainer.className = 'result-chart-container';
-
-      const ctx = document.createElement('canvas');
-      ctx.id = 'result-chart';
-      chartContainer.appendChild(ctx);
-
-      // Menambahkan chartContainer ke DOM
-      resultContainer.innerHTML = '';
-      resultContainer.appendChild(chartContainer);
-
-      new Chart(ctx.getContext("2d"), {
-        type: "radar",
-        data: {
-          labels: Object.keys(categoryScores),
-          datasets: [{
-            label: "Score",
-            data: Object.values(categoryScores),
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            r: {
-              beginAtZero: true
-            }
+    $('#result').html(`<h1 class="text-center">${maxCategory}</h1>`);
+  
+    $('#result').removeClass('hide');
+    $('#result-details').removeClass('hide');
+    $('#quiz').addClass('hide');
+    $('#next').addClass('hide');
+    $('#back').addClass('hide');
+    $('#submit').addClass('hide');
+    $('#start-quiz').addClass('hide');
+    $('#retry').removeClass('hide');
+  
+    const resultDescription = document.getElementById('result-description');
+    resultDescription.textContent = 'Berdasarkan hasil quiz, kami menyarankan Anda untuk menjelajahi lebih lanjut tentang bidang ini.';
+  
+    const iconsContainer = document.querySelector('.social-share-icons');
+    const chartContainer = document.createElement('div');
+    chartContainer.className = 'result-chart-container';
+  
+    const ctx = document.createElement('canvas');
+    ctx.id = 'result-chart';
+    chartContainer.appendChild(ctx);
+  
+    resultContainer.innerHTML = '';
+    resultContainer.appendChild(chartContainer);
+  
+    const chart = new Chart(ctx.getContext("2d"), {
+      type: "radar",
+      data: {
+        labels: Object.keys(categoryScores),
+        datasets: [{
+          label: "Score",
+          data: Object.values(categoryScores),
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          r: {
+            beginAtZero: true
           }
         }
-      });
-
-      // Menambahkan logika untuk input email dan tombol kirim
-      // ... Kode untuk input email dan tombol kirim ...
-
-      // Menambahkan tombol panduan pembelajaran
-      const learningPathButton = document.getElementById('learning-path-button');
-      learningPathButton.onclick = function() {
-        window.location.href = 'https://roadmap.sh/path-for-category'; // Ganti dengan URL yang sesuai
-      };
-    }
-    
+      }
+    });
+  
+    const emailButton = document.getElementById('email-button');
+    emailButton.onclick = function() {
+      const email = document.getElementById('email-input').value;
+      if (email) {
+        const chartURL = ctx.toDataURL();
+        
+        const templateParams = {
+          to_email: email,
+          category: maxCategory,
+          scores: JSON.stringify(categoryScores),
+          chart: chartURL 
+        };
+        emailjs.send('codecareer', 'template_tnk2emg', templateParams)
+          .then(function(response) {
+            alert('Hasil telah dikirim ke email Anda!');
+          }, function(error) {
+            alert('Gagal mengirim email: ' + error.text);
+          });
+      } else {
+        alert('Silakan masukkan email Anda.');
+      }
+    };
+  
+    const learningPathButton = document.getElementById('learning-path-button');
+    learningPathButton.onclick = function() {
+      window.location.href = 'https://roadmap.sh/path-for-category'; 
+    };
+  }
+  
   function retryQuiz() {
     currentCategory = 0;
     currentQuestion = 0;
@@ -316,35 +324,32 @@
   }
   
   function nextQuestion() {
-      const selectedOption = document.querySelector('input[name="quiz"]:checked');
-      if (selectedOption) {
-        const answer = selectedOption.value;
-        answers[`${currentCategory}-${currentQuestion}`] = answer; // Simpan jawaban berdasarkan kategori dan pertanyaan
-        currentQuestion++;
-        if (currentQuestion < quizData[currentCategory].questions.length) {
+    const selectedOption = document.querySelector('input[name="quiz"]:checked');
+    if (selectedOption) {
+      const answer = selectedOption.value;
+      answers[`${currentCategory}-${currentQuestion}`] = answer; 
+      currentQuestion++;
+      if (currentQuestion < quizData[currentCategory].questions.length) {
+        displayQuestion();
+      } else {
+        currentCategory++;
+        currentQuestion = 0;
+        if (currentCategory < quizData.length) {
           displayQuestion();
         } else {
-          currentCategory++;
-          currentQuestion = 0;
-          if (currentCategory < quizData.length) {
-            displayQuestion();
-          } else {
-            displayResult();
-          }
+          displayResult();
         }
       }
+    }
   }
   
+  nextButton.addEventListener("click", nextQuestion);
+  backButton.addEventListener("click", previousQuestion);
+  submitButton.addEventListener("click", checkAnswer);
+  retryButton.addEventListener("click", retryQuiz);
   
-    nextButton.addEventListener("click", nextQuestion);
-    backButton.addEventListener("click", previousQuestion); // event listener baru
-    submitButton.addEventListener("click", checkAnswer);
-    retryButton.addEventListener("click", retryQuiz);
-  
-    displayCover();
+  displayCover();
   
   </script>
-  
-  
 </body>
 </html>
