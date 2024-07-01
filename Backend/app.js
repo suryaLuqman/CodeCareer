@@ -1,9 +1,9 @@
 const express = require('express');
-const axios = require('axios');
+const routes = require('./routes');
 
 const app = express();
 app.use(express.json());
-app.use(express.text()); // Tambahkan baris ini
+app.use(express.text());
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -15,30 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res) => {
-   res.send('Hello, World!');
-});
-
-app.get('/api', (req, res) => {
-   res.send('Hello, World!');
-});
-
-app.post('/api/:text', async (req, res) => {
-  try {
-    console.log('Request:', req.params);
-    console.log('Request text:', req.params.text);
-    const response = await axios.get('https://chat.ai.cneko.org', {
-      params: {
-        t: req.params.text
-      }
-    });
-    console.log('Success:', response.data);
-    res.json(response.data);
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'An error occurred while processing your request.', message: error.message });
-  }
-});
+app.use('/', routes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server is running on port ${port}`));

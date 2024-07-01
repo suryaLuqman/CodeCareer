@@ -1,3 +1,10 @@
 ###Mengirimkan Request (GET)
 # GET untuk mengirimkan data
 POST  http://localhost:3000/api/hallo kawan
+
+###Mengirimkan Request API (GET)
+# GET untuk mengirimkan data
+GET  http://localhost:3000/api
+
+###GET untuk mengirimkan data  
+POST  https://chat.ai.cneko.org/?t=ketik_pertanyaanmu_disini
