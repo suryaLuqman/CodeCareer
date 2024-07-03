@@ -15,31 +15,31 @@
       <button id="start-quiz" class="btn btn-primary btn-start-quiz">Mulai Quiz</button>
     </div>
   </div>
-  <div class="container-box hide">
+  <div class="container-box d-none">
     <div class="container">
       <h1 class="text-center title-quiz">Quiz App</h1>
       <div id="quiz"></div>
-      <div id="result" class="result hide"></div>
+      <div id="result" class="result d-none"></div>
       <div class="result-container">
-      <canvas id="result-chart" class="hide"></canvas>
+        <canvas id="result-chart" class="d-none"></canvas>
       <div class="result-details-container">
-      <div id="result-details" class="hide">
+      <div id="result-details" class="d-none">
         <p id="result-description" class="result-description"></p>
       </div>
       </div>
       </div>
-        <div class="additional-details hide">
+        <div class="additional-details d-none">
         <div class="social-share-icons"></div>
         <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda untuk menyimpan hasil">
         <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
         <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
       </div>
       <div class="btn-group">
-        <button id="back" class="btn btn-primary btn-back hide">Back</button>
-        <button id="next" class="btn btn-primary btn-next hide">Next</button>
-        <button id="submit" class="btn btn-primary btn-submit hide">Submit</button>
-        <button id="retry" class="btn btn-primary btn-retry hide">Retry</button>
-        <button id="start-quiz" class="btn btn-primary btn-start-quiz hide">Mulai Quiz</button>
+        <button id="back" class="btn btn-primary btn-back d-none">Back</button>
+        <button id="next" class="btn btn-primary btn-next d-none">Next</button>
+        <button id="submit" class="btn btn-primary btn-submit d-none">Submit</button>
+        <button id="retry" class="btn btn-primary btn-retry d-none">Retry</button>
+        <button id="start-quiz" class="btn btn-primary btn-start-quiz d-none">Mulai Quiz</button>
       </div>
     </div>
   </div>
@@ -221,16 +221,16 @@
 
 
     const categoryDescriptions = {
-  "Frontend Engineer": "Seorang <b>Frontend Developer</b> bertanggung jawab untuk membangun antarmuka pengguna situs web. Mereka bekerja dengan HTML, CSS, dan JavaScript untuk menciptakan desain visual yang menarik, responsif, dan intuitif. Tugas utama mereka adalah memastikan bahwa pengguna memiliki pengalaman yang optimal saat berinteraksi dengan situs web di berbagai perangkat, termasuk komputer, tablet, dan ponsel. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
-  "Backend Engineer": "Seorang <b>Backend Developer</b> bekerja di balik layar situs web, menangani logika, basis data, dan server yang memastikan semua fungsionalitas berjalan lancar. Mereka menggunakan bahasa pemrograman seperti Python, Java, atau PHP dan sering bekerja dengan basis data SQL dan NoSQL. Tujuannya adalah untuk memastikan integritas dan keamanan data, serta memastikan bahwa situs web dapat menangani permintaan pengguna dengan cepat dan efisien. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol<i> 'Lihat Panduan Pembelajaran'.</i>",
-  "DevOps": "Seorang <b>DevOps Engineer</b> bertugas mengintegrasikan dan mengotomatiskan proses pengembangan perangkat lunak. Mereka bekerja di antara tim pengembangan dan operasi untuk meningkatkan kolaborasi dan produktivitas melalui penggunaan alat otomatisasi, continuous integration, dan continuous delivery (CI/CD). Mereka juga bertanggung jawab untuk memastikan infrastruktur teknologi berjalan dengan efisien dan andal. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
-  "Mobile Development": "Seorang <b>Mobile Developer</b> bertanggung jawab untuk membuat aplikasi mobile yang berjalan pada perangkat seperti ponsel dan tablet. Mereka menggunakan bahasa pemrograman seperti Swift untuk iOS atau Kotlin untuk Android. Fokus utama mereka adalah memberikan pengalaman pengguna yang mulus dan menyenangkan, serta memastikan aplikasi berjalan lancar di berbagai perangkat dan versi sistem operasi. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol<i> 'Lihat Panduan Pembelajaran'.</i>",
-  "Cybersecurity": "Seorang <b>Cybersecurity Specialist</b> bertanggung jawab untuk melindungi sistem dan data dari ancaman keamanan. Mereka menggunakan teknik seperti enkripsi, firewall, dan manajemen risiko untuk menjaga kerahasiaan, integritas, dan ketersediaan informasi. Mereka juga melakukan analisis keamanan, mengidentifikasi kelemahan, dan mengimplementasikan strategi untuk mencegah serangan cyber.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
-  "Data Engineering": "Seorang <b>Data Engineer</b> bertanggung jawab untuk mengelola, mengolah, dan menganalisis data dalam jumlah besar. Mereka membangun infrastruktur data seperti pipeline ETL (Extract, Transform, Load) untuk memastikan data siap digunakan oleh data scientist dan analis bisnis. Dengan menggunakan alat seperti Hadoop, Spark, dan SQL, mereka membantu organisasi membuat keputusan berbasis data yang lebih baik.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
-  "Machine Learning": "Seorang <b>Machine Learning Engineer</b> bertanggung jawab untuk mengembangkan dan mengimplementasikan algoritma serta model machine learning yang memungkinkan komputer untuk belajar dari data dan membuat prediksi atau keputusan. Mereka bekerja dengan berbagai teknik seperti pembelajaran terawasi, tidak terawasi, dan pembelajaran mendalam. Alat yang sering mereka gunakan termasuk TensorFlow dan PyTorch.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
-  "Blockchain": "Seorang <b>Blockchain Developer</b> bertugas untuk mengembangkan dan mengelola aplikasi berbasis teknologi blockchain. Mereka menggunakan buku besar terdistribusi untuk menciptakan transparansi, keamanan, dan efisiensi dalam transaksi digital. Mereka bekerja dengan platform seperti Ethereum dan Hyperledger, dan sering menggunakan bahasa pemrograman seperti Solidity untuk pengembangan smart contract.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
-  "UX/UI Design": "Seorang <b>UX/UI Designer</b> bertanggung jawab untuk merancang antarmuka pengguna yang intuitif, menarik, dan mudah digunakan. Mereka bekerja erat dengan pengguna dan tim pengembang untuk memahami kebutuhan dan preferensi pengguna. Dengan menggunakan alat seperti Sketch, Figma, dan Adobe XD, mereka membuat desain yang meningkatkan pengalaman pengguna dalam berinteraksi dengan aplikasi dan situs web. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>"
-};
+      "Frontend Engineer": "Seorang <b>Frontend Developer</b> bertanggung jawab untuk membangun antarmuka pengguna situs web. Mereka bekerja dengan HTML, CSS, dan JavaScript untuk menciptakan desain visual yang menarik, responsif, dan intuitif. Tugas utama mereka adalah memastikan bahwa pengguna memiliki pengalaman yang optimal saat berinteraksi dengan situs web di berbagai perangkat, termasuk komputer, tablet, dan ponsel. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Backend Engineer": "Seorang <b>Backend Developer</b> bekerja di balik layar situs web, menangani logika, basis data, dan server yang memastikan semua fungsionalitas berjalan lancar. Mereka menggunakan bahasa pemrograman seperti Python, Java, atau PHP dan sering bekerja dengan basis data SQL dan NoSQL. Tujuannya adalah untuk memastikan integritas dan keamanan data, serta memastikan bahwa situs web dapat menangani permintaan pengguna dengan cepat dan efisien. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol<i> 'Lihat Panduan Pembelajaran'.</i>",
+      "DevOps": "Seorang <b>DevOps Engineer</b> bertugas mengintegrasikan dan mengotomatiskan proses pengembangan perangkat lunak. Mereka bekerja di antara tim pengembangan dan operasi untuk meningkatkan kolaborasi dan produktivitas melalui penggunaan alat otomatisasi, continuous integration, dan continuous delivery (CI/CD). Mereka juga bertanggung jawab untuk memastikan infrastruktur teknologi berjalan dengan efisien dan andal. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Mobile Development": "Seorang <b>Mobile Developer</b> bertanggung jawab untuk membuat aplikasi mobile yang berjalan pada perangkat seperti ponsel dan tablet. Mereka menggunakan bahasa pemrograman seperti Swift untuk iOS atau Kotlin untuk Android. Fokus utama mereka adalah memberikan pengalaman pengguna yang mulus dan menyenangkan, serta memastikan aplikasi berjalan lancar di berbagai perangkat dan versi sistem operasi. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol<i> 'Lihat Panduan Pembelajaran'.</i>",
+      "Cybersecurity": "Seorang <b>Cybersecurity Specialist</b> bertanggung jawab untuk melindungi sistem dan data dari ancaman keamanan. Mereka menggunakan teknik seperti enkripsi, firewall, dan manajemen risiko untuk menjaga kerahasiaan, integritas, dan ketersediaan informasi. Mereka juga melakukan analisis keamanan, mengidentifikasi kelemahan, dan mengimplementasikan strategi untuk mencegah serangan cyber.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Data Engineering": "Seorang <b>Data Engineer</b> bertanggung jawab untuk mengelola, mengolah, dan menganalisis data dalam jumlah besar. Mereka membangun infrastruktur data seperti pipeline ETL (Extract, Transform, Load) untuk memastikan data siap digunakan oleh data scientist dan analis bisnis. Dengan menggunakan alat seperti Hadoop, Spark, dan SQL, mereka membantu organisasi membuat keputusan berbasis data yang lebih baik.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Machine Learning": "Seorang <b>Machine Learning Engineer</b> bertanggung jawab untuk mengembangkan dan mengimplementasikan algoritma serta model machine learning yang memungkinkan komputer untuk belajar dari data dan membuat prediksi atau keputusan. Mereka bekerja dengan berbagai teknik seperti pembelajaran terawasi, tidak terawasi, dan pembelajaran mendalam. Alat yang sering mereka gunakan termasuk TensorFlow dan PyTorch.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Blockchain": "Seorang <b>Blockchain Developer</b> bertugas untuk mengembangkan dan mengelola aplikasi berbasis teknologi blockchain. Mereka menggunakan buku besar terdistribusi untuk menciptakan transparansi, keamanan, dan efisiensi dalam transaksi digital. Mereka bekerja dengan platform seperti Ethereum dan Hyperledger, dan sering menggunakan bahasa pemrograman seperti Solidity untuk pengembangan smart contract.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "UX/UI Design": "Seorang <b>UX/UI Designer</b> bertanggung jawab untuk merancang antarmuka pengguna yang intuitif, menarik, dan mudah digunakan. Mereka bekerja erat dengan pengguna dan tim pengembang untuk memahami kebutuhan dan preferensi pengguna. Dengan menggunakan alat seperti Sketch, Figma, dan Adobe XD, mereka membuat desain yang meningkatkan pengalaman pengguna dalam berinteraksi dengan aplikasi dan situs web. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>"
+    };
 
 
     const quizContainer = document.getElementById("quiz");
@@ -249,9 +249,9 @@
     let answers = {};
 
     function displayCover() {
-      $('.cover-container').removeClass('hide');
-      $('#start-quiz').removeClass('hide');
-      $('.container-box').addClass('hide');
+      $('.cover-container').removeClass('d-none');
+      $('#start-quiz').removeClass('d-none');
+      $('.container-box').addClass('d-none');
     }
 
     startQuizButton.addEventListener('click', function() {
@@ -259,16 +259,17 @@
     });
 
     function displayQuestion() {
-      $('.container-box').removeClass('hide');
-      $('#next').removeClass('hide');
-      $('#quiz').removeClass('hide');
-      $('.cover-container').addClass('hide');
-      $('#retry').addClass('hide');
-      $('#result').addClass('hide');
-      $('#result-chart').addClass('hide');
-      $('#result-details').addClass('hide');
-      $('#start-quiz').addClass('hide');
-      $('#submit').addClass('hide');
+      $('.container-box').removeClass('d-none');
+      $('#next').removeClass('d-none');
+      $('#quiz').removeClass('d-none');
+      $('.cover-container').addClass('d-none');
+      $('#retry').addClass('d-none');
+      $('#result').addClass('d-none');
+      $('#result-chart').addClass('d-none');
+      $('#result-details').addClass('d-none');
+      $('.additional-details').addClass('d-none');
+      $('#start-quiz').addClass('d-none');
+      $('#submit').addClass('d-none');
 
       const categoryData = quizData[currentCategory];
       const questionData = categoryData.questions[currentQuestion];
@@ -301,9 +302,9 @@
       quizContainer.appendChild(optionsElement);
 
       if (currentQuestion > 0 || currentCategory > 0) {
-        $('#back').removeClass('hide');
+        $('#back').removeClass('d-none');
       } else {
-        $('#back').addClass('hide');
+        $('#back').addClass('d-none');
       }
 
       const previousAnswer = answers[`${currentCategory}-${currentQuestion}`];
@@ -412,48 +413,41 @@
          }
       });
 
-      resultContainer.classList.remove("hide");
-      resultChart.classList.remove("hide");
-      $('#result-details').removeClass('hide');
-      quizContainer.classList.add("hide");
-      $('#back').addClass('hide');
-      $('#next').addClass('hide');
-      $('#submit').addClass('hide');
-      $('#retry').removeClass('hide');
-      // additionalDetails.classList.remove("hide");
-      $('.additional-details').removeClass('hide');
+      resultContainer.classList.remove("d-none");
+      resultChart.classList.remove("d-none");
+      $('#result-details').removeClass('d-none');
+      quizContainer.classList.add("d-none");
+      $('#back').addClass('d-none');
+      $('#next').addClass('d-none');
+      $('#submit').addClass('d-none');
+      $('#retry').removeClass('d-none');
+      // additionalDetails.classList.remove("d-none");
+      $('.additional-details').removeClass('d-none');
 
       const emailButton = document.getElementById('email-button');
-      emailButton.onclick =  async function() {
+      emailButton.onclick = async function() {
         const email = document.getElementById('email-input').value;
         if (email) {
-          const highestCategory = Object.keys(categoryScores).reduce((highest, category) => {
-            return categoryScores[category] > categoryScores[highest] ? category : highest;
-          });
-          const chartURL = resultChart.toDataURL();
-          const chartImage = getChartImage();
-          const chartBlob = await getChartImage();
+          const chartImage = await getChartImage(); // Ensure this returns a proper DataURL
 
           const formData = new FormData();
-          formData.append('image', chartBlob, 'chart.png');
+          formData.append('image', chartImage);
           formData.append('to_email', email);
           formData.append('category', topCategory);
           formData.append('scores', JSON.stringify(categoryScores));
-          formData.append('chart', chartImage);
 
-          console.log('Chart URL:', chartURL);
-          console.log('Chart Image:', chartImage);
-          console.log('Chart Blob:', chartBlob);
           const formDataEntries = [...formData.entries()];
           console.log('Form Data Entries:', formDataEntries);
           
+
+
           const templateParams = {
             to_email: email,
             category: topCategory,
-            scores: JSON.stringify(categoryScores),
-            // scores: highestCategory,
-            chart: chartImage 
+            chartUrl: chartImage,
+            scores: JSON.stringify(categoryScores)
           };
+
           emailjs.send('codecareer', 'template_tnk2emg', templateParams)
             .then(function(response) {
               alert('Hasil telah dikirim ke email Anda!');
@@ -478,12 +472,6 @@
         displayCover();
       }
 
-      // Function to get the chart image as data URL
-      // function getChartImage() {
-      //   const chartCanvas = document.getElementById('result-chart');
-      //   const chartImage = chartCanvas.toDataURL('image/png');
-      //   return chartImage;
-      // }
 
     // Function to get the chart image as Blob
     function getChartImage() {
@@ -498,12 +486,7 @@
 
     nextButton.addEventListener("click", checkAnswer);
     backButton.addEventListener("click", previousQuestion);
-    retryButton.addEventListener("click", function() {
-      currentCategory = 0;
-      currentQuestion = 0;
-      answers = {};
-      displayQuestion();
-    });
+    retryButton.addEventListener("click",  retryQuiz);
   </script>
 </body>
 </html>

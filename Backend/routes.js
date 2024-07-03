@@ -12,4 +12,6 @@ router.get('/api', (req, res) => {
 
 router.post('/api/:text', controllers.processText);
 
+router.post('/sendmail', controllers.sendEmail);
+
 module.exports = router;

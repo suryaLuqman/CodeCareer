@@ -1,10 +1,27 @@
-###Mengirimkan Request (GET)
+###Mengirimkan Request API (GET)
 # GET untuk mengirimkan data
+GET  http://localhost:3000
+
+
+###Mengirimkan Request (POST)
+# POST untuk mengirimkan api cneko
 POST  http://localhost:3000/api/hallo kawan
+
+###Mengirimkan Request (POST)
+# POST untuk mengirimkan email
+POST  http://localhost:3000/sendmail
+Content-Type: application/json
+
+{
+    "email": "surya@gmail.com",
+    "category": "cybersecurity",
+    "chartUrl": "chart.png"
+}
 
 ###Mengirimkan Request API (GET)
 # GET untuk mengirimkan data
 GET  http://localhost:3000/api
 
-###GET untuk mengirimkan data  
+
+###POST untuk mengirimkan data cneko
 POST  https://chat.ai.cneko.org/?t=ketik_pertanyaanmu_disini
