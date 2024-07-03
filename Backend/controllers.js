@@ -12,12 +12,11 @@ exports.processText = async (req, res) => {
         });
         console.log('Success:', response.data);
 
-        // Contoh pengiriman email setelah berhasil mendapatkan response dari API
-        await sendMail();
-
         res.json(response.data);
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ error: 'An error occurred while processing your request.', message: error.message });
     }
 };
+
+exports.sendEmail = sendMail;
