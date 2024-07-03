@@ -4,44 +4,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CodeCareer - Navigating Your IT Journey</title>
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="cover-container">
+  <div class="cover-container">
     <div class="cover">
       <h1 class="cover-title">Selamat Datang di CodeCareer</h1>
       <p class="cover-description">Temukan peran ideal Anda dalam dunia teknologi informasi dan navigasikan perjalanan karier IT Anda dengan kami.</p>
       <button id="start-quiz" class="btn btn-primary btn-start-quiz">Mulai Quiz</button>
     </div>
   </div>
-  <div class="container-box hide">
+  <div class="container-box d-none">
     <div class="container">
       <h1 class="text-center title-quiz">Quiz App</h1>
       <div id="quiz"></div>
-      <div id="result" class="result hide"></div>
-      <canvas id="result-chart" class="hide"></canvas>
-      <div id="result-details" class="hide">
+      <div id="result" class="result d-none"></div>
+      <div class="result-container">
+        <canvas id="result-chart" class="d-none"></canvas>
+      <div class="result-details-container">
+      <div id="result-details" class="d-none">
         <p id="result-description" class="result-description"></p>
-        <div class="social-share-icons">
-          <!-- Ikon media sosial akan diletakkan di sini -->
-        </div>
+      </div>
+      </div>
+      </div>
+        <div class="additional-details d-none">
+        <div class="social-share-icons"></div>
         <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda untuk menyimpan hasil">
         <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
         <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
       </div>
       <div class="btn-group">
-        <button id="back" class="btn btn-primary btn-back hide">Back</button>
-        <button id="next" class="btn btn-primary btn-next hide">Next</button>
-        <button id="submit" class="btn btn-primary btn-submit hide">Submit</button>
-        <button id="retry" class="btn btn-primary btn-retry hide">Retry</button>
-        <button id="start-quiz" class="btn btn-primary btn-start-quiz hide">Mulai Quiz</button>
+        <button id="back" class="btn btn-primary btn-back d-none">Back</button>
+        <button id="next" class="btn btn-primary btn-next d-none">Next</button>
+        <button id="submit" class="btn btn-primary btn-submit d-none">Submit</button>
+        <button id="retry" class="btn btn-primary btn-retry d-none">Retry</button>
+        <button id="start-quiz" class="btn btn-primary btn-start-quiz d-none">Mulai Quiz</button>
       </div>
     </div>
   </div>
-
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- jQuery -->
@@ -50,306 +51,442 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- EmailJS -->
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+  <!-- chartjs-plugin-datalabels -->
+   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+  <!-- inisialisasi emailjs -->
   <script>
-    (function(){
-      emailjs.init("eyoc7-5bcibV-ZRR3");
-    })();
+      (function(){
+        emailjs.init("eyoc7-5bcibV-ZRR3");
+      })();
   </script>
-  
   <script>
-    const quizData = [{
-      category: "Programming",
-      questions: [
-        {
-          question: "Apakah Anda tertarik dengan pemrograman?",
-          options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-        },
-        {
-          question: "Apakah Anda tertarik dengan pengembangan web?",
-          options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-        },
-        {
-          question: "Apakah Anda tertarik dengan pengembangan permainan?",
-          options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-        },
-      ]
-    },
-    {
-      category: "Networking",
-      questions: [
-        {
-          question: "Apakah Anda tertarik dengan jaringan komputer?",
-          options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-        },
-        {
-          question: "Apakah Anda tertarik dengan keamanan jaringan?",
-          options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-        },
-        {
-          question: "Apakah Anda tertarik dengan manajemen jaringan?",
-          options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-        },
-      ]
-    },
-    {
-      category: "Data Science",
-      questions: [
-        {
-          question: "Apakah Anda tertarik dengan data science?",
-          options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-        },
-        {
-          question: "Apakah Anda tertarik dengan analisis data?",
-          options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-        },
-        {
-          question: "Apakah Anda tertarik dengan machine learning?",
-          options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-        },
-      ]
-    },
-  ];
-  
-  const quizContainer = document.getElementById("quiz");
-  const resultContainer = document.getElementById("result");
-  const resultDetailsContainer = document.getElementById("result-details");
-  const nextButton = document.getElementById("next");
-  const submitButton = document.getElementById("submit");
-  const startQuizButton = document.getElementById("start-quiz");
-  const retryButton = document.getElementById("retry");
-  const backButton = document.getElementById("back");
-  
-  let currentCategory = 0;
-  let currentQuestion = 0;
-  let answers = {};
-  
-  function displayCover() {
-    $('.cover-container').removeClass('hide');
-    $('#start-quiz').removeClass('hide');
-    $('.container-box').addClass('hide');
-  }
+    const quizData = [
+      {
+        category: "Frontend Engineer",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan membuat tampilan dan desain situs web?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda menikmati bekerja dengan warna, gambar, dan tata letak halaman web?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka memastikan situs web terlihat bagus di semua perangkat (komputer, tablet, ponsel)?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Backend Engineer",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan cara kerja sebuah situs web di balik layar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka bekerja dengan data dan informasi yang disimpan di server?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda menikmati memecahkan masalah teknis dan memastikan situs web berjalan lancar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "DevOps",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan proses otomatisasi dan penyederhanaan pekerjaan?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka memastikan bahwa pengembangan perangkat lunak berjalan efisien dan lancar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan pengaturan dan pemeliharaan infrastruktur teknologi?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Mobile Development",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan pembuatan aplikasi untuk ponsel?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka mengembangkan fitur-fitur baru untuk aplikasi ponsel?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja aplikasi di berbagai jenis ponsel?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Cybersecurity",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan melindungi informasi dan data dari pencurian?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka mencari dan mengatasi celah keamanan di sistem teknologi?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja antivirus dan keamanan online?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Data Engineering",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan pengelolaan data dalam jumlah besar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka memastikan data tersimpan dengan baik dan mudah diakses?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan pengolahan data untuk menghasilkan informasi berguna?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Machine Learning",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan teknologi yang dapat belajar dan membuat keputusan otomatis?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka bekerja dengan data dan mengembangkan model yang dapat memprediksi hasil?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja asisten virtual dan rekomendasi produk?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Blockchain",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan teknologi yang aman dan tidak dapat diubah?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka dengan ide transaksi yang transparan dan terpercaya?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja mata uang digital seperti Bitcoin?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "UX/UI Design",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan bagaimana cara pengguna berinteraksi dengan teknologi?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka membuat desain yang mudah digunakan dan menarik bagi pengguna?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja aplikasi dan situs web dari sudut pandang pengguna?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+    ];
 
-  startQuizButton.addEventListener('click', function() {
-    displayQuestion();
-  });
 
-  function displayQuestion() {
-    $('.container-box').removeClass('hide');
-    $('#next').removeClass('hide');
-    $('#quiz').removeClass('hide');
-    $('.cover-container').addClass('hide');
-    $('#retry').addClass('hide');
-    $('#result').addClass('hide');
-    $('#result-chart').addClass('hide');
-    $('#result-details').addClass('hide');
-    $('#start-quiz').addClass('hide');
-    $('#submit').addClass('hide');
 
-    const categoryData = quizData[currentCategory];
-    const questionData = categoryData.questions[currentQuestion];
-  
-    const questionElement = document.createElement("div");
-    questionElement.className = "question";
-    questionElement.innerHTML = questionData.question;
-  
-    const optionsElement = document.createElement("div");
-    optionsElement.className = "row row-cols-2";
-  
-    for (let i = 0; i < questionData.options.length; i++) {
-      const option = document.createElement("label");
-      option.className = "option col";
-  
-      const radio = document.createElement("input");
-      radio.type = "radio";
-      radio.name = "quiz";
-      radio.value = questionData.options[i];
-  
-      const optionText = document.createTextNode(questionData.options[i]);
-  
-      option.appendChild(radio);
-      option.appendChild(optionText);
-      optionsElement.appendChild(option);
+    const categoryDescriptions = {
+      "Frontend Engineer": "Seorang <b>Frontend Developer</b> bertanggung jawab untuk membangun antarmuka pengguna situs web. Mereka bekerja dengan HTML, CSS, dan JavaScript untuk menciptakan desain visual yang menarik, responsif, dan intuitif. Tugas utama mereka adalah memastikan bahwa pengguna memiliki pengalaman yang optimal saat berinteraksi dengan situs web di berbagai perangkat, termasuk komputer, tablet, dan ponsel. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Backend Engineer": "Seorang <b>Backend Developer</b> bekerja di balik layar situs web, menangani logika, basis data, dan server yang memastikan semua fungsionalitas berjalan lancar. Mereka menggunakan bahasa pemrograman seperti Python, Java, atau PHP dan sering bekerja dengan basis data SQL dan NoSQL. Tujuannya adalah untuk memastikan integritas dan keamanan data, serta memastikan bahwa situs web dapat menangani permintaan pengguna dengan cepat dan efisien. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol<i> 'Lihat Panduan Pembelajaran'.</i>",
+      "DevOps": "Seorang <b>DevOps Engineer</b> bertugas mengintegrasikan dan mengotomatiskan proses pengembangan perangkat lunak. Mereka bekerja di antara tim pengembangan dan operasi untuk meningkatkan kolaborasi dan produktivitas melalui penggunaan alat otomatisasi, continuous integration, dan continuous delivery (CI/CD). Mereka juga bertanggung jawab untuk memastikan infrastruktur teknologi berjalan dengan efisien dan andal. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Mobile Development": "Seorang <b>Mobile Developer</b> bertanggung jawab untuk membuat aplikasi mobile yang berjalan pada perangkat seperti ponsel dan tablet. Mereka menggunakan bahasa pemrograman seperti Swift untuk iOS atau Kotlin untuk Android. Fokus utama mereka adalah memberikan pengalaman pengguna yang mulus dan menyenangkan, serta memastikan aplikasi berjalan lancar di berbagai perangkat dan versi sistem operasi. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol<i> 'Lihat Panduan Pembelajaran'.</i>",
+      "Cybersecurity": "Seorang <b>Cybersecurity Specialist</b> bertanggung jawab untuk melindungi sistem dan data dari ancaman keamanan. Mereka menggunakan teknik seperti enkripsi, firewall, dan manajemen risiko untuk menjaga kerahasiaan, integritas, dan ketersediaan informasi. Mereka juga melakukan analisis keamanan, mengidentifikasi kelemahan, dan mengimplementasikan strategi untuk mencegah serangan cyber.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Data Engineering": "Seorang <b>Data Engineer</b> bertanggung jawab untuk mengelola, mengolah, dan menganalisis data dalam jumlah besar. Mereka membangun infrastruktur data seperti pipeline ETL (Extract, Transform, Load) untuk memastikan data siap digunakan oleh data scientist dan analis bisnis. Dengan menggunakan alat seperti Hadoop, Spark, dan SQL, mereka membantu organisasi membuat keputusan berbasis data yang lebih baik.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Machine Learning": "Seorang <b>Machine Learning Engineer</b> bertanggung jawab untuk mengembangkan dan mengimplementasikan algoritma serta model machine learning yang memungkinkan komputer untuk belajar dari data dan membuat prediksi atau keputusan. Mereka bekerja dengan berbagai teknik seperti pembelajaran terawasi, tidak terawasi, dan pembelajaran mendalam. Alat yang sering mereka gunakan termasuk TensorFlow dan PyTorch.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "Blockchain": "Seorang <b>Blockchain Developer</b> bertugas untuk mengembangkan dan mengelola aplikasi berbasis teknologi blockchain. Mereka menggunakan buku besar terdistribusi untuk menciptakan transparansi, keamanan, dan efisiensi dalam transaksi digital. Mereka bekerja dengan platform seperti Ethereum dan Hyperledger, dan sering menggunakan bahasa pemrograman seperti Solidity untuk pengembangan smart contract.  <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>",
+      "UX/UI Design": "Seorang <b>UX/UI Designer</b> bertanggung jawab untuk merancang antarmuka pengguna yang intuitif, menarik, dan mudah digunakan. Mereka bekerja erat dengan pengguna dan tim pengembang untuk memahami kebutuhan dan preferensi pengguna. Dengan menggunakan alat seperti Sketch, Figma, dan Adobe XD, mereka membuat desain yang meningkatkan pengalaman pengguna dalam berinteraksi dengan aplikasi dan situs web. <br><br>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i>"
+    };
+
+
+    const quizContainer = document.getElementById("quiz");
+    const resultContainer = document.getElementById("result");
+    const resultDescription = document.getElementById("result-description");
+    const resultChart = document.getElementById("result-chart");
+    const nextButton = document.getElementById("next");
+    const submitButton = document.getElementById("submit");
+    const startQuizButton = document.getElementById("start-quiz");
+    const retryButton = document.getElementById("retry");
+    const backButton = document.getElementById("back");
+    const additionalDetails = document.querySelector('.additional-details');
+
+    let currentCategory = 0;
+    let currentQuestion = 0;
+    let answers = {};
+
+    function displayCover() {
+      $('.cover-container').removeClass('d-none');
+      $('#start-quiz').removeClass('d-none');
+      $('.container-box').addClass('d-none');
     }
-  
-    quizContainer.innerHTML = "";
-    quizContainer.appendChild(questionElement);
-    quizContainer.appendChild(optionsElement);
-  
-    if (currentQuestion > 0 || currentCategory > 0) {
-      $('#back').removeClass('hide');
-    } else {
-      $('#back').addClass('hide');
-    }
-  
-    const previousAnswer = answers[`${currentCategory}-${currentQuestion}`];
-    if (previousAnswer) {
-      const optionElement = document.querySelector(`input[name="quiz"][value="${previousAnswer}"]`);
-      if (optionElement) {
-        optionElement.checked = true;
+
+    startQuizButton.addEventListener('click', function() {
+      displayQuestion();
+    });
+
+    function displayQuestion() {
+      $('.container-box').removeClass('d-none');
+      $('#next').removeClass('d-none');
+      $('#quiz').removeClass('d-none');
+      $('.cover-container').addClass('d-none');
+      $('#retry').addClass('d-none');
+      $('#result').addClass('d-none');
+      $('#result-chart').addClass('d-none');
+      $('#result-details').addClass('d-none');
+      $('.additional-details').addClass('d-none');
+      $('#start-quiz').addClass('d-none');
+      $('#submit').addClass('d-none');
+
+      const categoryData = quizData[currentCategory];
+      const questionData = categoryData.questions[currentQuestion];
+
+      const questionElement = document.createElement("div");
+      questionElement.className = "question";
+      questionElement.innerHTML = questionData.question;
+
+      const optionsElement = document.createElement("div");
+      optionsElement.className = "row row-cols-2";
+
+      for (let i = 0; i < questionData.options.length; i++) {
+        const option = document.createElement("label");
+        option.className = "option col";
+
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "quiz";
+        radio.value = questionData.options[i];
+
+        const optionText = document.createTextNode(questionData.options[i]);
+
+        option.appendChild(radio);
+        option.appendChild(optionText);
+        optionsElement.appendChild(option);
       }
-    }
-  }
-  
-  function checkAnswer() {
-    const selectedOption = document.querySelector('input[name="quiz"]:checked');
-    if (selectedOption) {
-      const answer = selectedOption.value;
-      answers[`${currentCategory}-${currentQuestion}`] = answer; 
-      currentQuestion++;
-      if (currentQuestion < quizData[currentCategory].questions.length) {
-        displayQuestion();
+
+      quizContainer.innerHTML = "";
+      quizContainer.appendChild(questionElement);
+      quizContainer.appendChild(optionsElement);
+
+      if (currentQuestion > 0 || currentCategory > 0) {
+        $('#back').removeClass('d-none');
       } else {
-        currentCategory++;
-        currentQuestion = 0;
-        if (currentCategory < quizData.length) {
-          displayQuestion();
-        } else {
-          displayResult();
+        $('#back').addClass('d-none');
+      }
+
+      const previousAnswer = answers[`${currentCategory}-${currentQuestion}`];
+      if (previousAnswer) {
+        const optionElement = document.querySelector(`input[name="quiz"][value="${previousAnswer}"]`);
+        if (optionElement) {
+          optionElement.checked = true;
         }
       }
     }
-  }
-  
-  function previousQuestion() {
-    if (currentQuestion > 0) {
-      currentQuestion--;
-    } else if (currentCategory > 0) {
-      currentCategory--;
-      currentQuestion = quizData[currentCategory].questions.length - 1;
-    }
-    displayQuestion();
-  }
-  
-  function displayResult() {
-    const categoryScores = {};
-    for (let key in answers) {
-      const answer = answers[key];
-      const category = quizData[Math.floor(key.split('-')[0])].category;
-      const score = answer === "Sangat tertarik" ? 3 :
-                    answer === "Tertarik" ? 2 :
-                    answer === "Kurang tertarik" ? 1 :
-                    0;
-      categoryScores[category] = (categoryScores[category] || 0) + score;
-    }
-  
-    let maxCategory = null;
-    let maxScore = -Infinity;
-    for (const category in categoryScores) {
-      if (categoryScores[category] > maxScore) {
-        maxScore = categoryScores[category];
-        maxCategory = category;
-      }
-    }
-  
-    $('#result').html(`<h1 class="text-center">${maxCategory}</h1>`);
-  
-    $('#result').removeClass('hide');
-    $('#result-details').removeClass('hide');
-    $('#quiz').addClass('hide');
-    $('#next').addClass('hide');
-    $('#back').addClass('hide');
-    $('#submit').addClass('hide');
-    $('#start-quiz').addClass('hide');
-    $('#retry').removeClass('hide');
-  
-    const resultDescription = document.getElementById('result-description');
-    resultDescription.textContent = 'Berdasarkan hasil quiz, kami menyarankan Anda untuk menjelajahi lebih lanjut tentang bidang ini.';
-  
-    const iconsContainer = document.querySelector('.social-share-icons');
-    const chartContainer = document.createElement('div');
-    chartContainer.className = 'result-chart-container';
-  
-    const ctx = document.createElement('canvas');
-    ctx.id = 'result-chart';
-    chartContainer.appendChild(ctx);
-  
-    resultContainer.innerHTML = '';
-    resultContainer.appendChild(chartContainer);
-  
-    const chart = new Chart(ctx.getContext("2d"), {
-      type: "radar",
-      data: {
-        labels: Object.keys(categoryScores),
-        datasets: [{
-          label: "Score",
-          data: Object.values(categoryScores),
-          backgroundColor: 'rgba(54, 162, 235, 0.2)',
-          borderColor: 'rgba(54, 162, 235, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          r: {
-            beginAtZero: true
+
+    function checkAnswer() {
+      const selectedOption = document.querySelector('input[name="quiz"]:checked');
+      if (selectedOption) {
+        const answer = selectedOption.value;
+        answers[`${currentCategory}-${currentQuestion}`] = answer;
+        currentQuestion++;
+        if (currentQuestion < quizData[currentCategory].questions.length) {
+          displayQuestion();
+        } else {
+          currentCategory++;
+          currentQuestion = 0;
+          if (currentCategory < quizData.length) {
+            displayQuestion();
+          } else {
+            displayResult();
           }
         }
       }
-    });
-  
-    const emailButton = document.getElementById('email-button');
-    emailButton.onclick = function() {
-      const email = document.getElementById('email-input').value;
-      if (email) {
-        const chartURL = ctx.toDataURL();
-        
-        const templateParams = {
-          to_email: email,
-          category: maxCategory,
-          scores: JSON.stringify(categoryScores),
-          chart: chartURL 
-        };
-        emailjs.send('codecareer', 'template_tnk2emg', templateParams)
-          .then(function(response) {
-            alert('Hasil telah dikirim ke email Anda!');
-          }, function(error) {
-            alert('Gagal mengirim email: ' + error.text);
-          });
-      } else {
-        alert('Silakan masukkan email Anda.');
-      }
-    };
-  
-    const learningPathButton = document.getElementById('learning-path-button');
-    learningPathButton.onclick = function() {
-      window.location.href = 'https://roadmap.sh/path-for-category'; 
-    };
-  }
-  
-  function retryQuiz() {
-    currentCategory = 0;
-    currentQuestion = 0;
-    answers = {};
-    displayCover();
-  }
-  
-  function nextQuestion() {
-    const selectedOption = document.querySelector('input[name="quiz"]:checked');
-    if (selectedOption) {
-      const answer = selectedOption.value;
-      answers[`${currentCategory}-${currentQuestion}`] = answer; 
-      currentQuestion++;
-      if (currentQuestion < quizData[currentCategory].questions.length) {
-        displayQuestion();
-      } else {
-        currentCategory++;
-        currentQuestion = 0;
-        if (currentCategory < quizData.length) {
-          displayQuestion();
-        } else {
-          displayResult();
-        }
-      }
     }
-  }
-  
-  nextButton.addEventListener("click", nextQuestion);
-  backButton.addEventListener("click", previousQuestion);
-  submitButton.addEventListener("click", checkAnswer);
-  retryButton.addEventListener("click", retryQuiz);
-  
-  displayCover();
-  
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+      } else if (currentCategory > 0) {
+        currentCategory--;
+        currentQuestion = quizData[currentCategory].questions.length - 1;
+      }
+      displayQuestion();
+    }
+
+    function displayResult() {
+      const categoryScores = {};
+      for (let key in answers) {
+        const answer = answers[key];
+        const category = quizData[Math.floor(key.split('-')[0])].category;
+        const score = ["Tidak tertarik", "Kurang tertarik", "Tertarik", "Sangat tertarik"].indexOf(answer) + 1;
+        if (!categoryScores[category]) {
+          categoryScores[category] = 0;
+        }
+        categoryScores[category] += score;
+      }
+
+      const totalScore = Object.values(categoryScores).reduce((acc, score) => acc + score, 0);
+      const sortedCategories = Object.keys(categoryScores).sort((a, b) => categoryScores[b] - categoryScores[a]);
+      const topCategory = sortedCategories[0];
+      const topCategoryScore = categoryScores[topCategory];
+      const topCategoryDescription = categoryDescriptions[topCategory];
+
+      const resultHTML = `<h3>Sesuai dengan jawaban anda, Sepertinya Anda paling cocok untuk mendalami <b>${topCategory}</b> </h3>`;
+      resultContainer.innerHTML = resultHTML;
+
+      resultDescription.innerHTML = topCategoryDescription;
+
+      const data = {
+         labels: Object.keys(categoryScores).map(category => {
+            const percentage = ((categoryScores[category] / totalScore) * 100).toFixed(2);
+            return `${category} (${percentage}%)`;
+         }),
+        datasets: [{
+          data: Object.values(categoryScores),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+        }]
+      };
+
+      const ctx = resultChart.getContext('2d');
+      new Chart(ctx, {
+         type: 'polarArea',
+         data: data,
+         options: {
+            plugins: {
+               tooltip: {
+                  callbacks: {
+                     label: function(context) {
+                     const label = context.label || '';
+                     const value = context.raw || 0;
+                     const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                     const percentage = ((value / total) * 100).toFixed(2);
+                     return `${label}: ${percentage}%`;
+                     }
+                  }
+               },
+               datalabels: {
+                  formatter: (value, context) => {
+                     const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
+                     const percentage = ((value / total) * 100).toFixed(2);
+                     return `${percentage}%`;
+                  },
+                  color: '#fff',
+                  font: {
+                     weight: 'bold'
+                  }
+               }
+            }
+         }
+      });
+
+      resultContainer.classList.remove("d-none");
+      resultChart.classList.remove("d-none");
+      $('#result-details').removeClass('d-none');
+      quizContainer.classList.add("d-none");
+      $('#back').addClass('d-none');
+      $('#next').addClass('d-none');
+      $('#submit').addClass('d-none');
+      $('#retry').removeClass('d-none');
+      // additionalDetails.classList.remove("d-none");
+      $('.additional-details').removeClass('d-none');
+
+      const emailButton = document.getElementById('email-button');
+      emailButton.onclick = async function() {
+        const email = document.getElementById('email-input').value;
+        if (email) {
+          const chartImage = await getChartImage(); // Ensure this returns a proper DataURL
+
+          const formData = new FormData();
+          formData.append('image', chartImage);
+          formData.append('to_email', email);
+          formData.append('category', topCategory);
+          formData.append('scores', JSON.stringify(categoryScores));
+
+          const formDataEntries = [...formData.entries()];
+          console.log('Form Data Entries:', formDataEntries);
+          
+
+
+          const templateParams = {
+            to_email: email,
+            category: topCategory,
+            chartUrl: chartImage,
+            scores: JSON.stringify(categoryScores)
+          };
+
+          emailjs.send('codecareer', 'template_tnk2emg', templateParams)
+            .then(function(response) {
+              alert('Hasil telah dikirim ke email Anda!');
+            }, function(error) {
+              alert('Gagal mengirim email: ' + error.text);
+            });
+        } else {
+          alert('Silakan masukkan email Anda.');
+        }
+      };
+    
+      const learningPathButton = document.getElementById('learning-path-button');
+      learningPathButton.onclick = function() {
+        window.location.href = `https://roadmap.sh/${topCategory}?r=${topCategory}-beginner`; 
+      };
+
+    }
+      function retryQuiz() {
+        currentCategory = 0;
+        currentQuestion = 0;
+        answers = {};
+        displayCover();
+      }
+
+
+    // Function to get the chart image as Blob
+    function getChartImage() {
+      return new Promise((resolve) => {
+        const chartCanvas = document.getElementById('result-chart');
+        chartCanvas.toBlob((blob) => {
+          resolve(blob);
+        }, 'image/png');
+      });
+    }
+
+
+    nextButton.addEventListener("click", checkAnswer);
+    backButton.addEventListener("click", previousQuestion);
+    retryButton.addEventListener("click",  retryQuiz);
   </script>
 </body>
 </html>
