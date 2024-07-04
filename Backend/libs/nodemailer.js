@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
+require('dotenv').config();
+
 
 const {
     GOOGLE_REFRESH_TOKEN,

@@ -1,4 +1,5 @@
 const { sendEmail } = require('../libs/nodemailer');
+require('dotenv').config();
 
 const getResult = async (req, res, next) => {
     try {
@@ -76,7 +77,7 @@ const getResult = async (req, res, next) => {
             <body>
             <div class="email-container">
                 <div class="email-header">
-                    <img src="../img/personCompi1.jpeg" alt="CodeCareer Logo">
+                    <img src="https://assets.petpintar.com/files/article/426/1617577206-kucing-terlucu-di-dunia-banner.jpg" alt="CodeCareer Logo">
                     <h2>Quiz Result</h2>
                 </div>
                 <div class="email-body">
@@ -85,7 +86,7 @@ const getResult = async (req, res, next) => {
                     <p><strong>Highest Scoring Category:</strong> ${category}</p>
                     <div class="chart-container">
                     <h4>Your Score Distribution:</h4>
-                    <img src='${chartUrl}' alt='Chart'>
+                    <img src="https://assets.petpintar.com/files/article/426/1617577206-kucing-terlucu-di-dunia-banner.jpg" alt='Chart'>
                     </div>
                     <p>We hope this quiz helps you in your career journey. If you have any questions, feel free to contact us.</p>
                 </div>
