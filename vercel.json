@@ -42,7 +42,7 @@
       "dest": "/img/$1"
     },
     {
-      "src": "/css/style.css",
+      "src": "/Backend/public/css/style.css",
       "dest": "/css/style.css"
     }
   ]
