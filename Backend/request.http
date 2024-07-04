@@ -9,7 +9,7 @@ POST  http://localhost:3000/api/hallo kawan
 
 ###Mengirimkan Request (POST)
 # POST untuk mengirimkan email
-POST  http://localhost:3000/sendmail
+POST  http://localhost:3000/api/sendmail
 Content-Type: application/json
 
 {
