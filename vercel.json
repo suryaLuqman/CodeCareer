@@ -42,5 +42,8 @@
         }
       ]
     }
-  ]
+  ],
+  "github": {
+    "productionBranch": "production"
+  }
 }
