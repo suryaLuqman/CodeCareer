@@ -34,16 +34,16 @@
       "dest": "doc-api.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/Backend/public/$1"
-    },
-    {
       "src": "/img/(.*)",
-      "dest": "/img/$1"
+      "dest": "Backend/public/img/$1"
     },
     {
       "src": "/Backend/public/css/style.css",
-      "dest": "/css/style.css"
+      "dest": "Backend/public/css/style.css"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "Backend/public/$1"
     }
   ]
 }
