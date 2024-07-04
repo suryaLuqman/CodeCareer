@@ -7,8 +7,7 @@
     },
     {
       "src": "index.html",
-      "use": "@vercel/static",
-      "dest": "public"
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -28,7 +27,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "public/$1"
     }
   ]
 }
