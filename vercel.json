@@ -28,6 +28,14 @@
     {
       "src": "/(.*)",
       "dest": "/Backend/public/$1"
+    },
+    {
+      "src": "/img/(.*)",
+      "dest": "/Backend/public/img/$1"
+    },
+    {
+      "src": "/css/style.css",
+      "dest": "/Backend/public/css/style.css"
     }
   ]
 }
