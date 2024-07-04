@@ -8,6 +8,14 @@
     {
       "src": "Backend/public/index.html",
       "use": "@vercel/static"
+    },
+    {
+      "src": "Backend/public/img/(.*)",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "Backend/public/css/style.css",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -31,11 +39,11 @@
     },
     {
       "src": "/img/(.*)",
-      "dest": "/Backend/public/img/$1"
+      "dest": "/img/$1"
     },
     {
       "src": "/css/style.css",
-      "dest": "/Backend/public/css/style.css"
+      "dest": "/css/style.css"
     }
   ]
 }
