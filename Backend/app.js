@@ -6,6 +6,12 @@ const app = express();
 app.use(express.json());
 app.use(express.text());
 
+// Set public directory
+app.set('public', path.join(__dirname, 'public'));
+
+// Serve static files from the 'public' folder
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
