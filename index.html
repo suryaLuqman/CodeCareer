@@ -23,9 +23,9 @@
       <div class="result-container">
         <canvas id="result-chart" class="d-none"></canvas>
       <div class="result-details-container">
-      <div id="result-details" class="d-none">
-        <p id="result-description" class="result-description"></p>
-      </div>
+        <div id="result-details" class="d-none">
+          <p id="result-description" class="result-description"></p>
+        </div>
       </div>
       </div>
         <div class="additional-details d-none">
@@ -252,6 +252,7 @@
       $('.cover-container').removeClass('d-none');
       $('#start-quiz').removeClass('d-none');
       $('.container-box').addClass('d-none');
+      $('.result-container').addClass('d-none');
     }
 
     startQuizButton.addEventListener('click', function() {
@@ -383,39 +384,55 @@
 
       const ctx = resultChart.getContext('2d');
       new Chart(ctx, {
-         type: 'polarArea',
-         data: data,
-         options: {
-            plugins: {
-               tooltip: {
-                  callbacks: {
-                     label: function(context) {
-                     const label = context.label || '';
-                     const value = context.raw || 0;
-                     const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
-                     const percentage = ((value / total) * 100).toFixed(2);
-                     return `${label}: ${percentage}%`;
-                     }
-                  }
-               },
-               datalabels: {
-                  formatter: (value, context) => {
-                     const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
-                     const percentage = ((value / total) * 100).toFixed(2);
-                     return `${percentage}%`;
-                  },
-                  color: '#fff',
-                  font: {
-                     weight: 'bold'
-                  }
-               }
-            }
-         }
+        type: 'polarArea',
+        data: data,
+        options: {
+          responsive: true,
+          scales: {
+            r: {
+              pointLabels: {
+                display: true,
+                centerPointLabels: true,
+                font: {
+                    size: 14
+                }
+              }
+            },
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+              tooltip: {
+                callbacks: {
+                    label: function(context) {
+                    const label = context.label || '';
+                    const value = context.raw || 0;
+                    const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                    const percentage = ((value / total) * 100).toFixed(2);
+                    return `${label}: ${percentage}%`;
+                    }
+                }
+              },
+              datalabels: {
+                formatter: (value, context) => {
+                    const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
+                    const percentage = ((value / total) * 100).toFixed(2);
+                    return `${percentage}%`;
+                },
+                color: '#fff',
+                font: {
+                    weight: 'bold'
+                }
+              }
+          }
+        }
       });
 
       resultContainer.classList.remove("d-none");
       resultChart.classList.remove("d-none");
       $('#result-details').removeClass('d-none');
+      $('.result-container').removeClass('d-none');
       quizContainer.classList.add("d-none");
       $('#back').addClass('d-none');
       $('#next').addClass('d-none');
