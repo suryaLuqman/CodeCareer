@@ -10,14 +10,14 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "Backend/app.js"
+      "source": "/api/(.*)",
+      "destination": "/Backend/app.js"
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
@@ -42,5 +42,8 @@
         }
       ]
     }
-  ]
+  ],
+  "github": {
+    "productionBranch": "production"
+  }
 }
