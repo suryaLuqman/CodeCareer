@@ -8,7 +8,7 @@
     {
       "src": "index.html",
       "use": "@vercel/static",
-      "public": "public"
+      "dest": "public"
     }
   ],
   "routes": [
