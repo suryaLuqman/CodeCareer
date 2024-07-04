@@ -2,11 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "app.js",
+      "src": "Backend/app.js",
       "use": "@vercel/node"
     },
     {
-      "src": "../index.html",
+      "src": "index.html",
       "use": "@vercel/static"
     }
   ],
@@ -19,7 +19,7 @@
         "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
         "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
       },
-      "dest": "app.js"
+      "dest": "Backend/app.js"
     },
     {
       "src": "/docs/api",
