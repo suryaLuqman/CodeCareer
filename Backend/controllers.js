@@ -1,4 +1,6 @@
 const axios = require('axios');
+require('dotenv').config();
+
 const sendMail = require('./nodemailer/config');
 
 exports.processText = async (req, res) => {

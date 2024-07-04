@@ -13,7 +13,7 @@ POST  http://localhost:3000/sendmail
 Content-Type: application/json
 
 {
-    "email": "surya@gmail.com",
+    "email": "riska.jeen@gmail.com",
     "category": "cybersecurity",
     "chartUrl": "chart.png"
 }
