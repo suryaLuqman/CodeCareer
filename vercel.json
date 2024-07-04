@@ -24,6 +24,10 @@
     {
       "src": "/docs/api",
       "dest": "doc-api.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/"
     }
   ]
 }
