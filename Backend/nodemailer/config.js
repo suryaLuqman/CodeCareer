@@ -1,12 +1,56 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const { sendEmail } = require('../libs/nodemailer');
-require('dotenv').config();
+// Import the functions you need from the SDKs you need
+const { initializeApp } = require("firebase/app");
+const { getAnalytics } = require("firebase/analytics");
+const { getStorage, ref, getDownloadURL, uploadBytesResumable } = require("firebase/storage");
+
+const firebaseConfig = {
+    apiKey: process.env.FIREBASE_PRIVATE_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+};
+// Initialize Firebase
+initializeApp(firebaseConfig);
+
+const storage = getStorage();
 
 const getResult = async (req, res, next) => {
+    let fileURL = null;
     try {
-        const { email, category, chartUrl } = req.body;
+        console.log("Request body:", req.body);
+        const { email, category} = req.body;
         console.log("email", email);
         console.log("category", category);
-        console.log("chartUrl", chartUrl);
+
+        if (!req.file) {
+            return res.status(400).send('No file uploaded.');
+        }
+        
+        // Assuming chartUrl is the path of the image you want to upload
+        
+        const fileName = `charts/${Date.now()}_chart.png`;
+        const storageRef = ref(storage, fileName);
+
+        // Create file metadata including the content type
+        const metadata = {
+            contentType: req.file.mimetype,
+        };
+
+        // Upload the file in the bucket storage
+        const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+        //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
+
+        // Grab the public url
+        const fileURL = await getDownloadURL(snapshot.ref);
+
+        console.log("File uploaded successfully: ", fileURL);
+
         // Replace placeholders with actual values
         let html = `
             <!DOCTYPE html>
@@ -86,7 +130,7 @@ const getResult = async (req, res, next) => {
                     <p><strong>Highest Scoring Category:</strong> ${category}</p>
                     <div class="chart-container">
                     <h4>Your Score Distribution:</h4>
-                    <img src="https://assets.petpintar.com/files/article/426/1617577206-kucing-terlucu-di-dunia-banner.jpg" alt='Chart'>
+                    <img src="${fileURL}" alt='Chart'>
                     </div>
                     <p>We hope this quiz helps you in your career journey. If you have any questions, feel free to contact us.</p>
                 </div>
@@ -103,8 +147,9 @@ const getResult = async (req, res, next) => {
         return res.json({
             status: true,
             message: "Send Data Successfully",
-            err: null,
-            data: null,
+            name: req.file.originalname,
+            type: req.file.mimetype,
+            fileURL: fileURL,
         });
     } catch (err) {
         console.error('Error sending email:', err);
@@ -112,7 +157,9 @@ const getResult = async (req, res, next) => {
             status: false,
             message: 'Error sending email',
             err: err.message,
-            data: null
+            name: req.file.originalname,
+            type: req.file.mimetype,
+            fileURL: fileURL,
         });
     }
 };

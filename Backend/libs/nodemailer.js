@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 require('dotenv').config();
 
-
 const {
     GOOGLE_REFRESH_TOKEN,
     GOOGLE_SENDER_EMAIL,
@@ -20,12 +19,12 @@ oauth2Client.setCredentials({ refresh_token: GOOGLE_REFRESH_TOKEN });
 const sendEmail = async (to, subject, html) => {
     try {
         const { token } = await oauth2Client.getAccessToken();
-        
+
         if (!token) {
             throw new Error('Failed to retrieve access token');
         }
 
-        const transport = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 type: 'OAuth2',
@@ -33,11 +32,11 @@ const sendEmail = async (to, subject, html) => {
                 clientId: GOOGLE_CLIENT_ID,
                 clientSecret: GOOGLE_CLIENT_SECRET,
                 refreshToken: GOOGLE_REFRESH_TOKEN,
-                accessToken: token
-            }
+                accessToken: token,
+            },
         });
 
-        await transport.sendMail({ from: GOOGLE_SENDER_EMAIL, to, subject, html });
+        await transporter.sendMail({ from: GOOGLE_SENDER_EMAIL, to, subject, html });
         console.log('Email sent successfully');
     } catch (error) {
         console.error('Error sending email:', error.message);
