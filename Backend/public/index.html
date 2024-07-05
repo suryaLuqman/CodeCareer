@@ -51,10 +51,11 @@
       </div>      
         <div class="additional-details d-none">
         <div class="social-share-icons"></div>
-        <p>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i></p>
+        <h3 class="text-center">Jangan lewatkan kesempatan!</h3>
+        <p class="text-center">Memperoleh sertifikasi dan pelatihan dapat membawa Anda ke puncak karier <b class="passion">passion anda!</b>  <br> Masukkan email Anda di bawah ini dan Kami akan mengirimkan panduan pembelajaran dan pelatihan yang dapat membantu Anda menjadi <b class="passion">passion anda!</b><b> Profesional.</b></p>
         <div id="success-alert"></div>
         <div id="error-alert"></div>
-        <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda untuk menyimpan hasil">
+        <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda sekarang...">
         <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
         <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
       </div>
@@ -280,6 +281,7 @@
     const retryButton = document.getElementById("retry");
     const backButton = document.getElementById("back");
     const additionalDetails = document.querySelector('.additional-details');
+    const passions = document.querySelectorAll('.passion');
 
     let currentCategory = 0;
     let currentQuestion = 0;
@@ -407,6 +409,10 @@
 
       resultDescription.innerHTML = topCategoryDescription;
 
+      passions.forEach(passion => {
+          passion.textContent = topCategory;
+      });
+
       const data = {
          labels: Object.keys(categoryScores).map(category => {
             const percentage = ((categoryScores[category] / totalScore) * 100).toFixed(2);
@@ -481,6 +487,7 @@
       $('.additional-details').removeClass('d-none');
 
       const emailButton = document.getElementById('email-button');
+      const learningPathButton = document.getElementById('learning-path-button');
       emailButton.onclick = async function() {
         const email = document.getElementById('email-input').value;
         if (email) {
@@ -510,6 +517,9 @@
               console.log("Email sent successfully:", response);
               // alert('Hasil telah dikirim ke email Anda!');
               showAlert("#success-alert", `<b>Data Berhasil dikirimkan ke email: ${email} </b>` + response.message, 'success');
+              learningPathButton.onclick = function() {
+                window.location.href = response.roadmapURL; 
+              };
             },
             error: function(error) {
               console.error("Error sending email:", error);
@@ -522,10 +532,6 @@
         }
       };
     
-      const learningPathButton = document.getElementById('learning-path-button');
-      learningPathButton.onclick = function() {
-        window.location.href = `https://roadmap.sh/${topCategory}?r=${topCategory}-beginner`; 
-      };
 
     }
       function retryQuiz() {
