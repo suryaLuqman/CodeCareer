@@ -252,7 +252,7 @@ const getResult = async (req, res, next) => {
             message: " Silahkan Cek Email Anda!",
             name: req.file.originalname,
             type: req.file.mimetype,
-            fileURL: fileURL,
+            chartURL: fileURL,
             roadmapURL: roadmapURL,
             categoryLearnURL: categoryLearnURL
         });
@@ -264,7 +264,7 @@ const getResult = async (req, res, next) => {
             err: err.message,
             name: req.file.originalname,
             type: req.file.mimetype,
-            fileURL: fileURL,
+            chartURL: fileURL,
         });
     }
 };

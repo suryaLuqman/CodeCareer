@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CodeCareer - Navigating Your IT Journey</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href='https://unpkg.com/css.gg@2.0.0/icons/css/share.css' rel='stylesheet'>
   <link rel="stylesheet" href="/Backend/public/css/style.css">
 </head>
 <body>
@@ -40,17 +41,9 @@
               </div>
             </div>
           </div>
-          <!-- <div class="row justify-content-center">
-            <div class="col-7 text-center">
-              <div id="result-details" class="d-none">
-                <p id="result-description" class="result-description"></p>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>      
-        <div class="additional-details d-none">
-        <div class="social-share-icons"></div>
+      <div class="additional-details d-none">
         <h3 class="text-center">Jangan lewatkan kesempatan!</h3>
         <p class="text-center">Memperoleh sertifikasi dan pelatihan dapat membawa Anda ke puncak karier <b class="passion">passion anda!</b>  <br> Masukkan email Anda di bawah ini dan Kami akan mengirimkan panduan pembelajaran dan pelatihan yang dapat membantu Anda menjadi <b class="passion">passion anda!</b><b> Profesional.</b></p>
         <div id="success-alert"></div>
@@ -58,6 +51,16 @@
         <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda sekarang...">
         <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
         <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
+        <button id="social-share-button" class="btn btn-secondary"><i class="gg-share"></i></button>
+
+        <!-- Hotdog menu -->
+        <div id="social-share-menu" class="d-none">
+          <ul>
+            <li><a href="#" class="social-share" data-platform="facebook">Share on Facebook</a></li>
+            <li><a href="#" class="social-share" data-platform="twitter">Share on Twitter</a></li>
+            <li><a href="#" class="social-share" data-platform="linkedin">Share on LinkedIn</a></li>
+          </ul>
+        </div>
       </div>
       <div class="btn-group">
         <button id="back" class="btn btn-primary btn-back d-none">Back</button>
@@ -413,6 +416,10 @@
           passion.textContent = topCategory;
       });
 
+      document.getElementById('social-share-button').onclick = function() {
+        document.getElementById('social-share-menu').classList.toggle('d-none');
+      };
+
       const data = {
          labels: Object.keys(categoryScores).map(category => {
             const percentage = ((categoryScores[category] / totalScore) * 100).toFixed(2);
@@ -520,6 +527,25 @@
               learningPathButton.onclick = function() {
                 window.location.href = response.roadmapURL; 
               };
+
+              document.querySelectorAll('.social-share').forEach(function(element) {
+                element.onclick = function(event) {
+                  event.preventDefault();
+                  const platform = this.getAttribute('data-platform'); 
+                  let shareURL = '';
+                  const text = `Saya cocok menjadi seorang ${topCategory} dan jalur pembelajaran saya ${response.roadmapURL} dan ini adalah pelatihan sertifikasi gratis yang bisa saya ikuti ${response.categoryLearnURL}`;
+
+                  if (platform === 'facebook') {
+                    shareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(text)}`;
+                  } else if (platform === 'twitter') {
+                    shareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+                  } else if (platform === 'linkedin') {
+                    shareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(text)}`;
+                  }
+
+                  window.open(shareURL, '_blank');
+                };
+              });
             },
             error: function(error) {
               console.error("Error sending email:", error);
