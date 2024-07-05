@@ -514,7 +514,7 @@
           const apiUrl = baseUrl + '/api/sendmail';
           console.log('Sending email with URL:', apiUrl);
           $.ajax({
-            url: apiUrl,
+            url: apiUrl, //comment this for production
             // url: /api/sendmail, //uncomment this for production
             method: 'POST',
             data: formData,
