@@ -8,7 +8,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: #1373A9;
+  background: #26355D;
   justify-content: center;
 }
 
@@ -18,13 +18,14 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: #1373A9;
+  background: #26355D;
 }
 
 .cover {
   text-align: center;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.2);
+  color: #304463;
+  background: #F9E2AF;
+  /* background: rgba(255, 255, 255, 0.2); */
   padding: 2rem;
   border-radius: 10px;
 }

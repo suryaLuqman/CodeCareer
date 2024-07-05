@@ -121,7 +121,7 @@ const getResult = async (req, res, next) => {
             <body>
             <div class="email-container">
                 <div class="email-header">
-                    <img src="https://assets.petpintar.com/files/article/426/1617577206-kucing-terlucu-di-dunia-banner.jpg" alt="CodeCareer Logo">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/codecareer-781ff.appspot.com/o/personCompi1.jpeg?alt=media&token=c04b4f1e-1846-41e1-9ed5-0a08e11cf009" alt="CodeCareer Logo">
                     <h2>Quiz Result</h2>
                 </div>
                 <div class="email-body">
@@ -146,7 +146,7 @@ const getResult = async (req, res, next) => {
 
         return res.json({
             status: true,
-            message: "Send Data Successfully",
+            message: " Silahkan Cek Email Anda!",
             name: req.file.originalname,
             type: req.file.mimetype,
             fileURL: fileURL,

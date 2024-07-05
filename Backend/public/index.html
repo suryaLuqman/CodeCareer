@@ -52,6 +52,8 @@
         <div class="additional-details d-none">
         <div class="social-share-icons"></div>
         <p>Cek lebih lengkap alur pembelajarannya dengan klik tombol <i>'Lihat Panduan Pembelajaran'.</i></p>
+        <div id="success-alert"></div>
+        <div id="error-alert"></div>
         <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda untuk menyimpan hasil">
         <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
         <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
@@ -83,6 +85,19 @@
         emailjs.init("eyoc7-5bcibV-ZRR3");
       })();
   </script>
+
+  <!-- alert -->
+   <script>
+    function showAlert(id, message, type) {
+      $(id).html(
+        '<div class="alert alert-' + type + ' alert-border-left alert-dismissible fade show mb-xl-0 material-shadow" role="alert">' +
+          '<i class="ri-error-warning-line me-3 align-middle fs-16"></i>' +
+          '<strong>' + message + '</strong>' +
+          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+        '</div>'
+      );
+    }
+   </script>
   <script>
     const quizData = [
       {
@@ -153,91 +168,91 @@
           },
         ]
       },
-      {
-        category: "Cybersecurity",
-        questions: [
-          {
-            question: "Apakah Anda tertarik dengan melindungi informasi dan data dari pencurian?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda suka mencari dan mengatasi celah keamanan di sistem teknologi?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda tertarik dengan cara kerja antivirus dan keamanan online?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-        ]
-      },
-      {
-        category: "Data Engineering",
-        questions: [
-          {
-            question: "Apakah Anda tertarik dengan pengelolaan data dalam jumlah besar?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda suka memastikan data tersimpan dengan baik dan mudah diakses?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda tertarik dengan pengolahan data untuk menghasilkan informasi berguna?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-        ]
-      },
-      {
-        category: "Machine Learning",
-        questions: [
-          {
-            question: "Apakah Anda tertarik dengan teknologi yang dapat belajar dan membuat keputusan otomatis?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda suka bekerja dengan data dan mengembangkan model yang dapat memprediksi hasil?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda tertarik dengan cara kerja asisten virtual dan rekomendasi produk?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-        ]
-      },
-      {
-        category: "Blockchain",
-        questions: [
-          {
-            question: "Apakah Anda tertarik dengan teknologi yang aman dan tidak dapat diubah?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda suka dengan ide transaksi yang transparan dan terpercaya?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda tertarik dengan cara kerja mata uang digital seperti Bitcoin?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-        ]
-      },
-      {
-        category: "UX/UI Design",
-        questions: [
-          {
-            question: "Apakah Anda tertarik dengan bagaimana cara pengguna berinteraksi dengan teknologi?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda suka membuat desain yang mudah digunakan dan menarik bagi pengguna?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-          {
-            question: "Apakah Anda tertarik dengan cara kerja aplikasi dan situs web dari sudut pandang pengguna?",
-            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-          },
-        ]
-      },
+      // {
+      //   category: "Cybersecurity",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan melindungi informasi dan data dari pencurian?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka mencari dan mengatasi celah keamanan di sistem teknologi?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan cara kerja antivirus dan keamanan online?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
+      // {
+      //   category: "Data Engineering",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan pengelolaan data dalam jumlah besar?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka memastikan data tersimpan dengan baik dan mudah diakses?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan pengolahan data untuk menghasilkan informasi berguna?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
+      // {
+      //   category: "Machine Learning",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan teknologi yang dapat belajar dan membuat keputusan otomatis?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka bekerja dengan data dan mengembangkan model yang dapat memprediksi hasil?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan cara kerja asisten virtual dan rekomendasi produk?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
+      // {
+      //   category: "Blockchain",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan teknologi yang aman dan tidak dapat diubah?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka dengan ide transaksi yang transparan dan terpercaya?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan cara kerja mata uang digital seperti Bitcoin?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
+      // {
+      //   category: "UX/UI Design",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan bagaimana cara pengguna berinteraksi dengan teknologi?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka membuat desain yang mudah digunakan dan menarik bagi pengguna?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan cara kerja aplikasi dan situs web dari sudut pandang pengguna?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
     ];
 
 
@@ -472,29 +487,36 @@
           const chartImage = await getChartImage(); // Ensure this returns a proper DataURL
 
           const formData = new FormData();
-          formData.append('image', chartImage);
-          formData.append('to_email', email);
+          formData.append('chart', chartImage);
+          formData.append('email', email);
           formData.append('category', topCategory);
           formData.append('scores', JSON.stringify(categoryScores));
-
+          // cetak form data ke console
           const formDataEntries = [...formData.entries()];
-          console.log('Form Data Entries:', formDataEntries);
-          
+          console.log('Form Data:', formDataEntries);
 
-
-          const templateParams = {
-            to_email: email,
-            category: topCategory,
-            chartUrl: chartImage,
-            scores: JSON.stringify(categoryScores)
-          };
-
-          emailjs.send('codecareer', 'template_tnk2emg', templateParams)
-            .then(function(response) {
-              alert('Hasil telah dikirim ke email Anda!');
-            }, function(error) {
-              alert('Gagal mengirim email: ' + error.text);
-            });
+          // comment this for production
+          const baseUrl = "http://localhost:3000";
+          const apiUrl = baseUrl + '/api/sendmail';
+          console.log('Sending email with URL:', apiUrl);
+          $.ajax({
+            url: apiUrl,
+            // url: /api/sendmail, //uncomment this for production
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+              console.log("Email sent successfully:", response);
+              // alert('Hasil telah dikirim ke email Anda!');
+              showAlert("#success-alert", `<b>Data Berhasil dikirimkan ke email: ${email} </b>` + response.message, 'success');
+            },
+            error: function(error) {
+              console.error("Error sending email:", error);
+              // alert('Gagal mengirim email: ' + error.responseText);
+              showAlert("#error-alert", `<b>Gagal mengirim email: ${email} </b>` + error.responseText, 'error');
+            }
+          });
         } else {
           alert('Silakan masukkan email Anda.');
         }
