@@ -156,6 +156,12 @@
       display: none; /* Hidden by default */
       transform: translate(-50%, -50%);
       z-index: 99999999;
+      transition: transform 1.5s ease-in-out, opacity 2s ease-in-out;
+    }
+
+    .loader.move-right {
+      transform: translateX(100%); /*Move the globe 2% to the left */
+      opacity: 0;
     }
 
     @keyframes spin {
@@ -537,6 +543,50 @@
     #canvas.hidden{
       display: none;
     }
+
+    .planet:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 1500px;
+      aspect-ratio: 1;
+      right: -1500px; /* Start from outside the right side of the screen */
+      top: 50%;
+      z-index: -1;
+      transform: translateY(-50%);
+      background-image: radial-gradient(at 50% 50% in oklch,
+          color-mix(in oklch, skyblue, blue 80%),
+          color-mix(in oklch, skyblue, blue 10%) 19%,
+          color-mix(in oklch, skyblue, blue 20%) 20%,
+          color-mix(in oklch, skyblue, blue 80%),
+          color-mix(in oklch, blue, black 50%) 55%,
+          transparent 70%);
+      transition: transform 1.5s ease-in-out, opacity 2s ease-in-out;
+    }
+
+    .planet {
+      transition: transform 3s ease-in-out, opacity 3s ease-in-out;
+      opacity: 0;
+    }
+
+    .planet.show {
+      opacity: 1;
+      animation: movePlanet 30s linear forwards;
+    }
+
+    @keyframes movePlanet {
+      0% {
+        transform: translateX(1500px); /* Start from outside the right side of the screen */
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-1500px); /* Move to outside the left side of the screen */
+        opacity: 0; /* Gradually fade out */
+      }
+    }
   </style>
 
   <script src="//unpkg.com/globe.gl"></script>
@@ -575,7 +625,10 @@
     <!-- <h1>Redirecting</h1> -->
   </div>
 
-  <canvas id="canvas" class="hidden" width="2600" height="900"></canvas> 
+  <canvas id="canvas" class="hidden" width="2600" height="900"></canvas>
+  <div class="planet hidden">
+  
+  </div> 
   <!-- kuis app -->
   <div id="starfield"></div>
   <div id="app" class="hidden">
@@ -697,9 +750,18 @@
     const globeViz = document.getElementById('globeViz');
     const coverBtn = document.getElementById('coverBtn');
     const appKuis = document.getElementById('app');
+    const planet = document.querySelector('.planet');
     const cover__title = document.querySelector('.cover__title');
     const cover__subtitle = document.querySelector('.cover__subtitle');
     const card_cover = document.querySelector('.card_cover');
+    // const planetMove = setInterval(() => {
+    //   if (planet.classList.contains('move-left')) {
+    //     planet.classList.remove('move-left');
+    //   } else {
+    //     planet.classList.add('move-left');
+    //   }
+    // }, 5000); // Adjust the interval duration as needed
+
     document.getElementById('coverBtn').addEventListener('click', function() {
       console.log('Cover button clicked');
       document.getElementById('loader').style.display = 'block'; // Show the loader
@@ -717,9 +779,10 @@
           setTimeout(() => {
             appKuis.classList.remove('hidden');
             canvas.classList.remove('hidden');
-          },4000);
+            planet.classList.remove('hidden');
+            planet.classList.add('show');
+          }, 4000);
         }, 2000);
-        // document.getElementById('loader').style.display = 'none'; // Hide the loader after the operation is done
       }, 3000); // Adjust the timeout duration as needed
     });
   </script>
