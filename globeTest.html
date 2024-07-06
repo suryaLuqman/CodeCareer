@@ -46,7 +46,7 @@
     }
 
     #globeViz.move-left {
-      transform: translateX(-2%); /*Move the globe 20% to the left */
+      transform: translateX(-3%); /*Move the globe 2% to the left */
       opacity: 0;
     }
 
@@ -82,7 +82,7 @@
       color: var(--high-yellow);
       margin: 0;
       text-shadow: 0 0 10px var(--high-yellow);
-      transition: opacity 2s ease-in-out;
+      transition: transform 1.5s ease, opacity 2s ease-in-out;
     }
 
     .cover__title.hidden {
@@ -95,7 +95,7 @@
       color: var(--yellow);
       margin: 0;
       text-shadow: 0 0 5px var(--yellow);
-      transition: opacity 2s ease-in-out;
+      transition: transform 1.5s ease-in-out, opacity 2s ease-in-out;
     }
 
     .cover__subtitle.hidden {
@@ -711,7 +711,9 @@
         coverBtn.classList.add('hidden');
         setTimeout(() => {
           globeViz.classList.add('move-left');
-          document.body.style.background = '#000038';
+          setTimeout(() => {
+            document.body.style.background = '#000038';
+          }, 1600);
           setTimeout(() => {
             appKuis.classList.remove('hidden');
             canvas.classList.remove('hidden');
