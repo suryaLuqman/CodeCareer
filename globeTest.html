@@ -28,7 +28,9 @@
       align-items: center;
       height: 100vh;
       flex-direction: column;
-      background: url('https://i.gifer.com/Ozp.gif') no-repeat center center fixed;
+      /* background: url('https://i.gifer.com/Ozp.gif') no-repeat center center fixed; */
+      background: url('//unpkg.com/three-globe/example/img/night-sky.png') no-repeat center center fixed;
+      /* background: var(--black); */
       background-size: cover;
       color: var(--white);
       font-family: 'Orbitron', sans-serif; /* Example futuristic font */
@@ -37,14 +39,14 @@
 
     #globeViz {
       flex-grow: 1;
-      width: 100%;
+      width: 99%;
       height: 100%;
-      background-color: var(--dark-blue);
+      background-color: var(--black);
       transition: transform 1.5s ease-in-out, opacity 2s ease-in-out;
     }
 
     #globeViz.move-left {
-      transform: translateX(-100%); /* Move the globe 20% to the left */
+      transform: translateX(-2%); /*Move the globe 20% to the left */
       opacity: 0;
     }
 
@@ -62,6 +64,10 @@
 
     #coverBtn.hidden {
       opacity: 0;
+    }
+
+    .hidden {
+      display: none;
     }
 
     #coverBtn:hover {
@@ -149,6 +155,7 @@
       height: 50px;
       display: none; /* Hidden by default */
       transform: translate(-50%, -50%);
+      z-index: 99999999;
     }
 
     @keyframes spin {
@@ -509,6 +516,29 @@
     }
   </style>
 
+  <!-- Kuis dashboard -->
+  <style>
+
+    #app.hidden{
+        display: none;
+    }
+  </style>
+
+  <!-- canvas -->
+  <style>
+    #canvas{
+      position:absolute;
+      top:0;
+      right: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    #canvas.hidden{
+      display: none;
+    }
+  </style>
+
   <script src="//unpkg.com/globe.gl"></script>
 </head>
 
@@ -522,7 +552,7 @@
     <p>Terjun ke perjalanan menantang dengan CodeCareer, sebuah aplikasi unik yang dikhususkan untuk mengarahkan Anda ke peran ideal Anda dalam dunia teknologi Informasi. Dengan menyertakan tes karakter, tantangan pemrograman, dan panduan karir, kami membantu Anda berjalan jalan yang sesuai dengan minat dan keahlian Anda.</p>
   </div>
 
-    <!-- Loader -->
+  <!-- Loader -->
   <div id="loader" class="loader" style="display: none;">
     <div class="body loader-body">
       <span>
@@ -543,6 +573,13 @@
       <span></span>
     </div>
     <!-- <h1>Redirecting</h1> -->
+  </div>
+
+  <canvas id="canvas" class="hidden" width="2600" height="900"></canvas> 
+  <!-- kuis app -->
+  <div id="starfield"></div>
+  <div id="app" class="hidden">
+
   </div>
   <div class="footer">
     <span>© 2024 CodeCareer. All rights reserved.</span>
@@ -591,10 +628,75 @@
     directionalLight && directionalLight.position.set(1, 1, 1); // change light position to see the specularMap's effect
   </script>
 
+  <!-- app kuis -->
+  <script>
+
+  </script>
+
+  <!-- canvas space -->
+  <script>
+    // Space
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    var DeepSpace = function(size, number, speed) {
+      this.size = size;
+      this.number = number;
+      this.speed = speed;
+      this.objects = [];
+
+      this.initialize = function() {
+        this.creationImage();
+        this.animate();
+      };
+
+      this.creationImage = function() {
+        for (var i = 0; i < this.number; i++) {
+          var star = {
+            'x': Math.random() * 2000,
+            'y': Math.random() * 900,
+            'radius': Math.random() * this.size + 1
+          };
+          this.objects.push(star);
+        }
+      };
+
+      this.drawCircle = function(x, y, radius) {
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, 2 * Math.PI);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+        ctx.stroke();
+        ctx.closePath();
+      };
+
+      this.animate = function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas for each frame
+        for (var j in this.objects) {
+          var star = this.objects[j];
+          star.x -= 1; // Move stars to the left
+          if (star.x < -2) star.x = 2000; // Reset star position if it moves off screen
+
+          this.drawCircle(star.x, star.y, star.radius);
+          this.drawCircle(star.x, star.y, star.radius);
+        }
+        requestAnimationFrame(this.animate.bind(this));
+      };
+    };
+
+    var space1 = new DeepSpace(0.1, 1000, 2);
+    space1.initialize();
+    var space2 = new DeepSpace(0.7, 1000, 3);
+    space2.initialize();
+    var space3 = new DeepSpace(1.5, 10, 1);
+    space3.initialize();
+  </script>
+
   <!--  function Button Cover -->
   <script>
     const globeViz = document.getElementById('globeViz');
     const coverBtn = document.getElementById('coverBtn');
+    const appKuis = document.getElementById('app');
     const cover__title = document.querySelector('.cover__title');
     const cover__subtitle = document.querySelector('.cover__subtitle');
     const card_cover = document.querySelector('.card_cover');
@@ -609,6 +711,11 @@
         coverBtn.classList.add('hidden');
         setTimeout(() => {
           globeViz.classList.add('move-left');
+          document.body.style.background = '#000038';
+          setTimeout(() => {
+            appKuis.classList.remove('hidden');
+            canvas.classList.remove('hidden');
+          },4000);
         }, 2000);
         // document.getElementById('loader').style.display = 'none'; // Hide the loader after the operation is done
       }, 3000); // Adjust the timeout duration as needed
