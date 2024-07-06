@@ -1,4 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeCareer</title>
   <style>
     :root {
       --green: #80c0a1;
@@ -110,6 +115,29 @@
       text-shadow: 0 0 5px var(--high-yellow);
     }
 
+    .loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50px;
+      height: 50px;
+      border: 6px solid var(--light-blue);
+      border-top: 6px solid var(--high-yellow);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none; /* Hidden by default */
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
     /* Responsive styles */
     @media (min-width: 1024px) {
       #coverBtn {
@@ -215,7 +243,9 @@
   <div class="footer">
     <span>© 2024 CodeCareer. All rights reserved.</span>
   </div>
+  <div class="loader" id="loader"></div>
 
+  <!-- Globe cover view -->
   <script>
     // Gen random data
     const N = 20;
@@ -242,4 +272,17 @@
     world.controls().autoRotate = true;
     world.controls().autoRotateSpeed = 0.35;
   </script>
+
+  <!--  function Button Cover -->
+  <script>
+    document.getElementById('coverBtn').addEventListener('click', function() {
+      console.log('Cover button clicked');
+      document.getElementById('loader').style.display = 'block'; // Show the loader
+      // Simulate a delay (e.g., for a network request)
+      setTimeout(() => {
+        document.getElementById('loader').style.display = 'none'; // Hide the loader after the operation is done
+      }, 3000); // Adjust the timeout duration as needed
+    });
+  </script>
 </body>
+</html>
