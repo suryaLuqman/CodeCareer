@@ -926,14 +926,14 @@
             planet.classList.remove('hidden');
             planet.classList.add('show');
             speechBubble.classList.remove('hidden');
-            setTimeout(() => {
-              animateText(speechText, "Greetings, Traveler!", () => {
-                // After text animation completes, wait for a while before hiding the bubble
-                setTimeout(() => {
-                  speechBubble.classList.add('hidden');
-                }, 2000); // Adjust the delay duration as needed
-              });
-            }, 2000);
+            displayTextSequentially([
+              "Hai, Coderr!",
+              "Sebentar lagi kita akan menemukan ketertarikanmu di bidang IT, apakah kau sudah siap??",
+              "Aku harap kamu sudah siap, karena sudah tidak ada waktu, kita sudah terbang sejauh ini jadi persiapkan dirimu!",
+              "Akan ada beberapa pertanyaan yang akan ditampilkan, namun tenang tidak ada jawaban yang benar dan salah.",
+              "Juga tidak ada batas waktu untuk menjawabnya, jadi kau bisa menjawab dengan santuy sambil ngopi.",
+              "Ayo kita Mulai!"
+            ]);
           }, 4000);
         }, 2000);
       }, 3000); // Adjust the timeout duration as needed
@@ -954,6 +954,27 @@
       }, 100); // Adjust the speed of text animation
     }
 
+    function displayTextSequentially(textArray) {
+      let index = 0;
+
+      function displayNextText() {
+        if (index < textArray.length) {
+          animateText(speechText, textArray[index], () => {
+            setTimeout(() => {
+              index++;
+              displayNextText();
+            }, 2000); // Adjust the delay between texts
+          });
+        } else {
+          // After all texts are displayed, hide the speech bubble
+          setTimeout(() => {
+            speechBubble.classList.add('hidden');
+          }, 2000); // Adjust the delay duration as needed
+        }
+      }
+
+      displayNextText();
+    }
   </script>
 </body>
 </html>
