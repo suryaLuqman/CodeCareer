@@ -720,7 +720,7 @@
       background: #1a1a2e;
       border: 2px solid #00f5d4;
       border-radius: 5px;
-      transition: background 0.2s ease, border-color 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
       color: #00f5d4;
     }
 
@@ -733,9 +733,23 @@
       border-color: #00f5d4;
     }
 
+    .sci-fi-option:hover span {
+      background: #01bda4;
+      color: #1a1a2e;
+    }
+
+    .sci-fi-option:not(:hover) input:checked ~ span {
+      background: #00f5d4;
+      color: #1a1a2e;
+    }
+
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
     .btn-group {
