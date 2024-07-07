@@ -156,7 +156,7 @@
       display: none; /* Hidden by default */
       transform: translate(-50%, -50%);
       z-index: 99999999;
-      transition: transform 1.5s ease-in-out, opacity 2s ease-in-out;
+      transition: transform 1.5s ease-in-out, opacity 2s ease-in-out, top 2s ease, left 2s ease;
     }
 
     .loader.move-right {
@@ -650,9 +650,29 @@
 
   <!-- Kuis dashboard -->
   <style>
+    /* Question text styles */
+    #question-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'silkscreen', sans-serif;
+      font-size: 24px;
+      color: #fcfcfc;
+      text-align: center;
+      display: none;
+      animation: fadeIn 2s forwards;
+    }
 
-    #app.hidden{
-        display: none;
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
     }
   </style>
 
@@ -773,7 +793,7 @@
   </div> 
   <!-- kuis app -->
   <div id="starfield"></div>
-  <div id="app" class="hidden">
+  <div id="question-text">Pertanyaan akan muncul di sini.</div>
 
   </div>
   <div class="footer">
@@ -921,7 +941,6 @@
             document.body.style.background = '#000038';
           }, 1600);
           setTimeout(() => {
-            appKuis.classList.remove('hidden');
             canvas.classList.remove('hidden');
             planet.classList.remove('hidden');
             planet.classList.add('show');
@@ -969,6 +988,12 @@
           // After all texts are displayed, hide the speech bubble
           setTimeout(() => {
             speechBubble.classList.add('hidden');
+            // Move loader and display question text
+            document.getElementById('loader').style.top = '10%';
+            document.getElementById('loader').style.left = '50%';
+            setTimeout(() => {
+              document.getElementById('question-text').style.display = 'block';
+            }, 2000); // Adjust the delay for the question text to appear
           }, 2000); // Adjust the delay duration as needed
         }
       }
