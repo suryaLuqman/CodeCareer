@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+</head>
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Rajdhani:300);
+
+html, body {
+  background: url(http://aaronchuo.cc/assets/images/ironwall.jpg) rgba(33,33,33,1) top center no-repeat;
+  background-size: 100% 100%;
+  width: 100%;
+  height: 100%;
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: .1em;
+}
+
+.scifiUI {
+  width: 600px;
+  margin: 50
+}
+.scifiUI .inline label {
+  padding-right: 5px;
+}
+
+.scifiUI input[type=text] {
+  height: 50px;
+  border: 1px solid rgba(0,190,190,1);
+  padding: 0 10px;
+  background: transparent;
+}
+
+.scifiUI input[type=text]:hover {
+  box-shadow: 0 0 8px rgba(0,190,190,1) inset, 0 0 8px rgba(0,190,190,1);
+  border: 1px solid rgba(0,220,220,1);
+}
+
+.scifiUI input[type=text]:focus {
+  box-shadow: 0 0 20px rgba(0,220,220,1) inset, 0 0 10px rgba(0,220,220,1), 0 0 20px rgba(255,255,255,1);
+  border: 1px solid rgba(0,220,220,1);
+  background: rgba(0,220,220,1);
+  color: rgba(33,33,33,1);
+}
+
+.scifiUI .radioWrapper {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  width: 20%;
+}
+
+.scifiUI .radioWrapper input[type=radio] {
+  position: absolute;
+  top: -100%;
+}
+
+.scifiUI .radioWrapper input[type=radio] + label {
+  display: block;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding-left: 35px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.scifiUI .radioWrapper input[type=radio] + label:before {
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  top: 13px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(0,190,190,1);
+}
+
+.scifiUI .radioWrapper input[type=radio] + label:after {
+  opacity: 0;
+  border-radius: 50%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+}
+
+.scifiUI .radioWrapper input[type=radio]:hover + label {
+  color: rgba(0,220,220,1);
+}
+
+.scifiUI .radioWrapper input[type=radio]:hover + label:before {
+  box-shadow: 0 0 8px rgba(0,190,190,1) inset, 0 0 8px rgba(0,190,190,1);
+  border: 1px solid rgba(0,220,220,1);
+}
+
+.scifiUI .radioWrapper input[type=radio]:checked + label {
+  color: rgba(0,220,220,1);
+}
+
+.scifiUI .radioWrapper input[type=radio]:checked + label:before {
+  box-shadow: 0 0 8px rgba(0,190,190,1) inset, 0 0 8px rgba(0,190,190,1);
+  border: 1px solid rgba(0,220,220,1);
+}
+
+.scifiUI .radioWrapper input[type=radio]:checked + label:after {
+  opacity: 1;
+  box-shadow: 0 0 20px rgba(0,220,220,1) inset, 0 0 10px rgba(0,220,220,1), 0 0 20px rgba(255,255,255,1);
+  top: 18px;
+  left: 10px;
+  width: 10px;
+  height: 20%;
+}
+
+.scifiUI .checkboxWrapper {
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+  margin-right: 15px;
+}
+
+.scifiUI .checkboxWrapper input[type=checkbox] {
+  position: absolute;
+  top: -100%;
+}
+
+.scifiUI .checkboxWrapper input[type=checkbox] + label {
+  display: block;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 35px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.scifiUI .checkboxWrapper input[type=checkbox] + label:before {
+  display: block;
+  position: absolute;
+  top: 7px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(0,190,190,1);
+}
+
+.scifiUI .checkboxWrapper input[type=checkbox] + label:after {
+  opacity: 0;
+  box-shadow: 1px -7px 5px 3px rgba(0,190,190,1), 5px 5px 5px 3px rgba(0,220,220,1);
+  display: block;
+  position: absolute;
+  top: 7px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.scifiUI .checkboxWrapper input[type=checkbox]:hover + label {
+  color: rgba(0,220,220,1);
+}
+
+.scifiUI .checkboxWrapper input[type=checkbox]:hover + label:before {
+  box-shadow: 0 0 8px rgba(0,190,190,1) inset, 0 0 8px rgba(0,190,190,1);
+  border: 1px solid rgba(0,220,220,1);
+}
+
+.scifiUI .checkboxWrapper input[type=checkbox]:checked + label {
+  color: rgba(0,220,220,1);
+}
+
+.scifiUI .checkboxWrapper input[type=checkbox]:checked + label:before {
+  box-shadow: 0 0 8px rgba(0,190,190,1) inset, 0 0 8px rgba(0,190,190,1);
+  border: 1px solid rgba(0,220,220,1);
+}
+
+.scifiUI .checkboxWrapper input[type=checkbox]:checked + label:after {
+  opacity: 1;
+  box-shadow: 0 0 20px rgba(0,220,220,1) inset, 0 0 10px rgba(0,220,220,1), 0 0 20px rgba(255,255,255,1);
+  top: 14px;
+  left: 10px;
+  width: 10px;
+  height: 10px;
+}
+
+.scifiUI .selectWrapper {
+  overflow: hidden;
+  position: relative;
+  width: 1200px;
+  height: 50px;
+  border-left: 5px solid rgba(0,190,190,1);
+}
+
+.scifiUI .selectWrapper:hover {
+  box-shadow: 0 0 20px rgba(0,220,220,1) inset, 0 0 10px rgba(0,220,220,1), 0 0 20px rgba(255,255,255,1);
+  border: 1px solid rgba(0,220,220,1);
+  background: rgba(0,220,220,1);
+  width: 200px;
+  height: 50px;
+}
+
+.scifiUI .selectWrapper:hover select {
+  color: rgba(33,33,33,1);
+}
+
+.scifiUI .selectWrapper:hover select + i {
+  border-top-color: rgba(33,33,33,1);
+}
+
+.scifiUI .selectWrapper i {
+  position: absolute;
+  top: 18px;
+  left: 10px;
+  width: 0;
+  height: 100%;
+  border-top: 15px solid rgba(0,190,190,1);
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+}
+
+.scifiUI .selectWrapper select {
+  appearance: none;
+  box-shadow: none;
+  position: absolute;
+  width: 200px;
+  height: 100%;
+  padding-left: 40px;
+  border: 0;
+  outline: 0;
+  background: none;
+  z-index: 99;
+  cursor: pointer;
+}
+
+.scifiUI button {
+  overflow: hidden;
+  position: relative;
+  width: 200px;
+  height: 50px;
+  border: 1px solid rgba(0,190,190,1);
+  background: rgba(0,190,190,1,.2);
+}
+
+.scifiUI button:hover {
+  box-shadow: 0 0 8px rgba(0,190,190,1) inset, 0 0 8px rgba(0,190,190,1);
+  color: rgba(0,220,220,1);
+  background: rgba(0,220,220,1,.3);
+}
+
+</style>
+<body>
+    <div class="scifiUI">
+  
+    <form>
+    
+      <!--Text input-->
+      <div class="inline">
+        <label for="textInput">Text Input</label>
+        <input type="text" id="textInput">
+      </div>
+  
+      <!--Radios-->
+      <div class="inline">
+        <div class="radioWrapper">
+          <input type="radio" name="radio" id="radioA" checked>
+          <label for="radioA">Radio A</label>
+        </div>
+        <div class="radioWrapper">
+          <input type="radio" name="radio" id="radioB">
+          <label for="radioB">Radio B</label>
+        </div>
+        <div class="radioWrapper">
+          <input type="radio" name="radio" id="radioC">
+          <label for="radioC">Radio C</label>
+        </div>
+      </div>
+  
+      <!--Checkboxes-->
+      <div class="inline">
+        <div class="checkboxWrapper">
+          <input type="checkbox" name="checkbox" id="checkboxA">
+          <label for="checkboxA">Checkbox A</label>
+        </div>
+        <div class="checkboxWrapper">
+          <input type="checkbox" name="checkbox" id="checkboxB" checked>
+          <label for="checkboxB">Checkbox B</label>
+        </div>
+        <div class="checkboxWrapper">
+          <input type="checkbox" name="checkbox" id="checkboxC" checked>
+          <label for="checkboxC">Checkbox C</label>
+        </div>
+      </div>
+  
+      <!--Selector-->
+      <div class="inline">
+        <div class="selectWrapper">
+          <select id="selector" name="selector">
+            <option value="option1" selected disabled>Please choose..</option>
+            <option value="option2">Option 1</option>
+            <option value="option3">Option 2</option>
+            <option value="option4">Option 3</option>
+            <option value="option5">Option 4</option>
+            <option value="option6">Option 5</option>
+            <option value="option7">Option 6</option>
+            <option value="option8">Option 7</option>
+          </select>
+          <i></i>
+        </div>
+      </div>
+      
+      <!--Button-->
+      <div class="inline">
+        <button type="button">Button</button>
+      </div>
+      
+    </form>
+    
+  </div>
+  <script>"https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"</script>
+  <script>"https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js"</script>
+  <!-- <script>""</script> -->
+</body>
+</html>
