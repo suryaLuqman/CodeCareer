@@ -520,6 +520,132 @@
         opacity: 0;
       }
     }
+
+    /* Bubble text styles */
+    /* 'silkscreen' font */
+    @font-face {font-family:"silkscreen"; src: url('https://dl.dropbox.com/s/l0frac4d7bz3zx6/silkscreen.ttf');}
+
+    /* colors */
+    :root {
+      --Speech-Bubble-Border:#222;
+      --Speech-Bubble-Background:#fcfcfc;
+      --Speech-Bubble-Text:#000;
+    }
+
+    #speech-bubble {
+      width: 150px;
+      position: absolute;
+      bottom: 34%;
+      left: 86%;
+      transform: translate(-50%, -50%);
+      z-index: 100000000;
+      opacity: 0;
+      animation: bubbleFadeIn 1s forwards;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 2s ease-in-out;
+    }
+
+    #speech-bubble.hidden {
+      opacity: 0;
+      animation: bubbleFadeOut 1s forwards;
+    }
+
+    @keyframes bubbleFadeIn {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+
+    @keyframes bubbleFadeOut {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+    }
+
+    #bub-part-a {
+      margin-left: 6px;
+      width: calc(100% - 12px);
+      height: 2px;
+      background: var(--Speech-Bubble-Border);
+    }
+
+    #bub-part-b {
+      margin-left: 4px;
+      width: calc(100% - 12px);
+      height: 2px;
+      background: var(--Speech-Bubble-Background);
+      border-left: 2px solid var(--Speech-Bubble-Border);
+      border-right: 2px solid var(--Speech-Bubble-Border);
+    }
+
+    #bub-part-c {
+      margin-left: 2px;
+      width: calc(100% - 8px);
+      height: 2px;
+      background: var(--Speech-Bubble-Background);
+      border-left: 2px solid var(--Speech-Bubble-Border);
+      border-right: 2px solid var(--Speech-Bubble-Border);
+    }
+
+    #speech-txt {
+      width: calc(100% - 24px);
+      padding: 10px;
+      font-family: silkscreen;
+      font-size: 9px;
+      color: var(--Speech-Bubble-Text);
+      text-align: center;
+      background: var(--Speech-Bubble-Background);
+      border-left: 2px solid var(--Speech-Bubble-Border);
+      border-right: 2px solid var(--Speech-Bubble-Border);
+      opacity: 0;
+    }
+
+    #speech-arrow {
+      margin-top: -2px;
+      margin-left: 110px;
+    }
+
+    #arrow-w {
+      width: 8px;
+      height: 8px;
+      background: var(--Speech-Bubble-Background);
+      border-left: 2px solid var(--Speech-Bubble-Border);
+      border-right: 2px solid var(--Speech-Bubble-Border);
+    }
+
+    #arrow-x {
+      width: 6px;
+      height: 2px;
+      background: var(--Speech-Bubble-Background);
+      border-left: 2px solid var(--Speech-Bubble-Border);
+      border-right: 2px solid var(--Speech-Bubble-Border);
+    }
+
+    #arrow-y {
+      margin-left: -2px;
+      width: 6px;
+      height: 2px;
+      background: var(--Speech-Bubble-Background);
+      border-left: 2px solid var(--Speech-Bubble-Border);
+      border-right: 2px solid var(--Speech-Bubble-Border);
+    }
+
+    #arrow-z {
+      margin-left: -2px;
+      width: 8px;
+      height: 2px;
+      background: var(--Speech-Bubble-Border);
+    }
+
   </style>
 
   <!-- Kuis dashboard -->
@@ -623,6 +749,22 @@
       <span></span>
     </div>
     <!-- <h1>Redirecting</h1> -->
+    <div id="speech-bubble" class="speech-bubble hidden">
+      <div id="bub-part-a"></div>
+      <div id="bub-part-b"></div>
+      <div id="bub-part-c"></div>
+      <div id="speech-txt">Greetings, Traveler!</div>
+      <div id="bub-part-c"></div>
+      <div id="bub-part-b"></div>
+      <div id="bub-part-a"></div>
+
+      <div id="speech-arrow">
+        <div id="arrow-w"></div>
+        <div id="arrow-x"></div>
+        <div id="arrow-y"></div>
+        <div id="arrow-z"></div>
+      </div><!--end arrow-->
+    </div><!--end speech bubble-->
   </div>
 
   <canvas id="canvas" class="hidden" width="2600" height="900"></canvas>
@@ -754,6 +896,8 @@
     const cover__title = document.querySelector('.cover__title');
     const cover__subtitle = document.querySelector('.cover__subtitle');
     const card_cover = document.querySelector('.card_cover');
+    const speechBubble = document.getElementById('speech-bubble');
+    const speechText = document.getElementById('speech-txt');
     // const planetMove = setInterval(() => {
     //   if (planet.classList.contains('move-left')) {
     //     planet.classList.remove('move-left');
@@ -781,10 +925,35 @@
             canvas.classList.remove('hidden');
             planet.classList.remove('hidden');
             planet.classList.add('show');
+            speechBubble.classList.remove('hidden');
+            setTimeout(() => {
+              animateText(speechText, "Greetings, Traveler!", () => {
+                // After text animation completes, wait for a while before hiding the bubble
+                setTimeout(() => {
+                  speechBubble.classList.add('hidden');
+                }, 2000); // Adjust the delay duration as needed
+              });
+            }, 2000);
           }, 4000);
         }, 2000);
       }, 3000); // Adjust the timeout duration as needed
     });
+
+    function animateText(element, text, callback) {
+      element.textContent = ''; // Clear the existing text
+      element.style.opacity = 1;
+      let i = 0;
+      let interval = setInterval(() => {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+        } else {
+          clearInterval(interval);
+          if (callback) callback();
+        }
+      }, 100); // Adjust the speed of text animation
+    }
+
   </script>
 </body>
 </html>
