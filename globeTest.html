@@ -652,7 +652,7 @@
   <style>
     /* Question text styles */
     #question-text {
-      position: absolute;
+      position: relative;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -674,6 +674,64 @@
         transform: translate(-50%, -50%) scale(1);
       }
     }
+    /* Sci-Fi Option Styles */
+    #question-container {
+      position: absolute;
+      top: 20%;
+      text-align: center;
+      margin-top: 20px;
+      animation: fadeIn 2s ease-in-out;
+      color: #fff;
+    }
+
+    .options {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .sci-fi-option {
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding-left: 35px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 22px;
+      user-select: none;
+    }
+
+    .sci-fi-option input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .sci-fi-option span {
+      position: relative;
+      padding: 8px 12px;
+      background: #1a1a2e;
+      border: 2px solid #00f5d4;
+      border-radius: 5px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      color: #00f5d4;
+    }
+
+    .sci-fi-option input:checked ~ span {
+      background: #00f5d4;
+      color: #1a1a2e;
+    }
+
+    .sci-fi-option input:checked ~ span::before {
+      border-color: #00f5d4;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
   </style>
 
   <!-- canvas -->
@@ -793,12 +851,81 @@
   </div> 
   <!-- kuis app -->
   <div id="starfield"></div>
-  <div id="question-text">Pertanyaan akan muncul di sini.</div>
+  <div id="success-alert"></div>
+  <div id="error-alert"></div>
+  <div id="question-container" class="hidden">
+    <div id="question-text">Pertanyaan akan muncul di sini.</div>
+    <div class="options">
+      <label class="sci-fi-option">
+        <input type="radio" name="interest" value="Sangat tertarik">
+        <span>Sangat tertarik</span>
+      </label>
+      <label class="sci-fi-option">
+        <input type="radio" name="interest" value="Tertarik">
+        <span>Tertarik</span>
+      </label>
+      <label class="sci-fi-option">
+        <input type="radio" name="interest" value="Kurang tertarik">
+        <span>Kurang tertarik</span>
+      </label>
+      <label class="sci-fi-option">
+        <input type="radio" name="interest" value="Tidak tertarik">
+        <span>Tidak tertarik</span>
+      </label>
+    </div>
+  </div>
+
 
   </div>
   <div class="footer">
     <span>© 2024 CodeCareer. All rights reserved.</span>
   </div>
+
+  <!-- Libraries -->
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- chartjs-plugin-datalabels -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+  <!-- Variables -->
+  <script>
+
+    // Cover
+    const globeViz = document.getElementById('globeViz');
+    const coverBtn = document.getElementById('coverBtn');
+    const planet = document.querySelector('.planet');
+    const cover__title = document.querySelector('.cover__title');
+    const cover__subtitle = document.querySelector('.cover__subtitle');
+    const card_cover = document.querySelector('.card_cover');
+
+
+    // Loader
+    const loader = document.getElementById('loader');
+
+
+    // Question
+    const questionContainer = document.getElementById('question-container');
+    const questionText = document.getElementById('question-text');
+
+
+    // Kuis app
+    const successAlert = document.getElementById('success-alert');
+    const errorAlert = document.getElementById('error-alert');
+
+
+    // Speech bubble
+    const speechBubble = document.getElementById('speech-bubble');
+    const speechText = document.getElementById('speech-txt');
+
+    // Space
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+  </script>
+
 
   <!-- Globe cover view -->
   <script type="module">
@@ -843,17 +970,196 @@
     directionalLight && directionalLight.position.set(1, 1, 1); // change light position to see the specularMap's effect
   </script>
 
+  <!-- alert -->
+  <script>
+    function showAlert(id, message, type) {
+      $(id).html(
+        '<div class="alert alert-' + type + ' alert-border-left alert-dismissible fade show mb-xl-0 material-shadow" role="alert">' +
+          '<i class="ri-error-warning-line me-3 align-middle fs-16"></i>' +
+          '<strong>' + message + '</strong>' +
+          '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+        '</div>'
+      );
+    }
+  </script>
+
+
   <!-- app kuis -->
   <script>
+    const quizData = [
+      {
+        category: "Frontend Engineer",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan membuat tampilan dan desain situs web?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda menikmati bekerja dengan warna, gambar, dan tata letak halaman web?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka memastikan situs web terlihat bagus di semua perangkat (komputer, tablet, ponsel)?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Backend Engineer",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan cara kerja sebuah situs web di balik layar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka bekerja dengan data dan informasi yang disimpan di server?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda menikmati memecahkan masalah teknis dan memastikan situs web berjalan lancar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "DevOps",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan proses otomatisasi dan penyederhanaan pekerjaan?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka memastikan bahwa pengembangan perangkat lunak berjalan efisien dan lancar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan pengaturan dan pemeliharaan infrastruktur teknologi?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Mobile Development",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan pembuatan aplikasi untuk ponsel?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka mengembangkan fitur-fitur baru untuk aplikasi ponsel?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja aplikasi di berbagai jenis ponsel?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      // {
+      //   category: "Cybersecurity",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan melindungi informasi dan data dari pencurian?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka mencari dan mengatasi celah keamanan di sistem teknologi?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan cara kerja antivirus dan keamanan online?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
+      // {
+      //   category: "Data Engineering",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan pengelolaan data dalam jumlah besar?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka memastikan data tersimpan dengan baik dan mudah diakses?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan pengolahan data untuk menghasilkan informasi berguna?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
+      // {
+      //   category: "Machine Learning",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan teknologi yang dapat belajar dan membuat keputusan otomatis?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka bekerja dengan data dan mengembangkan model yang dapat memprediksi hasil?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan cara kerja asisten virtual dan rekomendasi produk?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
+      // {
+      //   category: "Blockchain",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan teknologi yang aman dan tidak dapat diubah?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka dengan ide transaksi yang transparan dan terpercaya?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan cara kerja mata uang digital seperti Bitcoin?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
+      // {
+      //   category: "UX/UI Design",
+      //   questions: [
+      //     {
+      //       question: "Apakah Anda tertarik dengan bagaimana cara pengguna berinteraksi dengan teknologi?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda suka membuat desain yang mudah digunakan dan menarik bagi pengguna?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //     {
+      //       question: "Apakah Anda tertarik dengan cara kerja aplikasi dan situs web dari sudut pandang pengguna?",
+      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+      //     },
+      //   ]
+      // },
+    ];
+
+
+
+    const categoryDescriptions = {
+      "Frontend Engineer": "Seorang <b>Frontend Developer</b> bertanggung jawab untuk membangun antarmuka pengguna situs web. Mereka bekerja dengan HTML, CSS, dan JavaScript untuk menciptakan desain visual yang menarik, responsif, dan intuitif. Tugas utama mereka adalah memastikan bahwa pengguna memiliki pengalaman yang optimal saat berinteraksi dengan situs web di berbagai perangkat, termasuk komputer, tablet, dan ponsel.",
+      "Backend Engineer": "Seorang <b>Backend Developer</b> bekerja di balik layar situs web, menangani logika, basis data, dan server yang memastikan semua fungsionalitas berjalan lancar. Mereka menggunakan bahasa pemrograman seperti Python, Java, atau PHP dan sering bekerja dengan basis data SQL dan NoSQL. Tujuannya adalah untuk memastikan integritas dan keamanan data, serta memastikan bahwa situs web dapat menangani permintaan pengguna dengan cepat dan efisien.",
+      "DevOps": "Seorang <b>DevOps Engineer</b> bertugas mengintegrasikan dan mengotomatiskan proses pengembangan perangkat lunak. Mereka bekerja di antara tim pengembangan dan operasi untuk meningkatkan kolaborasi dan produktivitas melalui penggunaan alat otomatisasi, continuous integration, dan continuous delivery (CI/CD). Mereka juga bertanggung jawab untuk memastikan infrastruktur teknologi berjalan dengan efisien dan andal.",
+      "Mobile Development": "Seorang <b>Mobile Developer</b> bertanggung jawab untuk membuat aplikasi mobile yang berjalan pada perangkat seperti ponsel dan tablet. Mereka menggunakan bahasa pemrograman seperti Swift untuk iOS atau Kotlin untuk Android. Fokus utama mereka adalah memberikan pengalaman pengguna yang mulus dan menyenangkan, serta memastikan aplikasi berjalan lancar di berbagai perangkat dan versi sistem operasi.",
+      "Cybersecurity": "Seorang <b>Cybersecurity Specialist</b> bertanggung jawab untuk melindungi sistem dan data dari ancaman keamanan. Mereka menggunakan teknik seperti enkripsi, firewall, dan manajemen risiko untuk menjaga kerahasiaan, integritas, dan ketersediaan informasi. Mereka juga melakukan analisis keamanan, mengidentifikasi kelemahan, dan mengimplementasikan strategi untuk mencegah serangan cyber. ",
+      "Data Engineering": "Seorang <b>Data Engineer</b> bertanggung jawab untuk mengelola, mengolah, dan menganalisis data dalam jumlah besar. Mereka membangun infrastruktur data seperti pipeline ETL (Extract, Transform, Load) untuk memastikan data siap digunakan oleh data scientist dan analis bisnis. Dengan menggunakan alat seperti Hadoop, Spark, dan SQL, mereka membantu organisasi membuat keputusan berbasis data yang lebih baik. ",
+      "Machine Learning": "Seorang <b>Machine Learning Engineer</b> bertanggung jawab untuk mengembangkan dan mengimplementasikan algoritma serta model machine learning yang memungkinkan komputer untuk belajar dari data dan membuat prediksi atau keputusan. Mereka bekerja dengan berbagai teknik seperti pembelajaran terawasi, tidak terawasi, dan pembelajaran mendalam. Alat yang sering mereka gunakan termasuk TensorFlow dan PyTorch. ",
+      "Blockchain": "Seorang <b>Blockchain Developer</b> bertugas untuk mengembangkan dan mengelola aplikasi berbasis teknologi blockchain. Mereka menggunakan buku besar terdistribusi untuk menciptakan transparansi, keamanan, dan efisiensi dalam transaksi digital. Mereka bekerja dengan platform seperti Ethereum dan Hyperledger, dan sering menggunakan bahasa pemrograman seperti Solidity untuk pengembangan smart contract. ",
+      "UX/UI Design": "Seorang <b>UX/UI Designer</b> bertanggung jawab untuk merancang antarmuka pengguna yang intuitif, menarik, dan mudah digunakan. Mereka bekerja erat dengan pengguna dan tim pengembang untuk memahami kebutuhan dan preferensi pengguna. Dengan menggunakan alat seperti Sketch, Figma, dan Adobe XD, mereka membuat desain yang meningkatkan pengalaman pengguna dalam berinteraksi dengan aplikasi dan situs web."
+    };
 
   </script>
 
   <!-- canvas space -->
   <script>
-    // Space
-    var canvas = document.getElementById("canvas");
-    var ctx = canvas.getContext("2d");
-
     var DeepSpace = function(size, number, speed) {
       this.size = size;
       this.number = number;
@@ -909,26 +1215,9 @@
 
   <!--  function Button Cover -->
   <script>
-    const globeViz = document.getElementById('globeViz');
-    const coverBtn = document.getElementById('coverBtn');
-    const appKuis = document.getElementById('app');
-    const planet = document.querySelector('.planet');
-    const cover__title = document.querySelector('.cover__title');
-    const cover__subtitle = document.querySelector('.cover__subtitle');
-    const card_cover = document.querySelector('.card_cover');
-    const speechBubble = document.getElementById('speech-bubble');
-    const speechText = document.getElementById('speech-txt');
-    // const planetMove = setInterval(() => {
-    //   if (planet.classList.contains('move-left')) {
-    //     planet.classList.remove('move-left');
-    //   } else {
-    //     planet.classList.add('move-left');
-    //   }
-    // }, 5000); // Adjust the interval duration as needed
-
-    document.getElementById('coverBtn').addEventListener('click', function() {
+    coverBtn.addEventListener('click', function() {
       console.log('Cover button clicked');
-      document.getElementById('loader').style.display = 'block'; // Show the loader
+      loader.style.display = 'block'; // Show the loader
       // Simulate a delay (e.g., for a network request)
       setTimeout(() => {
         cover__title.classList.add('hidden');
@@ -944,15 +1233,17 @@
             canvas.classList.remove('hidden');
             planet.classList.remove('hidden');
             planet.classList.add('show');
-            speechBubble.classList.remove('hidden');
-            displayTextSequentially([
-              "Hai, Coderr!",
-              "Sebentar lagi kita akan menemukan ketertarikanmu di bidang IT, apakah kau sudah siap??",
-              "Aku harap kamu sudah siap, karena sudah tidak ada waktu, kita sudah terbang sejauh ini jadi persiapkan dirimu!",
-              "Akan ada beberapa pertanyaan yang akan ditampilkan, namun tenang tidak ada jawaban yang benar dan salah.",
-              "Juga tidak ada batas waktu untuk menjawabnya, jadi kau bisa menjawab dengan santuy sambil ngopi.",
-              "Ayo kita Mulai!"
-            ]);
+            setTimeout(() => {
+              speechBubble.classList.remove('hidden');
+              displayTextSequentially([
+                "Hai, Coderr!",
+                "Sebentar lagi kita akan menemukan ketertarikanmu di bidang IT, apakah kau sudah siap??",
+                "Aku harap kamu sudah siap, karena sudah tidak ada waktu, kita sudah terbang sejauh ini jadi persiapkan dirimu!",
+                "Akan ada beberapa pertanyaan yang akan ditampilkan, namun tenang tidak ada jawaban yang benar dan salah.",
+                "Juga tidak ada batas waktu untuk menjawabnya, jadi kau bisa menjawab dengan santuy sambil ngopi.",
+                "Ayo kita Mulai!"
+              ]);
+            }, 1500);
           }, 4000);
         }, 2000);
       }, 3000); // Adjust the timeout duration as needed
@@ -989,10 +1280,11 @@
           setTimeout(() => {
             speechBubble.classList.add('hidden');
             // Move loader and display question text
-            document.getElementById('loader').style.top = '10%';
-            document.getElementById('loader').style.left = '50%';
+            loader.style.top = '10%';
+            loader.style.left = '50%';
             setTimeout(() => {
-              document.getElementById('question-text').style.display = 'block';
+              questionText.style.display = 'block';
+              questionContainer.classList.remove('hidden');
             }, 2000); // Adjust the delay for the question text to appear
           }, 2000); // Adjust the delay duration as needed
         }
