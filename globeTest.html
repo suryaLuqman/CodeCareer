@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CodeCareer</title>
   <style>
+    /* Adding Orbitron Font */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
     :root {
       --green: #80c0a1;
       --yellow: #f5fccd;
@@ -259,6 +261,17 @@
       .footer {
         padding: 0.5rem;
         font-size: 0.8rem;
+      }
+
+      .result-details-container .col-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+      
+      .result-container,
+      .additional-details {
+        padding: 15px;
+        margin: 10px 0;
       }
     }
     .loader-body {
@@ -783,11 +796,67 @@
       box-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
     }
 
+
+    /* Hasil Result */
+    .result-container,
+    .additional-details {
+      background-color: rgba(0, 0, 0, 0.8);
+      border: 1px solid #0f0; /* Neon green border */
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 0 15px #0f0;
+    }
+
+    .result-details-container .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-details-container .col-6 {
+      flex: 0 0 48%;
+      max-width: 48%;
+      text-align: center;
+    }
+
+    .result-description {
+      color: #0f0; /* Neon green text */
+      font-size: 1.2rem;
+    }
+    .email-input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      background-color: #000;
+      border: 1px solid #0f0; /* Neon green border */
+      color: #fff;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    #success-alert,
+    #error-alert {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    #success-alert {
+      background-color: #0f0; /* Neon green background */
+      color: #000;
+    }
+
+    #error-alert {
+      background-color: #f00; /* Red background */
+      color: #fff;
+    }
   </style>
 
-  <!-- canvas -->
+  <!-- canvas-star -->
   <style>
-    #canvas{
+    .canvas-star{
       position:absolute;
       top:0;
       right: 0;
@@ -795,7 +864,7 @@
       z-index: 0;
     }
 
-    #canvas.hidden{
+    .canvas-star.hidden{
       display: none;
     }
 
@@ -939,7 +1008,6 @@
         background-position: -200% center;
       }
     }
-
    </style>
 
   <script src="//unpkg.com/globe.gl"></script>
@@ -994,14 +1062,14 @@
     </div><!--end speech bubble-->
   </div>
 
-  <canvas id="canvas" class="hidden" width="2600" height="900"></canvas>
+  <canvas id="canvas" class="canvas-star hidden" width="2600" height="900"></canvas>
   <div class="planet hidden">
   
   </div> 
   <!-- kuis app -->
   <div id="starfield"></div>
-  <div id="success-alert"></div>
-  <div id="error-alert"></div>
+  <div id="success-alert" class="hidden"></div>
+  <div id="error-alert" class="hidden"></div>
   <div id="question-container" class="hidden">
     <div id="question-text">Pertanyaan akan muncul di sini.</div>
     <div class="options"></div>
@@ -1012,40 +1080,42 @@
       <button id="btn-retry" class="btn btn-primary btn-retry hidden">Retry</button>
     </div>
   </div>
-  <div id="result" class="result hidden"></div>
-  <div class="result-container">
-    <div class="result-details-container">
-      <div class="row">
-        <div class="col-6 text-center">
-          <canvas id="result-chart" class="hidden"></canvas>
-        </div>
-        <div class="col-6 text-center">
-          <div id="result-details" class="hidden">
-            <p id="result-description" class="result-description"></p>
+  <div class="container">
+    <div id="result" class="result hidden"></div>
+    <div class="result-container hidden">
+      <div class="result-details-container hidden">
+        <div class="row">
+          <div class="col-6 text-center">
+            <canvas id="result-chart" width="400" height="400" class="hidden"></canvas>
+          </div>
+          <div class="col-6 text-center">
+            <div id="result-details" class="hidden">
+              <p id="result-description" class="result-description"></p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="additional-details hidden">
-    <h3 class="text-center">Jangan lewatkan kesempatan!</h3>
-    <p class="text-center">Memperoleh sertifikasi dan pelatihan dapat membawa Anda ke puncak karier <b class="passion">passion anda!</b>  <br> Masukkan email Anda di bawah ini dan Kami akan mengirimkan panduan pembelajaran dan pelatihan yang dapat membantu Anda menjadi <b class="passion">passion anda!</b><b> Profesional.</b></p>
-    <div id="success-alert"></div>
-    <div id="error-alert"></div>
-    <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda sekarang...">
-    <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
-    <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
-    <button id="social-share-button" class="btn btn-secondary"><i class="gg-share"></i></button>
+    <div class="additional-details hidden">
+      <h3 class="text-center">Jangan lewatkan kesempatan!</h3>
+      <p class="text-center">Memperoleh sertifikasi dan pelatihan dapat membawa Anda ke puncak karier <b class="passion">passion anda!</b> <br> Masukkan email Anda di bawah ini dan Kami akan mengirimkan panduan pembelajaran dan pelatihan yang dapat membantu Anda menjadi <b class="passion">passion anda!</b><b> Profesional.</b></p>
+      <div id="success-alert"></div>
+      <div id="error-alert"></div>
+      <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda sekarang...">
+      <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
+      <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
+      <button id="social-share-button" class="btn btn-secondary"><i class="gg-share"></i></button>
 
-    <!-- Hotdog menu -->
-    <div id="social-share-menu" class="hidden">
-      <ul>
-        <li><a href="#" class="social-share" data-platform="facebook">Share on Facebook</a></li>
-        <li><a href="#" class="social-share" data-platform="twitter">Share on Twitter</a></li>
-        <li><a href="#" class="social-share" data-platform="linkedin">Share on LinkedIn</a></li>
-      </ul>
+      <!-- Hotdog menu -->
+      <div id="social-share-menu" class="hidden">
+        <ul>
+          <li><a href="#" class="social-share" data-platform="facebook">Share on Facebook</a></li>
+          <li><a href="#" class="social-share" data-platform="twitter">Share on Twitter</a></li>
+          <li><a href="#" class="social-share" data-platform="linkedin">Share on LinkedIn</a></li>
+        </ul>
+      </div>
     </div>
-  </div>    
+  </div>
 
   <!-- Planet show -->
   <div class="planet-container hidden">
@@ -1095,16 +1165,25 @@
     const questionContainer = document.getElementById('question-container');
     const questionText = document.getElementById('question-text');
     const optionsContainer = document.querySelector('.options');
-    const resultContainer = document.getElementById("result");
-    const resultDescription = document.getElementById("result-description");
-    const resultChart = document.getElementById("result-chart");
+
+    // Button
     const nextButton = document.getElementById("btn-next");
     const submitButton = document.getElementById("btn-submit");
     const retryButton = document.getElementById("btn-retry");
     const backButton = document.getElementById("btn-back");
+
+    // Result
+    const result = document.getElementById("result");
+    const resultContainer= document.querySelector(".result-container");
+    const resultDetailContainer = document.querySelector('.result-details-container');
+    const resultDetail = document.getElementById("result-details");
+    const resultChart = document.getElementById("result-chart");
+    const resultDescription = document.getElementById("result-description");
     const additionalDetails = document.querySelector('.additional-details');
-    const resultDetails = document.querySelector('.result-details-container');
     const passions = document.querySelectorAll('.passion');
+
+    const emailButton = document.getElementById('email-button');
+    const learningPathButton = document.getElementById('learning-path-button');
 
     // Kuis app
     const successAlert = document.getElementById('success-alert');
@@ -1116,8 +1195,9 @@
     const speechText = document.getElementById('speech-txt');
 
     // Space
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
+    const canvasStar = document.querySelector('.canvas-star');
+    // const canvas = document.getElementById("canvas");
+    const ctxStar = canvasStar.getContext("2d");
   </script>
 
 
@@ -1135,8 +1215,8 @@
     }));
 
     const world = Globe()
-      .globeImageUrl('https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/earth.jpg')
-      // .globeImageUrl('/Backend/public/img/map.png')
+      // .globeImageUrl('https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/earth.jpg')
+      .globeImageUrl('/Backend/public/img/map.png')
       // .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
       // .globeImageUrl('https://i0.wp.com/www.maptorian.com/wp-content/uploads/2020/09/physical-vector-world-map.png')
       .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
@@ -1448,7 +1528,7 @@
       const topCategoryDescription = categoryDescriptions[topCategory];
 
       const resultHTML = `<h3>Sesuai dengan jawaban anda, Sepertinya Anda paling cocok untuk mendalami <b>${topCategory}</b> </h3>`;
-      resultContainer.innerHTML = resultHTML;
+      result.innerHTML = resultHTML;
 
       resultDescription.innerHTML = topCategoryDescription;
 
@@ -1472,8 +1552,8 @@
         }]
       };
 
-      const ctx = resultChart.getContext('2d');
-      new Chart(ctx, {
+      const ctxChart = resultChart.getContext('2d');
+      new Chart(ctxChart, {
         type: 'polarArea',
         data: data,
         options: {
@@ -1519,22 +1599,24 @@
         }
       });
 
-      resultContainer.classList.remove("d-none");
-      resultChart.classList.remove("d-none");
       // Remove the display property
+      result.classList.remove("hidden");
+      resultContainer.classList.remove("hidden");
+      resultDetailContainer.classList.remove("hidden");
+      resultChart.classList.remove("hidden");
       resultChart.style.display = '';
-      $('#result-details').removeClass('d-none');
-      $('.result-container').removeClass('d-none');
-      quizContainer.classList.add("d-none");
-      $('#back').addClass('d-none');
-      $('#next').addClass('d-none');
-      $('#submit').addClass('d-none');
-      $('#retry').removeClass('d-none');
-      // additionalDetails.classList.remove("d-none");
-      $('.additional-details').removeClass('d-none');
+      resultDetail.classList.remove("hidden");
+      resultDescription.classList.remove("hidden");
+      additionalDetails.classList.remove("hidden");
 
-      const emailButton = document.getElementById('email-button');
-      const learningPathButton = document.getElementById('learning-path-button');
+      // Add the display property
+      questionContainer.style.display = 'none';
+      questionContainer.classList.add("hidden");
+      backButton.classList.add("hidden");
+      nextButton.classList.add("hidden");
+      submitButton.classList.add("hidden");
+      retryButton.classList.add("hidden");
+      
       emailButton.onclick = async function() {
         const email = document.getElementById('email-input').value;
         if (email) {
@@ -1599,10 +1681,11 @@
       };
     }
       function retryQuiz() {
-        let currentCategoryIndex = 0;
-        let currentQuestionIndex = 0;
-        answers = {};
-        displayCover();
+        // let currentCategoryIndex = 0;
+        // let currentQuestionIndex = 0;
+        // answers = {};
+        // displayCover();
+          window.location.reload();
       }
 
 
@@ -1627,7 +1710,7 @@
         const answer = selectedOption.value;
         answers[`${currentCategoryIndex}-${currentQuestionIndex}`] = answer;
         console.log("done display result:");
-        // displayResult();
+        displayResult();
       }
     });
   </script>
@@ -1657,16 +1740,16 @@
       };
 
       this.drawCircle = function(x, y, radius) {
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, 2 * Math.PI);
-        ctx.fillStyle = 'white';
-        ctx.fill();
-        ctx.stroke();
-        ctx.closePath();
+        ctxStar.beginPath();
+        ctxStar.arc(x, y, radius, 0, 2 * Math.PI);
+        ctxStar.fillStyle = 'white';
+        ctxStar.fill();
+        ctxStar.stroke();
+        ctxStar.closePath();
       };
 
       this.animate = function() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas for each frame
+        ctxStar.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas for each frame
         for (var j in this.objects) {
           var star = this.objects[j];
           star.x -= 1; // Move stars to the left
