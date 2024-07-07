@@ -1086,7 +1086,7 @@
       <div class="result-details-container hidden">
         <div class="row">
           <div class="col-6 text-center">
-            <canvas id="result-chart" width="400" height="400" class="hidden"></canvas>
+            <canvas id="result-chart" width="300" height="300" class="hidden"></canvas>
           </div>
           <div class="col-6 text-center">
             <div id="result-details" class="hidden">
@@ -1474,8 +1474,14 @@
 
       // Tampilkan atau sembunyikan tombol back
       backButton.classList.toggle('hidden', currentQuestionIndex === 0 && currentCategoryIndex === 0);
-      nextButton.classList.toggle('hidden', currentQuestionIndex === categoryData.questions.length - 1);
-      submitButton.classList.toggle('hidden', currentQuestionIndex !== categoryData.questions.length - 1);
+      if (currentCategoryIndex === quizData.length - 1 ) {
+        // Last question of the last category
+        nextButton.classList.add('hidden');
+        submitButton.classList.remove('hidden');
+      } else {
+        nextButton.classList.remove('hidden');
+        submitButton.classList.add('hidden');
+      }
     }
 
     function nextQuestion() {
@@ -1492,8 +1498,10 @@
           if (currentCategoryIndex < quizData.length) {
             displayQuestion();
           } else {
-            console.log("done display result:");
-            // displayResult();
+            submitButton.classList.remove('hidden');
+            nextButton.classList.add('hidden');
+            backButton.classList.add('hidden');
+            questionContainer.classList.add('hidden');
           }
         }
       }
