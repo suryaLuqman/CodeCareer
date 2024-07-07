@@ -873,7 +873,48 @@
         <span>Tidak tertarik</span>
       </label>
     </div>
+
+    <div class="btn-group">
+        <button id="btn-back" class="btn btn-primary btn-back hidden">Back</button>
+        <button id="btn-next" class="btn btn-primary btn-next hidden">Next</button>
+        <button id="btn-submit" class="btn btn-primary btn-submit hidden">Submit</button>
+        <button id="btn-retry" class="btn btn-primary btn-retry hidden">Retry</button>
+    </div>
   </div>
+  <div id="result" class="result hidden"></div>
+  <div class="result-container">
+    <div class="result-details-container">
+      <div class="row">
+        <div class="col-6 text-center">
+          <canvas id="result-chart" class="hidden"></canvas>
+        </div>
+        <div class="col-6 text-center">
+          <div id="result-details" class="hidden">
+            <p id="result-description" class="result-description"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="additional-details hidden">
+    <h3 class="text-center">Jangan lewatkan kesempatan!</h3>
+    <p class="text-center">Memperoleh sertifikasi dan pelatihan dapat membawa Anda ke puncak karier <b class="passion">passion anda!</b>  <br> Masukkan email Anda di bawah ini dan Kami akan mengirimkan panduan pembelajaran dan pelatihan yang dapat membantu Anda menjadi <b class="passion">passion anda!</b><b> Profesional.</b></p>
+    <div id="success-alert"></div>
+    <div id="error-alert"></div>
+    <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda sekarang...">
+    <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
+    <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
+    <button id="social-share-button" class="btn btn-secondary"><i class="gg-share"></i></button>
+
+    <!-- Hotdog menu -->
+    <div id="social-share-menu" class="hidden">
+      <ul>
+        <li><a href="#" class="social-share" data-platform="facebook">Share on Facebook</a></li>
+        <li><a href="#" class="social-share" data-platform="twitter">Share on Twitter</a></li>
+        <li><a href="#" class="social-share" data-platform="linkedin">Share on LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>    
 
 
   </div>
@@ -911,6 +952,16 @@
     const questionContainer = document.getElementById('question-container');
     const questionText = document.getElementById('question-text');
 
+    const resultContainer = document.getElementById("result");
+    const resultDescription = document.getElementById("result-description");
+    const resultChart = document.getElementById("result-chart");
+    const nextButton = document.getElementById("btn-next");
+    const submitButton = document.getElementById("btn-submit");
+    const retryButton = document.getElementById("btn-retry");
+    const backButton = document.getElementById("btn-back");
+    const additionalDetails = document.querySelector('.additional-details');
+    const resultDetails = document.querySelector('.result-details-container');
+    const passions = document.querySelectorAll('.passion');
 
     // Kuis app
     const successAlert = document.getElementById('success-alert');
@@ -1156,6 +1207,285 @@
       "UX/UI Design": "Seorang <b>UX/UI Designer</b> bertanggung jawab untuk merancang antarmuka pengguna yang intuitif, menarik, dan mudah digunakan. Mereka bekerja erat dengan pengguna dan tim pengembang untuk memahami kebutuhan dan preferensi pengguna. Dengan menggunakan alat seperti Sketch, Figma, dan Adobe XD, mereka membuat desain yang meningkatkan pengalaman pengguna dalam berinteraksi dengan aplikasi dan situs web."
     };
 
+    let currentCategory = 0;
+    let currentQuestion = 0;
+    let answers = {};
+
+    function displayQuestion() {
+      nextButton.classList.remove('hidden');
+      retryButton.classList.add('hidden');
+      resultContainer.classList.add('d-none');
+      resultChart.classList.add('d-none');
+      resultDetails.classList.add('d-none');
+      additionalDetails.classList.add('d-none');
+      submitButton.classList.add('d-none');
+
+      const categoryData = quizData[currentCategory];
+      const questionData = categoryData.questions[currentQuestion];
+
+      const questionElement = document.createElement("div");
+      questionElement.className = "question";
+      questionElement.innerHTML = questionData.question;
+
+      const optionsElement = document.createElement("div");
+      optionsElement.className = "row row-cols-2";
+
+      for (let i = 0; i < questionData.options.length; i++) {
+        const option = document.createElement("label");
+        option.className = "option col";
+
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "quiz";
+        radio.value = questionData.options[i];
+
+        const optionText = document.createTextNode(questionData.options[i]);
+
+        option.appendChild(radio);
+        option.appendChild(optionText);
+        optionsElement.appendChild(option);
+      }
+
+      quizContainer.innerHTML = "";
+      quizContainer.appendChild(questionElement);
+      quizContainer.appendChild(optionsElement);
+
+      if (currentQuestion > 0 || currentCategory > 0) {
+        $('#back').removeClass('d-none');
+      } else {
+        $('#back').addClass('d-none');
+      }
+
+      const previousAnswer = answers[`${currentCategory}-${currentQuestion}`];
+      if (previousAnswer) {
+        const optionElement = document.querySelector(`input[name="quiz"][value="${previousAnswer}"]`);
+        if (optionElement) {
+          optionElement.checked = true;
+        }
+      }
+    }
+
+    function checkAnswer() {
+      const selectedOption = document.querySelector('input[name="quiz"]:checked');
+      if (selectedOption) {
+        const answer = selectedOption.value;
+        answers[`${currentCategory}-${currentQuestion}`] = answer;
+        currentQuestion++;
+        if (currentQuestion < quizData[currentCategory].questions.length) {
+          displayQuestion();
+        } else {
+          currentCategory++;
+          currentQuestion = 0;
+          if (currentCategory < quizData.length) {
+            displayQuestion();
+          } else {
+            displayResult();
+          }
+        }
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+      } else if (currentCategory > 0) {
+        currentCategory--;
+        currentQuestion = quizData[currentCategory].questions.length - 1;
+      }
+      displayQuestion();
+    }
+
+    function displayResult() {
+      const categoryScores = {};
+      for (let key in answers) {
+        const answer = answers[key];
+        const category = quizData[Math.floor(key.split('-')[0])].category;
+        const score = ["Tidak tertarik", "Kurang tertarik", "Tertarik", "Sangat tertarik"].indexOf(answer) + 1;
+        if (!categoryScores[category]) {
+          categoryScores[category] = 0;
+        }
+        categoryScores[category] += score;
+      }
+
+      const totalScore = Object.values(categoryScores).reduce((acc, score) => acc + score, 0);
+      const sortedCategories = Object.keys(categoryScores).sort((a, b) => categoryScores[b] - categoryScores[a]);
+      const topCategory = sortedCategories[0];
+      const topCategoryScore = categoryScores[topCategory];
+      const topCategoryDescription = categoryDescriptions[topCategory];
+
+      const resultHTML = `<h3>Sesuai dengan jawaban anda, Sepertinya Anda paling cocok untuk mendalami <b>${topCategory}</b> </h3>`;
+      resultContainer.innerHTML = resultHTML;
+
+      resultDescription.innerHTML = topCategoryDescription;
+
+      passions.forEach(passion => {
+          passion.textContent = topCategory;
+      });
+
+      document.getElementById('social-share-button').onclick = function() {
+        document.getElementById('social-share-menu').classList.toggle('d-none');
+      };
+
+      const data = {
+         labels: Object.keys(categoryScores).map(category => {
+            const percentage = ((categoryScores[category] / totalScore) * 100).toFixed(2);
+            return `${category} (${percentage}%)`;
+         }),
+        datasets: [{
+          data: Object.values(categoryScores),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+        }]
+      };
+
+      const ctx = resultChart.getContext('2d');
+      new Chart(ctx, {
+        type: 'polarArea',
+        data: data,
+        options: {
+          responsive: true,
+          scales: {
+            r: {
+              pointLabels: {
+                display: true,
+                centerPointLabels: true,
+                font: {
+                    size: 12
+                }
+              }
+            },
+          },
+          plugins: {
+            legend: {
+              display: false
+            },
+              tooltip: {
+                callbacks: {
+                    label: function(context) {
+                    const label = context.label || '';
+                    const value = context.raw || 0;
+                    const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
+                    const percentage = ((value / total) * 100).toFixed(2);
+                    return `${label}: ${percentage}%`;
+                    }
+                }
+              },
+              datalabels: {
+                formatter: (value, context) => {
+                    const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
+                    const percentage = ((value / total) * 100).toFixed(2);
+                    return `${percentage}%`;
+                },
+                color: '#fff',
+                font: {
+                    weight: 'bold'
+                }
+              }
+          }
+        }
+      });
+
+      resultContainer.classList.remove("d-none");
+      resultChart.classList.remove("d-none");
+      // Remove the display property
+      resultChart.style.display = '';
+      $('#result-details').removeClass('d-none');
+      $('.result-container').removeClass('d-none');
+      quizContainer.classList.add("d-none");
+      $('#back').addClass('d-none');
+      $('#next').addClass('d-none');
+      $('#submit').addClass('d-none');
+      $('#retry').removeClass('d-none');
+      // additionalDetails.classList.remove("d-none");
+      $('.additional-details').removeClass('d-none');
+
+      const emailButton = document.getElementById('email-button');
+      const learningPathButton = document.getElementById('learning-path-button');
+      emailButton.onclick = async function() {
+        const email = document.getElementById('email-input').value;
+        if (email) {
+          const chartImage = await getChartImage(); // Ensure this returns a proper DataURL
+
+          const formData = new FormData();
+          formData.append('chart', chartImage);
+          formData.append('email', email);
+          formData.append('category', topCategory);
+          formData.append('scores', JSON.stringify(categoryScores));
+          // cetak form data ke console
+          const formDataEntries = [...formData.entries()];
+          console.log('Form Data:', formDataEntries);
+
+          // comment this for production
+          const baseUrl = "http://localhost:3000";
+          const apiUrl = baseUrl + '/api/sendmail';
+          console.log('Sending email with URL:', apiUrl);
+          $.ajax({
+            url: apiUrl, //comment this for production
+            // url: /api/sendmail, //uncomment this for production
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+              console.log("Email sent successfully:", response);
+              // alert('Hasil telah dikirim ke email Anda!');
+              showAlert("#success-alert", `<b>Data Berhasil dikirimkan ke email: ${email} </b>` + response.message, 'success');
+              learningPathButton.onclick = function() {
+                window.location.href = response.roadmapURL; 
+              };
+
+              document.querySelectorAll('.social-share').forEach(function(element) {
+                element.onclick = function(event) {
+                  event.preventDefault();
+                  const platform = this.getAttribute('data-platform'); 
+                  let shareURL = '';
+                  const text = `Saya cocok menjadi seorang ${topCategory} dan jalur pembelajaran saya ${response.roadmapURL} dan ini adalah pelatihan sertifikasi gratis yang bisa saya ikuti ${response.categoryLearnURL}`;
+
+                  if (platform === 'facebook') {
+                    shareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(text)}`;
+                  } else if (platform === 'twitter') {
+                    shareURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+                  } else if (platform === 'linkedin') {
+                    shareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(text)}`;
+                  }
+
+                  window.open(shareURL, '_blank');
+                };
+              });
+            },
+            error: function(error) {
+              console.error("Error sending email:", error);
+              // alert('Gagal mengirim email: ' + error.responseText);
+              showAlert("#error-alert", `<b>Gagal mengirim email: ${email} </b>` + error.responseText, 'error');
+            }
+          });
+        } else {
+          alert('Silakan masukkan email Anda.');
+        }
+      };
+    }
+      function retryQuiz() {
+        currentCategory = 0;
+        currentQuestion = 0;
+        answers = {};
+        displayCover();
+      }
+
+
+    // Function to get the chart image as Blob
+    function getChartImage() {
+      return new Promise((resolve) => {
+        const chartCanvas = document.getElementById('result-chart');
+        chartCanvas.toBlob((blob) => {
+          resolve(blob);
+        }, 'image/png');
+      });
+    }
+
+
+    nextButton.addEventListener("click", checkAnswer);
+    backButton.addEventListener("click", previousQuestion);
+    retryButton.addEventListener("click",  retryQuiz);
   </script>
 
   <!-- canvas space -->
