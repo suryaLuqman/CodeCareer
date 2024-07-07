@@ -844,6 +844,104 @@
     }
   </style>
 
+  <!-- another planet -->
+   <style>
+    :root {
+      --mercury-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/mercury2.jpg);
+      --mercury-tilt: rotate(0.034deg);
+      --mercury-day: 1407.6;
+      --mercury-color: #999999;
+      --venus-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/venus2.jpg);
+      --venus-tilt: rotate(177.3deg);
+      --venus-day: 5832.5;
+      --venus-color: #e8cda2;
+      --earth-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/earth.jpg);
+      --earth-tilt: rotate(23.26deg);
+      --earth-day: 23.9;
+      --earth-color: #b3caff;
+      --mars-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/mars.jpg);
+      --mars-tilt: rotate(25.2deg);
+      --mars-day: 24.6;
+      --mars-color: #c07158;
+      --jupiter-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/jupiter.jpg);
+      --jupiter-tilt: rotate(3.1deg);
+      --jupiter-day: 9.9;
+      --jupiter-color: #c9b5a4;
+      --saturn-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/saturn.jpg);
+      --saturn-tilt: rotate(26.7deg);
+      --saturn-day: 10.7;
+      --saturn-color: #f0e2c4;
+      --uranus-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/uranus2.jpg);
+      --uranus-tilt: rotate(97.8deg);
+      --uranus-day: 17.2;
+      --uranus-color: #b8d8e1;
+      --neptune-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/neptune.jpg);
+      --neptune-tilt: rotate(28.3deg);
+      --neptune-day: 16.1;
+      --neptune-color: #5e73bb;
+      --pluto-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/pluto.jpg);
+      --pluto-tilt: rotate(122.5deg);
+      --pluto-day: 153.3;
+      --pluto-color: #c3b6aa;
+      --sun-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/sun.jpg);
+      --sun-tilt: rotate(0deg);
+      --sun-day: 600;
+      --sun-color: #cc9f4c;
+    }
+
+    .planet-container {
+      transition: transform 3s ease-in-out, opacity 3s ease-in-out;
+      opacity: 0;
+      right: -1500px; /* Start from outside the right side of the screen */
+      top: -50%;
+      transform: translateY(50%);
+      z-index: -1;
+    }
+
+    .planet-container.show {
+      opacity: 1;
+      animation: movePlanet 30s linear forwards;
+    }
+
+    .planet__atmosphere {
+      height: 190px;
+      width: 190px;
+      position: relative;
+      background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, .3) 0%, rgba(255, 255, 255, 0) 65%);
+      border-radius: 100px;
+      overflow: hidden;
+      box-shadow: inset 10px 0px 12px -2px rgba(255, 255, 255, .2),
+                  inset -70px 0px 50px 0px black,
+                  -5px 0px 10px -4px var(--mars-color); /* Change --mercury-color to appropriate color variable */
+    }
+
+    .planet__surface {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index: -1;
+      background-size: cover;
+      background-image: var(--mars-image); /* Change --mercury-image to appropriate image variable */
+      transform: var(--mars-tilt) scale(1.2); /* Change --mercury-tilt to appropriate tilt variable */
+      animation: planetRotate calc(var(--mars-day) * .1s) linear infinite; /* Change --mercury-day to appropriate day variable */
+    }
+
+    .card--sun .planet__atmosphere {
+      box-shadow: 0px 0px 10px 0px var(--mars-color),
+                  0px 0px 1000px -2px var(--mars-color);
+    }
+
+    @keyframes planetRotate {
+      0% {
+        background-position: 0% center;
+      }
+      100% {
+        background-position: -200% center;
+      }
+    }
+
+   </style>
+
   <script src="//unpkg.com/globe.gl"></script>
 </head>
 
@@ -904,34 +1002,6 @@
   <div id="starfield"></div>
   <div id="success-alert"></div>
   <div id="error-alert"></div>
-  <!-- <div id="question-container" class="hidden">
-    <div id="question-text">Pertanyaan akan muncul di sini.</div>
-    <div class="options">
-      <label class="sci-fi-option">
-        <input type="radio" name="interest" value="Sangat tertarik">
-        <span>Sangat tertarik</span>
-      </label>
-      <label class="sci-fi-option">
-        <input type="radio" name="interest" value="Tertarik">
-        <span>Tertarik</span>
-      </label>
-      <label class="sci-fi-option">
-        <input type="radio" name="interest" value="Kurang tertarik">
-        <span>Kurang tertarik</span>
-      </label>
-      <label class="sci-fi-option">
-        <input type="radio" name="interest" value="Tidak tertarik">
-        <span>Tidak tertarik</span>
-      </label>
-    </div>
-
-    <div class="btn-group">
-        <button id="btn-back" class="btn btn-primary btn-back hidden">Back</button>
-        <button id="btn-next" class="btn btn-primary btn-next hidden">Next</button>
-        <button id="btn-submit" class="btn btn-primary btn-submit hidden">Submit</button>
-        <button id="btn-retry" class="btn btn-primary btn-retry hidden">Retry</button>
-    </div>
-  </div> -->
   <div id="question-container" class="hidden">
     <div id="question-text">Pertanyaan akan muncul di sini.</div>
     <div class="options"></div>
@@ -977,8 +1047,19 @@
     </div>
   </div>    
 
-
+  <!-- Planet show -->
+  <div class="planet-container hidden">
+    <!-- Repeat this block for each planet in planetList -->
+    <article class="card--mars">
+      <div class="card__planet">
+        <div class="planet__atmosphere">
+          <div class="planet__surface"></div>
+        </div>
+      </div>
+    </article>
+    <!-- Repeat ends here -->
   </div>
+
   <div class="footer">
     <span>© 2024 CodeCareer. All rights reserved.</span>
   </div>
@@ -1000,6 +1081,7 @@
     const globeViz = document.getElementById('globeViz');
     const coverBtn = document.getElementById('coverBtn');
     const planet = document.querySelector('.planet');
+    const planetContainer = document.querySelector('.planet-container');
     const cover__title = document.querySelector('.cover__title');
     const cover__subtitle = document.querySelector('.cover__subtitle');
     const card_cover = document.querySelector('.card_cover');
@@ -1053,7 +1135,8 @@
     }));
 
     const world = Globe()
-      .globeImageUrl('/Backend/public/img/map.png')
+      .globeImageUrl('https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/earth.jpg')
+      // .globeImageUrl('/Backend/public/img/map.png')
       // .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
       // .globeImageUrl('https://i0.wp.com/www.maptorian.com/wp-content/uploads/2020/09/physical-vector-world-map.png')
       .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
@@ -1296,6 +1379,10 @@
         optionsContainer.appendChild(label);
       });
 
+      setTimeout(() => {
+        planetContainer.classList.remove('hidden');
+        planetContainer.classList.add('show');
+      },3000)
       // Preselect previously answered option
       const previousAnswer = answers[`${currentCategoryIndex}-${currentQuestionIndex}`];
       if (previousAnswer) {
