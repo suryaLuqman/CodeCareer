@@ -1659,12 +1659,12 @@
           console.log('Form Data:', formDataEntries);
 
           // comment this for production
-          const baseUrl = "http://localhost:3000";
-          const apiUrl = baseUrl + '/api/sendmail';
-          console.log('Sending email with URL:', apiUrl);
+         //  const baseUrl = "http://localhost:3000";
+         //  const apiUrl = baseUrl + '/api/sendmail';
+         //  console.log('Sending email with URL:', apiUrl);
           $.ajax({
-            url: apiUrl, //comment this for production
-            // url: /api/sendmail, //uncomment this for production
+            // url: apiUrl, //comment this for production
+            url: "/api/sendmail", //uncomment this for production
             method: 'POST',
             data: formData,
             processData: false,
@@ -1672,6 +1672,7 @@
             success: function(response) {
               console.log("Email sent successfully:", response);
               // alert('Hasil telah dikirim ke email Anda!');
+              successAlert.classList.remove("hidden");
               showAlert("#success-alert", `<b>Data Berhasil dikirimkan ke email: ${email} </b>` + response.message, 'success');
               learningPathButton.onclick = function() {
                 window.location.href = response.roadmapURL; 
@@ -1697,6 +1698,7 @@
               });
             },
             error: function(error) {
+               errorAlert.classList.remove("hidden");
               console.error("Error sending email:", error);
               // alert('Gagal mengirim email: ' + error.responseText);
               showAlert("#error-alert", `<b>Gagal mengirim email: ${email} </b>` + error.responseText, 'error');

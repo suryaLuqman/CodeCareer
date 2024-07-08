@@ -94,28 +94,28 @@ const getResult = async (req, res, next) => {
         console.log("File uploaded successfully: ", fileURL);
 
         // Set the time to live for the file (development version)
-        const ttl = 60 * 10 * 1000; // 10 minutes in milliseconds for development
+        // const ttl = 60 * 10 * 1000; // 10 minutes in milliseconds for development
+        // setTimeout(async () => {
+        //     await deleteObject(storageRef).then(() => {
+        //         // File deleted successfully
+        //         console.log('File deleted successfully');
+        //     }).catch((error) => {
+        //         // Uh-oh, an error occurred!
+        //         console.log('Error deleting file:', error);
+        //     }); // Use storageRef directly
+        // }, ttl);
+
+        // Set the time to live for the file (production version)
+        const ttlProd = 60 * 60 * 24 * 7 * 1000; // 7 days in milliseconds for production
         setTimeout(async () => {
             await deleteObject(storageRef).then(() => {
-                // File deleted successfully
+                //// File deleted successfully
                 console.log('File deleted successfully');
             }).catch((error) => {
                 // Uh-oh, an error occurred!
                 console.log('Error deleting file:', error);
-            }); // Use storageRef directly
-        }, ttl);
-
-        // Set the time to live for the file (production version)
-        // const ttlProd = 60 * 60 * 24 * 7 * 1000; // 7 days in milliseconds for production
-        // setTimeout(async () => {
-        //     await deleteObject(storageRef).then(() => {
-                // File deleted successfully
-            //     console.log('File deleted successfully');
-            // }).catch((error) => {
-            //     // Uh-oh, an error occurred!
-            //     console.log('Error deleting file:', error);
-            // }); // Use storageRef directly; // Use storageRef directly
-        // }, ttlProd);
+            }); // Use storageRef directly; // Use storageRef directly
+        }, ttlProd);
 
         const currentYear = new Date().getFullYear();
 
