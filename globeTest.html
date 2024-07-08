@@ -87,6 +87,10 @@
       transition: transform 1.5s ease, opacity 2s ease-in-out;
     }
 
+    .cover__title, .cover__subtitle, .additional-details h3, .additional-details p {
+      padding-left: 15px;
+    }
+
     .cover__title.hidden {
       opacity: 0;
     }
@@ -147,6 +151,7 @@
 
     .footer span {
       text-shadow: 0 0 5px var(--high-yellow);
+      padding-left: 25px;
     }
 
     .loader {
@@ -765,6 +770,18 @@
       }
     }
 
+    .container-result {
+        position: relative;
+        top: -40%;
+        left: 1%;
+        padding-right: 6px;
+    }
+
+    #result-chart {
+      max-width: 100%;
+      height: auto;
+    }
+
     .btn-group {
       display: flex;
       justify-content: center;
@@ -803,7 +820,7 @@
       background-color: rgba(0, 0, 0, 0.8);
       border: 1px solid #0f0; /* Neon green border */
       border-radius: 10px;
-      padding: 20px;
+      padding-bottom: 20px;
       margin: 20px 0;
       box-shadow: 0 0 15px #0f0;
     }
@@ -825,14 +842,16 @@
       font-size: 1.2rem;
     }
     .email-input {
-      width: 100%;
+      width: 60%;
       padding: 10px;
       margin-top: 10px;
+      /* margin-bottom: 20px; */
       background-color: #000;
       border: 1px solid #0f0; /* Neon green border */
       color: #fff;
       border-radius: 5px;
       font-size: 1rem;
+      margin-left: 15px;
     }
 
     #success-alert,
@@ -841,6 +860,7 @@
       padding: 10px;
       border-radius: 5px;
       text-align: center;
+      z-index: 9999;
     }
 
     #success-alert {
@@ -1080,13 +1100,13 @@
       <button id="btn-retry" class="btn btn-primary btn-retry hidden">Retry</button>
     </div>
   </div>
-  <div class="container">
+  <div class="container-result">
     <div id="result" class="result hidden"></div>
     <div class="result-container hidden">
       <div class="result-details-container hidden">
         <div class="row">
           <div class="col-6 text-center">
-            <canvas id="result-chart" width="300" height="300" class="hidden"></canvas>
+            <canvas id="result-chart" width="600" height="600" class="hidden"></canvas>
           </div>
           <div class="col-6 text-center">
             <div id="result-details" class="hidden">
@@ -1099,8 +1119,6 @@
     <div class="additional-details hidden">
       <h3 class="text-center">Jangan lewatkan kesempatan!</h3>
       <p class="text-center">Memperoleh sertifikasi dan pelatihan dapat membawa Anda ke puncak karier <b class="passion">passion anda!</b> <br> Masukkan email Anda di bawah ini dan Kami akan mengirimkan panduan pembelajaran dan pelatihan yang dapat membantu Anda menjadi <b class="passion">passion anda!</b><b> Profesional.</b></p>
-      <div id="success-alert"></div>
-      <div id="error-alert"></div>
       <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda sekarang...">
       <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
       <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
@@ -1215,8 +1233,8 @@
     }));
 
     const world = Globe()
-      // .globeImageUrl('https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/earth.jpg')
-      .globeImageUrl('/Backend/public/img/map.png')
+      .globeImageUrl('https://s3-us-west-2.amazonaws.com/s.cdpn.io/332937/earth.jpg')
+      // .globeImageUrl('/Backend/public/img/map.png')
       // .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
       // .globeImageUrl('https://i0.wp.com/www.maptorian.com/wp-content/uploads/2020/09/physical-vector-world-map.png')
       .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
@@ -1565,7 +1583,8 @@
         type: 'polarArea',
         data: data,
         options: {
-          responsive: true,
+          responsive: false,
+          maintainAspectRatio: false,
           scales: {
             r: {
               pointLabels: {
@@ -1802,10 +1821,10 @@
               speechBubble.classList.remove('hidden');
               displayTextSequentially([
                 "Hai, Coderr!",
-                "Sebentar lagi kita akan menemukan ketertarikanmu di bidang IT, apakah kau sudah siap??",
-                "Aku harap kamu sudah siap, karena sudah tidak ada waktu, kita sudah terbang sejauh ini jadi persiapkan dirimu!",
-                "Akan ada beberapa pertanyaan yang akan ditampilkan, namun tenang tidak ada jawaban yang benar dan salah.",
-                "Juga tidak ada batas waktu untuk menjawabnya, jadi kau bisa menjawab dengan santuy sambil ngopi.",
+                // "Sebentar lagi kita akan menemukan ketertarikanmu di bidang IT, apakah kau sudah siap??",
+                // "Aku harap kamu sudah siap, karena sudah tidak ada waktu, kita sudah terbang sejauh ini jadi persiapkan dirimu!",
+                // "Akan ada beberapa pertanyaan yang akan ditampilkan, namun tenang tidak ada jawaban yang benar dan salah.",
+                // "Juga tidak ada batas waktu untuk menjawabnya, jadi kau bisa menjawab dengan santuy sambil ngopi.",
                 "Ayo kita Mulai!"
               ]);
             }, 1500);
