@@ -10,6 +10,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "Backend/public/simpleForm.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "Backend/public/img/(.*)",
       "use": "@vercel/static"
     },
@@ -28,10 +32,6 @@
         "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
       },
       "dest": "Backend/app.js"
-    },
-    {
-      "src": "/docs/api",
-      "dest": "doc-api.html"
     },
     {
       "src": "/(.*)",
