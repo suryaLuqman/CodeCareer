@@ -813,6 +813,20 @@
       box-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc;
     }
 
+   .email-input.error {
+      border-color: red;
+   }
+
+   .btn-primary:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+   }
+   .error-message {
+      color: red;
+      margin-top: 10px;
+      display: none;
+   }
+
 
     /* Hasil Result */
     .result-container,
@@ -1122,7 +1136,8 @@
       <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda sekarang...">
       <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
       <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
-      <button id="social-share-button" class="btn btn-secondary"><i class="gg-share"></i></button>
+      <div id="error-message" class="error-message">Harap masukkan email terlebih dahulu.</div>
+      <!-- <button id="social-share-button" class="btn btn-secondary"><i class="gg-share"></i></button> -->
 
       <!-- Hotdog menu -->
       <div id="social-share-menu" class="hidden">
@@ -1200,8 +1215,10 @@
     const additionalDetails = document.querySelector('.additional-details');
     const passions = document.querySelectorAll('.passion');
 
-    const emailButton = document.getElementById('email-button');
-    const learningPathButton = document.getElementById('learning-path-button');
+   const emailButton = document.getElementById('email-button');
+   const learningPathButton = document.getElementById('learning-path-button');
+   const emailInput = document.getElementById('email-input');
+   const errorMessage = document.getElementById('error-message');
 
     // Kuis app
     const successAlert = document.getElementById('success-alert');
@@ -1645,24 +1662,26 @@
       retryButton.classList.add("hidden");
       
       emailButton.onclick = async function() {
-        const email = document.getElementById('email-input').value;
-        if (email) {
-          const chartImage = await getChartImage(); // Ensure this returns a proper DataURL
+         const email = emailInput.value;
+         if (email) {
+         emailInput.classList.remove('error');
+         errorMessage.style.display = 'none';
+         const chartImage = await getChartImage(); // Ensure this returns a proper DataURL
 
-          const formData = new FormData();
-          formData.append('chart', chartImage);
-          formData.append('email', email);
-          formData.append('category', topCategory);
-          formData.append('scores', JSON.stringify(categoryScores));
-          // cetak form data ke console
-          const formDataEntries = [...formData.entries()];
-          console.log('Form Data:', formDataEntries);
+         const formData = new FormData();
+         formData.append('chart', chartImage);
+         formData.append('email', email);
+         formData.append('category', topCategory);
+         formData.append('scores', JSON.stringify(categoryScores));
+         // cetak form data ke console
+         const formDataEntries = [...formData.entries()];
+         console.log('Form Data:', formDataEntries);
 
           // comment this for production
          //  const baseUrl = "http://localhost:3000";
          //  const apiUrl = baseUrl + '/api/sendmail';
          //  console.log('Sending email with URL:', apiUrl);
-          $.ajax({
+            $.ajax({
             // url: apiUrl, //comment this for production
             url: "/api/sendmail", //uncomment this for production
             method: 'POST',
@@ -1670,16 +1689,17 @@
             processData: false,
             contentType: false,
             success: function(response) {
-              console.log("Email sent successfully:", response);
+               console.log("Email sent successfully:", response);
+               learningPathButton.disabled = false;
               // alert('Hasil telah dikirim ke email Anda!');
-              successAlert.classList.remove("hidden");
-              showAlert("#success-alert", `<b>Data Berhasil dikirimkan ke email: ${email} </b>` + response.message, 'success');
-              learningPathButton.onclick = function() {
-                window.location.href = response.roadmapURL; 
-              };
+               successAlert.classList.remove("hidden");
+               showAlert("#success-alert", `<b>Data Berhasil dikirimkan ke email: ${email} </b>` + response.message, 'success');
+               learningPathButton.onclick = function() {
+                  window.location.href = response.roadmapURL; 
+               };
 
-              document.querySelectorAll('.social-share').forEach(function(element) {
-                element.onclick = function(event) {
+               document.querySelectorAll('.social-share').forEach(function(element) {
+                  element.onclick = function(event) {
                   event.preventDefault();
                   const platform = this.getAttribute('data-platform'); 
                   let shareURL = '';
@@ -1705,9 +1725,17 @@
             }
           });
         } else {
-          alert('Silakan masukkan email Anda.');
+            emailInput.classList.add('error');
+            errorMessage.style.display = 'block';
         }
       };
+
+      emailInput.oninput = function() {
+            if (emailInput.classList.contains('error')) {
+                emailInput.classList.remove('error');
+                errorMessage.style.display = 'none';
+            }
+        };
     }
       function retryQuiz() {
         // let currentCategoryIndex = 0;
