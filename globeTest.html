@@ -1119,6 +1119,8 @@
     <div class="additional-details hidden">
       <h3 class="text-center">Jangan lewatkan kesempatan!</h3>
       <p class="text-center">Memperoleh sertifikasi dan pelatihan dapat membawa Anda ke puncak karier <b class="passion">passion anda!</b> <br> Masukkan email Anda di bawah ini dan Kami akan mengirimkan panduan pembelajaran dan pelatihan yang dapat membantu Anda menjadi <b class="passion">passion anda!</b><b> Profesional.</b></p>
+      <div id="success-alert" class="hidden"></div>
+      <div id="error-alert" class="hidden"></div>
       <input type="email" id="email-input" class="email-input" placeholder="Masukkan email Anda sekarang...">
       <button id="email-button" class="btn btn-primary">Kirim Hasil</button>
       <button id="learning-path-button" class="btn btn-primary">Lihat Panduan Pembelajaran</button>
@@ -1348,91 +1350,91 @@
           },
         ]
       },
-      // {
-      //   category: "Cybersecurity",
-      //   questions: [
-      //     {
-      //       question: "Apakah Anda tertarik dengan melindungi informasi dan data dari pencurian?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda suka mencari dan mengatasi celah keamanan di sistem teknologi?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda tertarik dengan cara kerja antivirus dan keamanan online?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //   ]
-      // },
-      // {
-      //   category: "Data Engineering",
-      //   questions: [
-      //     {
-      //       question: "Apakah Anda tertarik dengan pengelolaan data dalam jumlah besar?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda suka memastikan data tersimpan dengan baik dan mudah diakses?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda tertarik dengan pengolahan data untuk menghasilkan informasi berguna?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //   ]
-      // },
-      // {
-      //   category: "Machine Learning",
-      //   questions: [
-      //     {
-      //       question: "Apakah Anda tertarik dengan teknologi yang dapat belajar dan membuat keputusan otomatis?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda suka bekerja dengan data dan mengembangkan model yang dapat memprediksi hasil?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda tertarik dengan cara kerja asisten virtual dan rekomendasi produk?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //   ]
-      // },
-      // {
-      //   category: "Blockchain",
-      //   questions: [
-      //     {
-      //       question: "Apakah Anda tertarik dengan teknologi yang aman dan tidak dapat diubah?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda suka dengan ide transaksi yang transparan dan terpercaya?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda tertarik dengan cara kerja mata uang digital seperti Bitcoin?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //   ]
-      // },
-      // {
-      //   category: "UX/UI Design",
-      //   questions: [
-      //     {
-      //       question: "Apakah Anda tertarik dengan bagaimana cara pengguna berinteraksi dengan teknologi?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda suka membuat desain yang mudah digunakan dan menarik bagi pengguna?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //     {
-      //       question: "Apakah Anda tertarik dengan cara kerja aplikasi dan situs web dari sudut pandang pengguna?",
-      //       options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
-      //     },
-      //   ]
-      // },
+      {
+        category: "Cybersecurity",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan melindungi informasi dan data dari pencurian?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka mencari dan mengatasi celah keamanan di sistem teknologi?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja antivirus dan keamanan online?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Data Engineering",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan pengelolaan data dalam jumlah besar?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka memastikan data tersimpan dengan baik dan mudah diakses?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan pengolahan data untuk menghasilkan informasi berguna?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Machine Learning",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan teknologi yang dapat belajar dan membuat keputusan otomatis?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka bekerja dengan data dan mengembangkan model yang dapat memprediksi hasil?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja asisten virtual dan rekomendasi produk?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "Blockchain",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan teknologi yang aman dan tidak dapat diubah?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka dengan ide transaksi yang transparan dan terpercaya?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja mata uang digital seperti Bitcoin?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
+      {
+        category: "UX/UI Design",
+        questions: [
+          {
+            question: "Apakah Anda tertarik dengan bagaimana cara pengguna berinteraksi dengan teknologi?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda suka membuat desain yang mudah digunakan dan menarik bagi pengguna?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+          {
+            question: "Apakah Anda tertarik dengan cara kerja aplikasi dan situs web dari sudut pandang pengguna?",
+            options: ["Sangat tertarik", "Tertarik", "Kurang tertarik", "Tidak tertarik"],
+          },
+        ]
+      },
     ];
 
 
@@ -1671,6 +1673,7 @@
             contentType: false,
             success: function(response) {
               console.log("Email sent successfully:", response);
+              successAlert.classList.remove("hidden");
               // alert('Hasil telah dikirim ke email Anda!');
               showAlert("#success-alert", `<b>Data Berhasil dikirimkan ke email: ${email} </b>` + response.message, 'success');
               learningPathButton.onclick = function() {
@@ -1697,6 +1700,7 @@
               });
             },
             error: function(error) {
+              errorAlert.classList.remove("hidden");
               console.error("Error sending email:", error);
               // alert('Gagal mengirim email: ' + error.responseText);
               showAlert("#error-alert", `<b>Gagal mengirim email: ${email} </b>` + error.responseText, 'error');
